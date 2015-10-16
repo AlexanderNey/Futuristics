@@ -18,7 +18,6 @@ public enum PromiseState<T> {
         }
         return false
     }
-
 }
 
 public typealias ExecutionContext = (Void throws -> Void) -> (Void -> Promise<Void>)
@@ -41,7 +40,8 @@ private enum PromiseStateHandler<T> {
 
 public class Promise<T> {
     
-    private let sync_queue = dispatch_queue_create(nil, nil)
+    // TODO:
+    //private let sync_queue = dispatch_queue_create(nil, nil)
     
     public internal(set) var state: PromiseState<T> = .Pending {
         willSet {
@@ -55,7 +55,8 @@ public class Promise<T> {
             switch (self.state) {
             case .Rejected(_): fallthrough
             case .Fulfilled(_):
-                self.stateHandlers.map { self.executeStateHandler($0) }
+                
+                self.stateHandlers.forEach { self.executeStateHandler($0) }
                 self.stateHandlers = []
             default: break
             }

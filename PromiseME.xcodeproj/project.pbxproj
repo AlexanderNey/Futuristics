@@ -11,7 +11,6 @@
 		AC160EDF1B72516B002449C8 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDE1B72516B002449C8 /* FunctionComposition.swift */; };
 		AC160EE11B7252F1002449C8 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE01B7252F1002449C8 /* Operators.swift */; };
 		AC160EE31B725A6F002449C8 /* FunctionCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE21B725A6F002449C8 /* FunctionCompositionTests.swift */; };
-		AC29ABEE1B6F888100B0BCBD /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABED1B6F888100B0BCBD /* Result.swift */; };
 		AC29ABF01B6FA7C300B0BCBD /* PromiseGuarantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* PromiseGuarantor.swift */; };
 		AC29ABF21B6FA84E00B0BCBD /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Promise.swift */; };
 		AC29ABF41B6FAA4700B0BCBD /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */; };
@@ -19,7 +18,6 @@
 		AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */; };
 		AC7808C11B6F6DD300D048C6 /* PromiseME.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* PromiseME.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC7808C71B6F6DD300D048C6 /* PromiseME.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7808BB1B6F6DD300D048C6 /* PromiseME.framework */; };
-		AC9E64801B70E92200ED2E85 /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9E647F1B70E92200ED2E85 /* ResultTests.swift */; };
 		ACD6DD541B71056A0040351A /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6DD531B71056A0040351A /* PromiseTests.swift */; };
 		ACE19F161B70F5660066377E /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE19F151B70F5660066377E /* TestHelper.swift */; };
 		ACF239D71B7225A300774A49 /* PromiseCopositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF239D61B7225A300774A49 /* PromiseCopositionTests.swift */; };
@@ -254,7 +252,6 @@
 				AC160EDB1B7250F4002449C8 /* PromiseComposition.swift in Sources */,
 				AC160EDF1B72516B002449C8 /* FunctionComposition.swift in Sources */,
 				AC29ABF21B6FA84E00B0BCBD /* Promise.swift in Sources */,
-				AC29ABEE1B6F888100B0BCBD /* Result.swift in Sources */,
 				AC29ABF01B6FA7C300B0BCBD /* PromiseGuarantor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,7 +260,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC9E64801B70E92200ED2E85 /* ResultTests.swift in Sources */,
 				AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */,
 				AC474FA51B727C1300B725D7 /* PromiseGuarantorTests.swift in Sources */,
 				ACE19F161B70F5660066377E /* TestHelper.swift in Sources */,
