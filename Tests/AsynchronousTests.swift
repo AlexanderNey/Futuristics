@@ -44,7 +44,7 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnMainThread = self.expectationWithDescription("runs on main thread")
         var imediateExecution = false
-        let somefunction = onMainQueue { () -> Void in
+        let somefunction = onMainQueue { 
             imediateExecution = true
             if NSThread.isMainThread() {
                 expectExecutionOnMainThread.fulfill()
@@ -109,7 +109,7 @@ class AsynchronousTests : XCTestCase {
         self.waitForExpectationsWithTimeout(5, handler: nil)
     }
     
-    func testAwaitPromiseDelayed() {
+    func testAwaitSinglePromiseDelayed() {
         let somefunction = onBackgroundQueue(after: 2)() { () -> String in
             return "done"
         }
@@ -124,7 +124,7 @@ class AsynchronousTests : XCTestCase {
     }
 
     
-    func testAwaitPromiseImediately() {
+    func testAwaitSinglePromiseImediateResult() {
         let somefunction = { () -> Promise<String> in
             let promiseGuarantor = PromiseGuarantor<String>()
             promiseGuarantor.fulfill("done")
@@ -140,5 +140,72 @@ class AsynchronousTests : XCTestCase {
             XCTFail()
         }
     }
+
+    
+    func testAwaitMultiplePromisesDelayed() {
+        let someBackgroundfunctionA = onBackgroundQueue(after: 2)({ () -> String in
+            return "doneA"
+        })
+        
+        let someBackgroundfunctionB = onBackgroundQueue(after: 3)({ () -> String in
+            return "doneB"
+        })
+        
+        let promiseA = someBackgroundfunctionA()
+        let promiseB = someBackgroundfunctionB()
+        await(promiseA, promiseB)
+        
+        switch (promiseA.state, promiseB.state) {
+        case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
+            XCTAssertEqual(valueA, "doneA")
+            XCTAssertEqual(valueB, "doneB")
+        default:
+            XCTFail()
+        }
+    }
+    
+    func testAwaitMultiplePromisesImediateResult() {
+        func someFunction() -> Promise<String> {
+            let promiseGuarantor = PromiseGuarantor<String>()
+            promiseGuarantor.fulfill("done")
+            return promiseGuarantor.promise
+        }
+        
+    
+        let promiseA = someFunction()
+        let promiseB = someFunction()
+        await(promiseA, promiseB)
+        
+        switch (promiseA.state, promiseB.state) {
+        case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
+            XCTAssertEqual(valueA, "done")
+            XCTAssertEqual(valueB, "done")
+        default:
+            XCTFail()
+        }
+    }
+    
+    /*
+    func testBundleMultiplePromisesImediateResult() {
+        func someFunction() -> Promise<String> {
+            let promiseGuarantor = PromiseGuarantor<String>()
+            promiseGuarantor.fulfill("done")
+            return promiseGuarantor.promise
+        }
+        
+        
+        let promiseA = someFunction()
+        let promiseB = someFunction()
+        bundle(promiseA, promiseB)
+        
+        switch (promiseA.state, promiseB.state) {
+        case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
+            XCTAssertEqual(valueA, "done")
+            XCTAssertEqual(valueB, "done")
+        default:
+            XCTFail()
+        }
+    }*/
+
 
 }

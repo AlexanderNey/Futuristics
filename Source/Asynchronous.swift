@@ -49,11 +49,50 @@ public func onQueue<T, U>(queue: dispatch_queue_t, after delay: Double? = nil)(_
     }
 }
 
-
-public func await<T>(promise: Promise<T>) {
-    let semaphore = dispatch_semaphore_create(0)
-    promise.finally {
-        dispatch_semaphore_signal(semaphore)
-    }
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+public func await<T>(promises: Promise<T> ...) {
+    await(promises)
 }
+
+public func await<T>(promises: [Promise<T>]) {
+    let semaphore = dispatch_semaphore_create(0)
+    
+    promises.forEach { promise in
+        promise.finally {
+            dispatch_semaphore_signal(semaphore)
+        }
+    }
+    
+    promises.forEach { _ in
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+    }
+}
+
+/*
+public func bundle(promises: Promise<Any> ...) -> Promise<[Any]> {
+    let b = onBackgroundQueue() { () -> [Any] in
+        await(promises)
+        let states = promises.map { $0.state }
+        
+        let promiseResults: [Any] = states.flatMap { state in
+            if case .Fulfilled(let value) = state {
+                return value
+            }
+            return nil
+        }
+        
+        if promiseResults.count == promises.count {
+            return promiseResults
+        } else {
+            // Throw the first error that is found
+            for promise in promises {
+                if case .Rejected(let error) = promise.state {
+                    throw error
+                }
+            }
+        }
+        
+        return []
+    }
+
+    return b()
+}*/
