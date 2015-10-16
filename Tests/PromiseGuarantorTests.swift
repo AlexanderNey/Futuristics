@@ -27,118 +27,118 @@ func somethingThatDontThrows() throws -> String {
 class PromiseGuarantorTests : XCTestCase {
     
     func testFulfill() {
-        let promiseGuarantor = PromiseGuarantor<String>()
+        let promise = Promise<String>()
         
-        XCTAssertTrue(promiseGuarantor.isPending)
+        XCTAssertTrue(promise.isPending)
        
-        if case .Pending = promiseGuarantor.promise.state  {
+        if case .Pending = promise.future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
         
-        promiseGuarantor.fulfill("test")
+        promise.fulfill("test")
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Fulfilled(let value) = promiseGuarantor.promise.state where value == "test"  {
+        if case .Fulfilled(let value) = promise.future.state where value == "test"  {
         } else {
-            XCTFail("Promise should be fulfilled with value 'test' but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be fulfilled with value 'test' but was \(promise.future.state)")
         }
         
-        promiseGuarantor.reject(AnError.AnotherError)
+        promise.reject(AnError.AnotherError)
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Fulfilled(let value) = promiseGuarantor.promise.state where value == "test"  {
+        if case .Fulfilled(let value) = promise.future.state where value == "test"  {
         } else {
-            XCTFail("Promise should be fulfilled with value 'test' but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be fulfilled with value 'test' but was \(promise.future.state)")
         }
     }
     
     func testReject() {
-        let promiseGuarantor = PromiseGuarantor<String>()
+        let promise = Promise<String>()
         
-        XCTAssertTrue(promiseGuarantor.isPending)
+        XCTAssertTrue(promise.isPending)
         
-        if case .Pending = promiseGuarantor.promise.state  {
+        if case .Pending = promise.future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
         
-        promiseGuarantor.reject(AnError.AnotherError)
+        promise.reject(AnError.AnotherError)
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Rejected(let error) = promiseGuarantor.promise.state where error as? AnError == AnError.AnotherError  {
+        if case .Rejected(let error) = promise.future.state where error as? AnError == AnError.AnotherError  {
         } else {
-            XCTFail("Promise should be rejected with error \(AnError.AnotherError) but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be rejected with error \(AnError.AnotherError) but was \(promise.future.state)")
         }
         
-        promiseGuarantor.fulfill("123")
+        promise.fulfill("123")
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Rejected(let error) = promiseGuarantor.promise.state where error as? AnError == AnError.AnotherError  {
+        if case .Rejected(let error) = promise.future.state where error as? AnError == AnError.AnotherError  {
         } else {
-            XCTFail("Promise should be rejected with error \(AnError.AnotherError) but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be rejected with error \(AnError.AnotherError) but was \(promise.future.state)")
         }
     }
     
     func testResolveFulfill() {
-        let promiseGuarantor = PromiseGuarantor<String>()
+        let promise = Promise<String>()
         
-        XCTAssertTrue(promiseGuarantor.isPending)
+        XCTAssertTrue(promise.isPending)
         
-        if case .Pending = promiseGuarantor.promise.state  {
+        if case .Pending = promise.future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
         
-        promiseGuarantor.resolve(somethingThatDontThrows)
+        promise.resolve(somethingThatDontThrows)
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Fulfilled(let value) = promiseGuarantor.promise.state where value == "test"  {
+        if case .Fulfilled(let value) = promise.future.state where value == "test"  {
         } else {
-            XCTFail("Promise should be fulfilled with value 'test' but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be fulfilled with value 'test' but was \(promise.future.state)")
         }
         
-        promiseGuarantor.reject(AnError.AnotherError)
+        promise.reject(AnError.AnotherError)
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Fulfilled(let value) = promiseGuarantor.promise.state where value == "test"  {
+        if case .Fulfilled(let value) = promise.future.state where value == "test"  {
         } else {
-            XCTFail("Promise should be fulfilled with value 'test' but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be fulfilled with value 'test' but was \(promise.future.state)")
         }
     }
     
     func testResolveRejected() {
-        let promiseGuarantor = PromiseGuarantor<String>()
+        let promise = Promise<String>()
         
-        XCTAssertTrue(promiseGuarantor.isPending)
+        XCTAssertTrue(promise.isPending)
         
-        if case .Pending = promiseGuarantor.promise.state  {
+        if case .Pending = promise.future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
         
-        promiseGuarantor.resolve { try somethingThatThrows() }
+        promise.resolve { try somethingThatThrows() }
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Rejected(let error) = promiseGuarantor.promise.state where error as? AnError == AnError.SomeError  {
+        if case .Rejected(let error) = promise.future.state where error as? AnError == AnError.SomeError  {
         } else {
-            XCTFail("Promise should be rejected with error \(AnError.AnotherError) but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be rejected with error \(AnError.AnotherError) but was \(promise.future.state)")
         }
         
-        promiseGuarantor.fulfill("123")
+        promise.fulfill("123")
         
-        XCTAssertFalse(promiseGuarantor.isPending)
+        XCTAssertFalse(promise.isPending)
         
-        if case .Rejected(let error) = promiseGuarantor.promise.state where error as? AnError == AnError.SomeError  {
+        if case .Rejected(let error) = promise.future.state where error as? AnError == AnError.SomeError  {
         } else {
-            XCTFail("Promise should be rejected with error \(AnError.AnotherError) but was \(promiseGuarantor.promise.state)")
+            XCTFail("Future should be rejected with error \(AnError.AnotherError) but was \(promise.future.state)")
         }
     }
     

@@ -1,5 +1,5 @@
 //
-//  PromiseGuarantor.swift
+//  Promise.swift
 //  PromiseME
 //
 //  Created by Alexander Ney on 03/08/2015.
@@ -9,11 +9,11 @@
 import Foundation
 
 
-public class PromiseGuarantor<T> {
-    public let promise = Promise<T>()
+public class Promise<T> {
+    public let future = Future<T>()
     
     public var isPending: Bool  {
-        if case .Pending = promise.state {
+        if case .Pending = future.state {
             return true
         }
         return false
@@ -21,18 +21,18 @@ public class PromiseGuarantor<T> {
     
     public init() { }
     
-    public func reject(error: ErrorType) -> Promise<T> {
-        self.promise.reject(error)
-        return self.promise
+    public func reject(error: ErrorType) -> Future<T> {
+        self.future.reject(error)
+        return self.future
     }
     
-    public func fulfill(value: T) -> Promise<T> {
-        self.promise.fulfill(value)
-        return self.promise
+    public func fulfill(value: T) -> Future<T> {
+        self.future.fulfill(value)
+        return self.future
     }
     
     public func resolve(f: Void throws -> T) {
-        promise.resolve(f)
+        future.resolve(f)
     }
     
     /**

@@ -9,29 +9,29 @@
 import Foundation
 
 
-internal func bind<A, B>(closure: A -> Promise<B>) -> (Promise<A> -> Promise<B>) {
+internal func bind<A, B>(closure: A -> Future<B>) -> (Future<A> -> Future<B>) {
     return { promiseA in
-        let promise = Promise<B>()
+        let future = Future<B>()
         promiseA.onSuccess { a in
-            promise.correlate(closure(a), {$0})
+            future.correlate(closure(a), {$0})
         }.onFailure { error in
-            promise.reject(error)
+            future.reject(error)
         }
-        return promise
+        return future
     }
 }
 
-public func >>> <A,B,C>(left: A -> Promise<B>, right: B -> Promise<C>) -> (A -> Promise<C>) {
+public func >>> <A,B,C>(left: A -> Future<B>, right: B -> Future<C>) -> (A -> Future<C>) {
     return { a in
         let rightBound = bind(right)
         return rightBound(left(a))
     }
 }
 
-public func |> <A,B>(left: A, right: A -> Promise<B>) -> Promise<B> {
+public func |> <A,B>(left: A, right: A -> Future<B>) -> Future<B> {
     return right(left)
 }
 
-public func |> <A,B>(left: Promise<A>, right: A -> Promise<B>) -> Promise<B> {
+public func |> <A,B>(left: Future<A>, right: A -> Future<B>) -> Future<B> {
     return bind(right)(left)
 }

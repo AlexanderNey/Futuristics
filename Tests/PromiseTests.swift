@@ -19,74 +19,74 @@ class PromiseTests: XCTestCase {
     }
     
     func testFulfill() {
-        let promise = Promise<String>()
+        let future = Future<String>()
         
-        if case .Pending = promise.state  {
+        if case .Pending = future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
         
-        promise.fulfill("test")
+        future.fulfill("test")
         
-        if case .Fulfilled(let value) = promise.state where value == "test"  {
+        if case .Fulfilled(let value) = future.state where value == "test"  {
         } else {
-            XCTFail("Promise should be fulfilled with value 'test' but was \(promise.state)")
+            XCTFail("Future should be fulfilled with value 'test' but was \(future.state)")
         }
     }
     
     func testReject() {
-        let promise = Promise<String>()
+        let future = Future<String>()
         
-        if case .Pending = promise.state  {
+        if case .Pending = future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
         
-        promise.reject(TestError.AnotherError)
+        future.reject(TestError.AnotherError)
         
-        if case .Rejected(let error) = promise.state where error as? TestError == TestError.AnotherError  {
+        if case .Rejected(let error) = future.state where error as? TestError == TestError.AnotherError  {
         } else {
-            XCTFail("Promise should be rejected with error \(TestError.AnotherError) but was \(promise.state)")
+            XCTFail("Future should be rejected with error \(TestError.AnotherError) but was \(future.state)")
         }
     }
     
     func testMultipleFulfillmentRejectment() {
-        let fulfilledPromise = Promise<String>()
+        let fulfilledPromise = Future<String>()
         fulfilledPromise.fulfill("test")
         fulfilledPromise.fulfill("testA")
         fulfilledPromise.reject(TestError.AnotherError)
         
         if case .Fulfilled(let value) = fulfilledPromise.state where value == "test"  {
         } else {
-            XCTFail("Promise should be fulfilled with value 'test' but was \(fulfilledPromise.state)")
+            XCTFail("Future should be fulfilled with value 'test' but was \(fulfilledPromise.state)")
         }
         
-        let rejectedPromise = Promise<String>()
+        let rejectedPromise = Future<String>()
         rejectedPromise.reject(TestError.SomeError)
         rejectedPromise.fulfill("test")
         
         if case .Rejected(let error) = rejectedPromise.state where error as? TestError == TestError.SomeError  {
         } else {
-            XCTFail("Promise should be rejected with error \(TestError.SomeError) but was \(rejectedPromise.state)")
+            XCTFail("Future should be rejected with error \(TestError.SomeError) but was \(rejectedPromise.state)")
         }
     }
     
     func testFulfillHandler() {
-        let promise = Promise<String>()
+        let future = Future<String>()
         let handlerExpectation = self.expectationWithDescription("Success handler called")
         
-        promise.onSuccess { value in
+        future.onSuccess { value in
             XCTAssertEqual(value, "test")
             handlerExpectation.fulfill()
         }
         
-        promise.fulfill("test")
+        future.fulfill("test")
         
         self.waitForExpectationsWithTimeout(0.1, handler: nil)
     }
     
     func testFulfillMultipleHandler() {
-        let promise = Promise<String>()
+        let future = Future<String>()
         
         let successExpectation = self.expectationWithDescription("Success handler called")
         let secondSuccessExpectation = self.expectationWithDescription("Second success handler called")
@@ -94,7 +94,7 @@ class PromiseTests: XCTestCase {
         let finallyExpectation = self.expectationWithDescription("Finally  called")
         let afterFulfillFinallyExpectation = self.expectationWithDescription("After fulfillment finally called")
         
-        promise.onSuccess { value in
+        future.onSuccess { value in
             XCTAssertEqual(value, "test")
             successExpectation.fulfill()
         }.onFailure { _ in
@@ -107,13 +107,13 @@ class PromiseTests: XCTestCase {
             finallyExpectation.fulfill()
         }
         
-        XCTAssertTrue(promise.state.isPending)
+        XCTAssertTrue(future.state.isPending)
         
-        promise.fulfill("test")
+        future.fulfill("test")
         
-        XCTAssertFalse(promise.state.isPending)
+        XCTAssertFalse(future.state.isPending)
         
-        promise.finally {
+        future.finally {
            afterFulfillFinallyExpectation.fulfill()
         }.onSuccess { value in
             XCTAssertEqual(value, "test")
@@ -126,14 +126,14 @@ class PromiseTests: XCTestCase {
     }
     
     func testRejectMultipleHandler() {
-        let promise = Promise<String>()
+        let future = Future<String>()
         
         let failureExpectation = self.expectationWithDescription("Failure handler called")
         let afterFulfillFailureExpectation = self.expectationWithDescription("After fulfillment failure handler called")
         let finallyExpectation = self.expectationWithDescription("Finally  called")
         let afterFulfillFinallyExpectation = self.expectationWithDescription("After fulfillment finally called")
         
-        promise.onSuccess { value in
+        future.onSuccess { value in
                 XCTFail()
             }.onFailure { _ in
                 failureExpectation.fulfill()
@@ -143,13 +143,13 @@ class PromiseTests: XCTestCase {
                 finallyExpectation.fulfill()
         }
         
-        XCTAssertTrue(promise.state.isPending)
+        XCTAssertTrue(future.state.isPending)
         
-        promise.reject(TestError.SomeError)
+        future.reject(TestError.SomeError)
         
-         XCTAssertFalse(promise.state.isPending)
+         XCTAssertFalse(future.state.isPending)
         
-        promise.finally {
+        future.finally {
             afterFulfillFinallyExpectation.fulfill()
             }.onSuccess { value in
                 XCTFail()
@@ -166,18 +166,18 @@ class PromiseTests: XCTestCase {
             throw TestError.SomeError
         }
         
-        let promise = Promise<String>()
+        let future = Future<String>()
         
-        if case .Pending = promise.state  {
+        if case .Pending = future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
 
-        promise.resolve { try willThrow() }
+        future.resolve { try willThrow() }
         
-        if case .Rejected(let error) = promise.state where error as? TestError == TestError.SomeError  {
+        if case .Rejected(let error) = future.state where error as? TestError == TestError.SomeError  {
         } else {
-            XCTFail("Promise should be rejected with error \(TestError.AnotherError) but was \(promise.state)")
+            XCTFail("Future should be rejected with error \(TestError.AnotherError) but was \(future.state)")
         }
     }
     
@@ -187,29 +187,29 @@ class PromiseTests: XCTestCase {
             return "test"
         }
         
-        let promise = Promise<String>()
+        let future = Future<String>()
         
-        if case .Pending = promise.state  {
+        if case .Pending = future.state  {
         } else {
             XCTFail("initial state should be pending")
         }
         
-        promise.resolve { try willNotThrow() }
+        future.resolve { try willNotThrow() }
         
-        if case .Fulfilled(let value) = promise.state where value == "test"  {
+        if case .Fulfilled(let value) = future.state where value == "test"  {
         } else {
-            XCTFail("Promise should be fulfilled with value 'test' but was \(promise.state)")
+            XCTFail("Future should be fulfilled with value 'test' but was \(future.state)")
         }
     }
 
 
     func testSuccessDefaultContext() {
         
-        let promise = Promise<Void>()
+        let future = Future<Void>()
         
         let preFulfillExpectation = self.expectationWithDescription("Pre fulfill success should execute on background thread")
         
-        promise.onSuccess {
+        future.onSuccess {
             if !NSThread.isMainThread() {
                 preFulfillExpectation.fulfill()
             }
@@ -217,14 +217,14 @@ class PromiseTests: XCTestCase {
         
         let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
         dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            promise.fulfill()
+            future.fulfill()
         }
         
         
         self.waitForExpectationsWithTimeout(3, handler: nil)
         let postFulfillExpectation = self.expectationWithDescription("Post fulfill success should execute on main thread")
         
-        promise.onSuccess {
+        future.onSuccess {
             if NSThread.isMainThread() {
                 postFulfillExpectation.fulfill()
             }
@@ -235,11 +235,11 @@ class PromiseTests: XCTestCase {
 
     func testSuccessCustomContext() {
         
-        let promise = Promise<Void>()
+        let future = Future<Void>()
         
         let preFulfillExpectation = self.expectationWithDescription("Pre fulfill success should execute on main thread")
         
-        promise.onSuccess(onMainQueue) {
+        future.onSuccess(onMainQueue) {
             if NSThread.isMainThread() {
                 preFulfillExpectation.fulfill()
             }
@@ -247,14 +247,14 @@ class PromiseTests: XCTestCase {
         
         let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.0 * Double(NSEC_PER_SEC)))
         dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            promise.fulfill()
+            future.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(3, handler: nil)
         
         let postFulfillExpectation = self.expectationWithDescription("Post fulfill success should execute on background thread")
         
-        promise.onSuccess(onBackgroundQueue) {
+        future.onSuccess(onBackgroundQueue) {
             if !NSThread.isMainThread() {
                 postFulfillExpectation.fulfill()
             }

@@ -1,5 +1,5 @@
 //
-//  Promise.swift
+//  Future.swift
 //  PromiseME
 //
 //  Created by Alexander Ney on 03/08/2015.
@@ -9,7 +9,7 @@
 import Foundation
 
 
-public enum PromiseState<T> {
+public enum FutureState<T> {
     case Pending, Fulfilled(T), Rejected(ErrorType)
     
     public var isPending: Bool  {
@@ -20,33 +20,33 @@ public enum PromiseState<T> {
     }
 }
 
-public typealias ExecutionContext = (Void throws -> Void) -> (Void -> Promise<Void>)
+public typealias ExecutionContext = (task: Void throws -> Void) -> (Void -> Future<Void>)
 
 
-private func defaultExecutionContext(task: Void throws -> Void) -> (Void -> Promise<Void>) {
+let defaultExecutionContext: ExecutionContext = { (task: Void throws -> Void) -> (Void -> Future<Void>) in
     return {
-        let promise = Promise<Void>()
-        promise.resolve { try task() }
-        return promise
+        let future = Future<Void>()
+        future.resolve { try task() }
+        return future
     }
 }
 
-private enum PromiseStateHandler<T> {
+private enum FutureCompletionHandler<T> {
     case Success(task: T -> Void, context: ExecutionContext)
     case Failure(task: ErrorType -> Void, context: ExecutionContext)
     case Finally(task: Void -> Void, context: ExecutionContext)
 }
 
 
-public class Promise<T> {
+public class Future<T> {
     
     // TODO:
     //private let sync_queue = dispatch_queue_create(nil, nil)
     
-    public internal(set) var state: PromiseState<T> = .Pending {
+    public internal(set) var state: FutureState<T> = .Pending {
         willSet {
             guard case .Pending = self.state else {
-                assertionFailure("Promise state can not be changed as it is \(self.state) already")
+                assertionFailure("Future state can not be changed as it is \(self.state) already")
                 return
             }
         }
@@ -56,14 +56,14 @@ public class Promise<T> {
             case .Rejected(_): fallthrough
             case .Fulfilled(_):
                 
-                self.stateHandlers.forEach { self.executeStateHandler($0) }
+                self.stateHandlers.forEach { self.executeCompletionHandler($0) }
                 self.stateHandlers = []
             default: break
             }
         }
     }
     
-    private var stateHandlers: [PromiseStateHandler<T>] = []
+    private var stateHandlers: [FutureCompletionHandler<T>] = []
     
     internal init() { }
     
@@ -85,15 +85,15 @@ public class Promise<T> {
         }
     }
     
-    internal func correlate<U>(promise: Promise<U>, _ transform: U -> T) {
-        promise.onSuccess {
+    internal func correlate<U>(future: Future<U>, _ transform: U -> T) {
+        future.onSuccess {
             self.fulfill(transform($0))
         }.onFailure {
             self.reject($0)
         }
     }
     
-    private func executeStateHandler(handler: PromiseStateHandler<T>) {
+    private func executeCompletionHandler(handler: FutureCompletionHandler<T>) {
         switch (handler, self.state) {
         case (.Success(let successHandler, let context), .Fulfilled(let value)):
             context { successHandler(value) }()
@@ -105,39 +105,39 @@ public class Promise<T> {
         }
     }
     
-    public func onSuccess(context: ExecutionContext = defaultExecutionContext, successHandler: T -> Void) -> Promise<T> {
-        let stateHandler = PromiseStateHandler.Success(task: successHandler, context: context)
+    public func onSuccess(context: ExecutionContext = defaultExecutionContext, successHandler: T -> Void) -> Future<T> {
+        let completionHandler = FutureCompletionHandler.Success(task: successHandler, context: context)
         switch self.state {
         case .Pending:
-            self.stateHandlers.append(stateHandler)
+            self.stateHandlers.append(completionHandler)
         case .Fulfilled(_):
-            self.executeStateHandler(stateHandler)
+            self.executeCompletionHandler(completionHandler)
         default:
             break
         }
         return self
     }
     
-    public func onFailure(context: ExecutionContext = defaultExecutionContext, failureHandler: ErrorType -> Void) -> Promise<T> {
-        let stateHandler = PromiseStateHandler<T>.Failure(task: failureHandler, context: context)
+    public func onFailure(context: ExecutionContext = defaultExecutionContext, failureHandler: ErrorType -> Void) -> Future<T> {
+        let completionHandler = FutureCompletionHandler<T>.Failure(task: failureHandler, context: context)
         switch self.state {
         case .Pending:
-            self.stateHandlers.append(stateHandler)
+            self.stateHandlers.append(completionHandler)
         case .Rejected(_):
-            self.executeStateHandler(stateHandler)
+            self.executeCompletionHandler(completionHandler)
         default:
             break
         }
         return self
     }
     
-    public func finally(context: ExecutionContext = defaultExecutionContext, handler: Void -> Void) -> Promise<T> {
-        let stateHandler = PromiseStateHandler<T>.Finally(task: handler, context: context)
+    public func finally(context: ExecutionContext = defaultExecutionContext, handler: Void -> Void) -> Future<T> {
+        let completionHandler = FutureCompletionHandler<T>.Finally(task: handler, context: context)
         switch self.state {
         case .Pending:
-            self.stateHandlers.append(stateHandler)
+            self.stateHandlers.append(completionHandler)
         default:
-            self.executeStateHandler(stateHandler)
+            self.executeCompletionHandler(completionHandler)
         }
         return self
     }

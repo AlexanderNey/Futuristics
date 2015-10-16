@@ -113,10 +113,10 @@ class AsynchronousTests : XCTestCase {
         let somefunction = onBackgroundQueue(after: 2)() { () -> String in
             return "done"
         }
-        let promise = somefunction()
-        await(promise)
+        let future = somefunction()
+        await(future)
         
-        if case .Fulfilled(let value) = promise.state {
+        if case .Fulfilled(let value) = future.state {
             XCTAssertEqual(value, "done")
         } else {
             XCTFail()
@@ -125,16 +125,16 @@ class AsynchronousTests : XCTestCase {
 
     
     func testAwaitSinglePromiseImediateResult() {
-        let somefunction = { () -> Promise<String> in
-            let promiseGuarantor = PromiseGuarantor<String>()
-            promiseGuarantor.fulfill("done")
-            return promiseGuarantor.promise
+        let somefunction = { () -> Future<String> in
+            let promise = Promise<String>()
+            promise.fulfill("done")
+            return promise.future
         }
-        let promise = somefunction()
+        let future = somefunction()
         
-        await(promise)
+        await(future)
         
-        if case .Fulfilled(let value) = promise.state {
+        if case .Fulfilled(let value) = future.state {
             XCTAssertEqual(value, "done")
         } else {
             XCTFail()
@@ -165,10 +165,10 @@ class AsynchronousTests : XCTestCase {
     }
     
     func testAwaitMultiplePromisesImediateResult() {
-        func someFunction() -> Promise<String> {
-            let promiseGuarantor = PromiseGuarantor<String>()
-            promiseGuarantor.fulfill("done")
-            return promiseGuarantor.promise
+        func someFunction() -> Future<String> {
+            let promise = Promise<String>()
+            promise.fulfill("done")
+            return promise.future
         }
         
     
@@ -187,10 +187,10 @@ class AsynchronousTests : XCTestCase {
     
     /*
     func testBundleMultiplePromisesImediateResult() {
-        func someFunction() -> Promise<String> {
-            let promiseGuarantor = PromiseGuarantor<String>()
-            promiseGuarantor.fulfill("done")
-            return promiseGuarantor.promise
+        func someFunction() -> Future<String> {
+            let promise = Promise<String>()
+            promise.fulfill("done")
+            return promise.future
         }
         
         

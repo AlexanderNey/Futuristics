@@ -19,47 +19,47 @@ class PromiseCopositionTests : XCTestCase {
     }
     
     
-    func generateTestInt(number: Int) -> Promise<Int> {
-        let promiseGuarantor = PromiseGuarantor<Int>()
+    func generateTestInt(number: Int) -> Future<Int> {
+        let promise = Promise<Int>()
         let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
         dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            promiseGuarantor.fulfill(number)
+            promise.fulfill(number)
         }
-        return promiseGuarantor.promise
+        return promise.future
     }
     
-    func numberToString(number: Int) -> Promise<String> {
-        let promiseGuarantor = PromiseGuarantor<String>()
+    func numberToString(number: Int) -> Future<String> {
+        let promise = Promise<String>()
         let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
         dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             let str = String(number)
-            promiseGuarantor.fulfill(str)
+            promise.fulfill(str)
         }
-        return promiseGuarantor.promise
+        return promise.future
     }
     
-    func stringToNumber(str: String) -> Promise<Int> {
-        let promiseGuarantor = PromiseGuarantor<Int>()
+    func stringToNumber(str: String) -> Future<Int> {
+        let promise = Promise<Int>()
         let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
         dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            promiseGuarantor.fulfill(Int(str)!)
+            promise.fulfill(Int(str)!)
         }
-        return promiseGuarantor.promise
+        return promise.future
     }
     
-    func numberToStringThrows(number: Int) -> Promise<String> {
-        let promiseGuarantor = PromiseGuarantor<String>()
+    func numberToStringThrows(number: Int) -> Future<String> {
+        let promise = Promise<String>()
         let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
         dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            promiseGuarantor.reject(TestError.FailedToConvertNumberToString(number))
+            promise.reject(TestError.FailedToConvertNumberToString(number))
         }
-        return promiseGuarantor.promise
+        return promise.future
     }
     
-    func doubleNumber(number: Int) -> Promise<Int> {
-        let promiseGuarantor = PromiseGuarantor<Int>()
-        promiseGuarantor.fulfill(number * 2)
-        return promiseGuarantor.promise
+    func doubleNumber(number: Int) -> Future<Int> {
+        let promise = Promise<Int>()
+        promise.fulfill(number * 2)
+        return promise.future
     }
     
     
@@ -121,10 +121,10 @@ class PromiseCopositionTests : XCTestCase {
         measureBlock() {
             var counter = 0
             for _ in 0...5000 {
-                func doubleNumber(number: Int) -> Promise<Int> {
-                    let promiseGuarantor = PromiseGuarantor<Int>()
-                    promiseGuarantor.fulfill(number)
-                    return promiseGuarantor.promise
+                func doubleNumber(number: Int) -> Future<Int> {
+                    let promise = Promise<Int>()
+                    promise.fulfill(number)
+                    return promise.future
                 }
                 
                 let composition = doubleNumber >>> doubleNumber >>> doubleNumber >>> doubleNumber >>> doubleNumber >>> doubleNumber >>> doubleNumber >>> doubleNumber >>> doubleNumber  >>> doubleNumber
