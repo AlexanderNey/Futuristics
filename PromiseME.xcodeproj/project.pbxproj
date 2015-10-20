@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC160EDB1B7250F4002449C8 /* PromiseComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDA1B7250F4002449C8 /* PromiseComposition.swift */; };
+		AC160EDB1B7250F4002449C8 /* FutureComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDA1B7250F4002449C8 /* FutureComposition.swift */; };
 		AC160EDF1B72516B002449C8 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDE1B72516B002449C8 /* FunctionComposition.swift */; };
 		AC160EE11B7252F1002449C8 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE01B7252F1002449C8 /* Operators.swift */; };
 		AC160EE31B725A6F002449C8 /* FunctionCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE21B725A6F002449C8 /* FunctionCompositionTests.swift */; };
-		AC29ABF01B6FA7C300B0BCBD /* PromiseGuarantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* PromiseGuarantor.swift */; };
-		AC29ABF21B6FA84E00B0BCBD /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Promise.swift */; };
+		AC29ABF01B6FA7C300B0BCBD /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
+		AC29ABF21B6FA84E00B0BCBD /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
 		AC29ABF41B6FAA4700B0BCBD /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */; };
 		AC474FA51B727C1300B725D7 /* PromiseGuarantorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC474FA41B727C1300B725D7 /* PromiseGuarantorTests.swift */; };
 		AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */; };
@@ -34,13 +34,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AC160EDA1B7250F4002449C8 /* PromiseComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseComposition.swift; sourceTree = "<group>"; };
+		AC160EDA1B7250F4002449C8 /* FutureComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureComposition.swift; sourceTree = "<group>"; };
 		AC160EDE1B72516B002449C8 /* FunctionComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionComposition.swift; sourceTree = "<group>"; };
 		AC160EE01B7252F1002449C8 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		AC160EE21B725A6F002449C8 /* FunctionCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionCompositionTests.swift; sourceTree = "<group>"; };
-		AC29ABED1B6F888100B0BCBD /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		AC29ABEF1B6FA7C300B0BCBD /* PromiseGuarantor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseGuarantor.swift; sourceTree = "<group>"; };
-		AC29ABF11B6FA84E00B0BCBD /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
+		AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
+		AC29ABF11B6FA84E00B0BCBD /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
 		AC474FA41B727C1300B725D7 /* PromiseGuarantorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseGuarantorTests.swift; sourceTree = "<group>"; };
 		AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousTests.swift; sourceTree = "<group>"; };
@@ -49,7 +48,6 @@
 		AC7808C01B6F6DD300D048C6 /* PromiseME.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PromiseME.h; sourceTree = "<group>"; };
 		AC7808C61B6F6DD300D048C6 /* PromiseMETests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PromiseMETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7808CC1B6F6DD300D048C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC9E647F1B70E92200ED2E85 /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		ACD6DD531B71056A0040351A /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		ACE19F151B70F5660066377E /* TestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
 		ACF239D61B7225A300774A49 /* PromiseCopositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseCopositionTests.swift; sourceTree = "<group>"; };
@@ -98,10 +96,9 @@
 				AC7808C01B6F6DD300D048C6 /* PromiseME.h */,
 				AC160EE01B7252F1002449C8 /* Operators.swift */,
 				AC160EDE1B72516B002449C8 /* FunctionComposition.swift */,
-				AC29ABED1B6F888100B0BCBD /* Result.swift */,
-				AC29ABF11B6FA84E00B0BCBD /* Promise.swift */,
-				AC29ABEF1B6FA7C300B0BCBD /* PromiseGuarantor.swift */,
-				AC160EDA1B7250F4002449C8 /* PromiseComposition.swift */,
+				AC29ABF11B6FA84E00B0BCBD /* Future.swift */,
+				AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */,
+				AC160EDA1B7250F4002449C8 /* FutureComposition.swift */,
 				AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */,
 				AC7808BE1B6F6DD300D048C6 /* Supporting Files */,
 			);
@@ -120,7 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				AC160EE21B725A6F002449C8 /* FunctionCompositionTests.swift */,
-				AC9E647F1B70E92200ED2E85 /* ResultTests.swift */,
 				ACD6DD531B71056A0040351A /* PromiseTests.swift */,
 				ACF239D61B7225A300774A49 /* PromiseCopositionTests.swift */,
 				AC474FA41B727C1300B725D7 /* PromiseGuarantorTests.swift */,
@@ -249,10 +245,10 @@
 			files = (
 				AC29ABF41B6FAA4700B0BCBD /* Asynchronous.swift in Sources */,
 				AC160EE11B7252F1002449C8 /* Operators.swift in Sources */,
-				AC160EDB1B7250F4002449C8 /* PromiseComposition.swift in Sources */,
+				AC160EDB1B7250F4002449C8 /* FutureComposition.swift in Sources */,
 				AC160EDF1B72516B002449C8 /* FunctionComposition.swift in Sources */,
-				AC29ABF21B6FA84E00B0BCBD /* Promise.swift in Sources */,
-				AC29ABF01B6FA7C300B0BCBD /* PromiseGuarantor.swift in Sources */,
+				AC29ABF21B6FA84E00B0BCBD /* Future.swift in Sources */,
+				AC29ABF01B6FA7C300B0BCBD /* Promise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
