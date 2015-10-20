@@ -27,7 +27,7 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnMainThread = self.expectationWithDescription("runs on main thread")
         
-        let somefunction = onMainQueue { () -> Void in
+        let somefunction = onMainQueue {
             if NSThread.isMainThread() {
                 expectExecutionOnMainThread.fulfill()
             }
@@ -60,7 +60,7 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnMainThread = self.expectationWithDescription("runs on main thread")
         let startDate = NSDate()
-        let somefunction = onMainQueue(after: 2.0)() { () -> Void in
+        let somefunction = onMainQueue(after: 2.0)() {
             XCTAssertEqualWithAccuracy(startDate.timeIntervalSinceNow, -2.0, accuracy: 0.3, "expected to be executed with a 2 seconds delay")
             if NSThread.isMainThread() {
                 expectExecutionOnMainThread.fulfill()
@@ -78,7 +78,7 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnBackgroundQueue = self.expectationWithDescription("runs on background queue")
         
-        let somefunction = onBackgroundQueue { () -> Void in
+        let somefunction = onBackgroundQueue {
             if !NSThread.isMainThread() {
                 expectExecutionOnBackgroundQueue.fulfill()
             }
