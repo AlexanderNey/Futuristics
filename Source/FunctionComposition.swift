@@ -1,6 +1,6 @@
 //
 //  FunctionComposition.swift
-//  PromiseME
+//  Futuristics
 //
 //  Created by Alexander Ney on 05/08/2015.
 //  Copyright © 2015 Alexander Ney. All rights reserved.

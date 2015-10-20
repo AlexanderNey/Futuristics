@@ -1,6 +1,6 @@
 //
 //  Promise.swift
-//  PromiseME
+//  Futuristics
 //
 //  Created by Alexander Ney on 03/08/2015.
 //  Copyright © 2015 Alexander Ney. All rights reserved.

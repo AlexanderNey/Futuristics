@@ -1,6 +1,6 @@
 //
 //  PromiseTests.swift
-//  PromiseME
+//  Futuristics
 //
 //  Created by Alexander Ney on 04/08/2015.
 //  Copyright © 2015 Alexander Ney. All rights reserved.
@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import PromiseME
+@testable import Futuristics
 
 
 class PromiseTests: XCTestCase {
