@@ -16,8 +16,8 @@
 		AC29ABF41B6FAA4700B0BCBD /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */; };
 		AC474FA51B727C1300B725D7 /* PromiseGuarantorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC474FA41B727C1300B725D7 /* PromiseGuarantorTests.swift */; };
 		AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */; };
-		AC7808C11B6F6DD300D048C6 /* PromiseME.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* PromiseME.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AC7808C71B6F6DD300D048C6 /* PromiseME.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7808BB1B6F6DD300D048C6 /* PromiseME.framework */; };
+		AC7808C11B6F6DD300D048C6 /* Futuristics.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* Futuristics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC7808C71B6F6DD300D048C6 /* Futuristics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */; };
 		ACD6DD541B71056A0040351A /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6DD531B71056A0040351A /* PromiseTests.swift */; };
 		ACE19F161B70F5660066377E /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE19F151B70F5660066377E /* TestHelper.swift */; };
 		ACF239D71B7225A300774A49 /* PromiseCopositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF239D61B7225A300774A49 /* PromiseCopositionTests.swift */; };
@@ -43,10 +43,10 @@
 		AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
 		AC474FA41B727C1300B725D7 /* PromiseGuarantorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseGuarantorTests.swift; sourceTree = "<group>"; };
 		AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousTests.swift; sourceTree = "<group>"; };
-		AC7808BB1B6F6DD300D048C6 /* PromiseME.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PromiseME.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Futuristics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7808BF1B6F6DD300D048C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC7808C01B6F6DD300D048C6 /* PromiseME.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PromiseME.h; sourceTree = "<group>"; };
-		AC7808C61B6F6DD300D048C6 /* PromiseMETests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PromiseMETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC7808C01B6F6DD300D048C6 /* Futuristics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Futuristics.h; sourceTree = "<group>"; };
+		AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FuturisticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7808CC1B6F6DD300D048C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACD6DD531B71056A0040351A /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		ACE19F151B70F5660066377E /* TestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC7808C71B6F6DD300D048C6 /* PromiseME.framework in Frameworks */,
+				AC7808C71B6F6DD300D048C6 /* Futuristics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,8 +84,8 @@
 		AC7808BC1B6F6DD300D048C6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC7808BB1B6F6DD300D048C6 /* PromiseME.framework */,
-				AC7808C61B6F6DD300D048C6 /* PromiseMETests.xctest */,
+				AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */,
+				AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -93,7 +93,7 @@
 		AC7808BD1B6F6DD300D048C6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				AC7808C01B6F6DD300D048C6 /* PromiseME.h */,
+				AC7808C01B6F6DD300D048C6 /* Futuristics.h */,
 				AC160EE01B7252F1002449C8 /* Operators.swift */,
 				AC160EDE1B72516B002449C8 /* FunctionComposition.swift */,
 				AC29ABF11B6FA84E00B0BCBD /* Future.swift */,
@@ -142,16 +142,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC7808C11B6F6DD300D048C6 /* PromiseME.h in Headers */,
+				AC7808C11B6F6DD300D048C6 /* Futuristics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		AC7808BA1B6F6DD300D048C6 /* PromiseME */ = {
+		AC7808BA1B6F6DD300D048C6 /* Futuristics */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "PromiseME" */;
+			buildConfigurationList = AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "Futuristics" */;
 			buildPhases = (
 				AC7808B61B6F6DD300D048C6 /* Sources */,
 				AC7808B71B6F6DD300D048C6 /* Frameworks */,
@@ -162,14 +162,14 @@
 			);
 			dependencies = (
 			);
-			name = PromiseME;
+			name = Futuristics;
 			productName = PromiseME;
-			productReference = AC7808BB1B6F6DD300D048C6 /* PromiseME.framework */;
+			productReference = AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AC7808C51B6F6DD300D048C6 /* PromiseMETests */ = {
+		AC7808C51B6F6DD300D048C6 /* FuturisticsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "PromiseMETests" */;
+			buildConfigurationList = AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "FuturisticsTests" */;
 			buildPhases = (
 				AC7808C21B6F6DD300D048C6 /* Sources */,
 				AC7808C31B6F6DD300D048C6 /* Frameworks */,
@@ -180,9 +180,9 @@
 			dependencies = (
 				AC7808C91B6F6DD300D048C6 /* PBXTargetDependency */,
 			);
-			name = PromiseMETests;
+			name = FuturisticsTests;
 			productName = PromiseMETests;
-			productReference = AC7808C61B6F6DD300D048C6 /* PromiseMETests.xctest */;
+			productReference = AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -203,7 +203,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AC7808B51B6F6DD300D048C6 /* Build configuration list for PBXProject "PromiseME" */;
+			buildConfigurationList = AC7808B51B6F6DD300D048C6 /* Build configuration list for PBXProject "Futuristics" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -215,8 +215,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AC7808BA1B6F6DD300D048C6 /* PromiseME */,
-				AC7808C51B6F6DD300D048C6 /* PromiseMETests */,
+				AC7808BA1B6F6DD300D048C6 /* Futuristics */,
+				AC7808C51B6F6DD300D048C6 /* FuturisticsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -270,7 +270,7 @@
 /* Begin PBXTargetDependency section */
 		AC7808C91B6F6DD300D048C6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AC7808BA1B6F6DD300D048C6 /* PromiseME */;
+			target = AC7808BA1B6F6DD300D048C6 /* Futuristics */;
 			targetProxy = AC7808C81B6F6DD300D048C6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -377,8 +377,8 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
+				PRODUCT_NAME = Futuristics;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -395,8 +395,8 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
+				PRODUCT_NAME = Futuristics;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -415,7 +415,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FuturisticsTest;
 			};
 			name = Debug;
 		};
@@ -429,14 +429,14 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FuturisticsTest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AC7808B51B6F6DD300D048C6 /* Build configuration list for PBXProject "PromiseME" */ = {
+		AC7808B51B6F6DD300D048C6 /* Build configuration list for PBXProject "Futuristics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC7808CF1B6F6DD300D048C6 /* Debug */,
@@ -445,7 +445,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "PromiseME" */ = {
+		AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "Futuristics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC7808D21B6F6DD300D048C6 /* Debug */,
@@ -454,7 +454,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "PromiseMETests" */ = {
+		AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "FuturisticsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC7808D51B6F6DD300D048C6 /* Debug */,

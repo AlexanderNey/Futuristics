@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:PromiseME.xcodeproj">
+      location = "self:/Users/alexanderney/Projects/PromiseME/Futuristics.xcodeproj">
    </FileRef>
 </Workspace>

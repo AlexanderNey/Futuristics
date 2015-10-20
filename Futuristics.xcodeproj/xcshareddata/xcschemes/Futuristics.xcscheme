@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AC7808BA1B6F6DD300D048C6"
-               BuildableName = "PromiseME.framework"
-               BlueprintName = "PromiseME"
-               ReferencedContainer = "container:PromiseME.xcodeproj">
+               BuildableName = "Futuristics.framework"
+               BlueprintName = "Futuristics"
+               ReferencedContainer = "container:Futuristics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AC7808C51B6F6DD300D048C6"
-               BuildableName = "PromiseMETests.xctest"
-               BlueprintName = "PromiseMETests"
-               ReferencedContainer = "container:PromiseME.xcodeproj">
+               BuildableName = "Futuristics.xctest"
+               BlueprintName = "FuturisticsTests"
+               ReferencedContainer = "container:Futuristics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,9 +48,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AC7808C51B6F6DD300D048C6"
-               BuildableName = "PromiseMETests.xctest"
-               BlueprintName = "PromiseMETests"
-               ReferencedContainer = "container:PromiseME.xcodeproj">
+               BuildableName = "Futuristics.xctest"
+               BlueprintName = "FuturisticsTests"
+               ReferencedContainer = "container:Futuristics.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,9 +58,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AC7808BA1B6F6DD300D048C6"
-            BuildableName = "PromiseME.framework"
-            BlueprintName = "PromiseME"
-            ReferencedContainer = "container:PromiseME.xcodeproj">
+            BuildableName = "Futuristics.framework"
+            BlueprintName = "Futuristics"
+            ReferencedContainer = "container:Futuristics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AC7808BA1B6F6DD300D048C6"
-            BuildableName = "PromiseME.framework"
-            BlueprintName = "PromiseME"
-            ReferencedContainer = "container:PromiseME.xcodeproj">
+            BuildableName = "Futuristics.framework"
+            BlueprintName = "Futuristics"
+            ReferencedContainer = "container:Futuristics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -98,9 +98,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AC7808BA1B6F6DD300D048C6"
-            BuildableName = "PromiseME.framework"
-            BlueprintName = "PromiseME"
-            ReferencedContainer = "container:PromiseME.xcodeproj">
+            BuildableName = "Futuristics.framework"
+            BlueprintName = "Futuristics"
+            ReferencedContainer = "container:Futuristics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
