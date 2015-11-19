@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/AlexanderNey/Futuristics'
   s.social_media_url = 'http://twitter.com/Ajax64'
   s.authors = { 'Alexander Ney' => 'alexander.ney@me.com' }
-  s.source = { :git => 'https://github.com/AlexanderNey/Futuristics', :tag => s.version}
+  s.source = { :git => 'https://github.com/AlexanderNey/Futuristics.git', :tag => s.version}
   s.requires_arc = true
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
