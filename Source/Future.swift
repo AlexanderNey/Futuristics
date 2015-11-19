@@ -38,10 +38,12 @@ private enum FutureCompletionHandler<T> {
 }
 
 
+// FIXME: had to move this out of the Future class as private static stored properties are not supported in generic classes yet
+private var FutureCounter = 0
+
 public class Future<T> {
     
-    // TODO:
-    //private let sync_queue = dispatch_queue_create(nil, nil)
+    private let syncQueue: dispatch_queue_t!
     
     public internal(set) var state: FutureState<T> = .Pending {
         willSet {
@@ -55,8 +57,14 @@ public class Future<T> {
             switch (self.state) {
             case .Rejected(_): fallthrough
             case .Fulfilled(_):
-                self.stateHandlers.forEach { self.executeCompletionHandler($0) }
-                self.stateHandlers = []
+                var stateHandlersSnapshot: [FutureCompletionHandler<T>]! = nil
+                dispatch_sync(self.syncQueue) {
+                    stateHandlersSnapshot = self.stateHandlers
+                }
+                stateHandlersSnapshot.forEach { self.executeCompletionHandler($0) }
+                dispatch_sync(self.syncQueue) {
+                    self.stateHandlers = []
+                }
             default: break
             }
         }
@@ -64,7 +72,11 @@ public class Future<T> {
     
     private var stateHandlers: [FutureCompletionHandler<T>] = []
     
-    internal init() { }
+    internal init() {
+        FutureCounter = FutureCounter &+ 1
+        let queueName = "com.futuristics.future.queue\(FutureCounter)"
+        self.syncQueue = dispatch_queue_create(queueName, DISPATCH_QUEUE_SERIAL)
+    }
     
     internal func fulfill(value: T) {
         guard case .Pending = self.state else { return }
@@ -104,11 +116,17 @@ public class Future<T> {
         }
     }
     
+    private func deferCompletionHandler(handler: FutureCompletionHandler<T>) {
+        dispatch_sync(self.syncQueue) {
+            self.stateHandlers.append(handler)
+        }
+    }
+    
     public func onSuccess(context: ExecutionContext = defaultExecutionContext, successHandler: T -> Void) -> Future<T> {
         let completionHandler = FutureCompletionHandler.Success(task: successHandler, context: context)
         switch self.state {
         case .Pending:
-            self.stateHandlers.append(completionHandler)
+            self.deferCompletionHandler(completionHandler)
         case .Fulfilled(_):
             self.executeCompletionHandler(completionHandler)
         default:
@@ -121,7 +139,7 @@ public class Future<T> {
         let completionHandler = FutureCompletionHandler<T>.Failure(task: failureHandler, context: context)
         switch self.state {
         case .Pending:
-            self.stateHandlers.append(completionHandler)
+            self.deferCompletionHandler(completionHandler)
         case .Rejected(_):
             self.executeCompletionHandler(completionHandler)
         default:
@@ -134,7 +152,7 @@ public class Future<T> {
         let completionHandler = FutureCompletionHandler<T>.Finally(task: handler, context: context)
         switch self.state {
         case .Pending:
-            self.stateHandlers.append(completionHandler)
+            self.deferCompletionHandler(completionHandler)
         default:
             self.executeCompletionHandler(completionHandler)
         }

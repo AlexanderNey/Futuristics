@@ -263,4 +263,39 @@ class PromiseTests: XCTestCase {
         self.waitForExpectationsWithTimeout(3, handler: nil)
     }
 
+    
+    func testBurteforceCompletionBlocksOnCustomQueue() {
+       
+        for _ in 1...300 {
+            let future = Future<Void>()
+            
+            let preFulfillExpectation = self.expectationWithDescription("Bruteforce")
+            
+            let dispatchQueue = dispatch_queue_create("custom serial queue", DISPATCH_QUEUE_SERIAL)
+            dispatch_async(dispatchQueue) {
+                future.fulfill()
+            }
+            
+            var successExecuted = 0
+            var finallyExecuted = 0
+            for _ in  1...50 {
+                future.onSuccess {
+                    successExecuted++
+                    if successExecuted == 50 && finallyExecuted == 50 {
+                        preFulfillExpectation.fulfill()
+                    }
+                }.finally {
+                    finallyExecuted++
+                    if successExecuted == 50 && finallyExecuted == 50 {
+                        preFulfillExpectation.fulfill()
+                    }
+                }
+            }
+           
+            self.waitForExpectationsWithTimeout(5.0, handler: { error in
+                XCTAssertNil(error, "")
+            })
+        }
+    }
+
 }
