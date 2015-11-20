@@ -305,5 +305,39 @@ class PromiseTests: XCTestCase {
             })
         }
     }
+    
+    func testBurteforceCompletionBlocksOnMainQueueASynch() {
+        
+        for _ in 1...500 {
+            let future = Future<Void>()
+            
+            let preFulfillExpectation = self.expectationWithDescription("Bruteforce")
+            
+            var successExecuted = 0
+            var finallyExecuted = 0
+            for i in  1...50 {
+                if i == 25 {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        future.fulfill()
+                    }
+                }
+                future.onSuccess {
+                    successExecuted++
+                    if successExecuted == 50 && finallyExecuted == 50 {
+                        preFulfillExpectation.fulfill()
+                    }
+                    }.finally {
+                        finallyExecuted++
+                        if successExecuted == 50 && finallyExecuted == 50 {
+                            preFulfillExpectation.fulfill()
+                        }
+                }
+            }
+            
+            self.waitForExpectationsWithTimeout(5.0, handler: { error in
+                XCTAssertNil(error, "")
+            })
+        }
+    }
 
 }
