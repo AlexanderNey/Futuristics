@@ -110,11 +110,19 @@ class AsynchronousTests : XCTestCase {
     }
     
     func testAwaitSinglePromiseDelayed() {
-        let somefunction = onBackgroundQueue(after: 2)() { () -> String in
+        let somefunction = onBackgroundQueue(after: 1)() { () -> String in
             return "done"
         }
         let future = somefunction()
-        await(future)
+        
+        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        
+        onBackgroundQueue {
+            await(future)
+            awaitExpectation.fulfill()
+        }()
+        
+        self.waitForExpectationsWithTimeout(2, handler: nil)
         
         if case .Fulfilled(let value) = future.state {
             XCTAssertEqual(value, "done")
@@ -132,7 +140,15 @@ class AsynchronousTests : XCTestCase {
         }
         let future = somefunction()
         
-        await(future)
+        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        
+        onBackgroundQueue {
+            await(future)
+            awaitExpectation.fulfill()
+        }()
+        
+        self.waitForExpectationsWithTimeout(1, handler: nil)
+
         
         if case .Fulfilled(let value) = future.state {
             XCTAssertEqual(value, "done")
@@ -143,17 +159,25 @@ class AsynchronousTests : XCTestCase {
 
     
     func testAwaitMultiplePromisesDelayed() {
-        let someBackgroundfunctionA = onBackgroundQueue(after: 2)({ () -> String in
+        let someBackgroundfunctionA = onBackgroundQueue(after: 0.1)({ () -> String in
             return "doneA"
         })
         
-        let someBackgroundfunctionB = onBackgroundQueue(after: 3)({ () -> String in
+        let someBackgroundfunctionB = onBackgroundQueue(after: 0.2)({ () -> String in
             return "doneB"
         })
         
         let promiseA = someBackgroundfunctionA()
         let promiseB = someBackgroundfunctionB()
-        await(promiseA, promiseB)
+        
+        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        
+        onBackgroundQueue {
+            await(promiseA, promiseB)
+            awaitExpectation.fulfill()
+        }()
+        
+        self.waitForExpectationsWithTimeout(1, handler: nil)
         
         switch (promiseA.state, promiseB.state) {
         case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
@@ -174,7 +198,15 @@ class AsynchronousTests : XCTestCase {
     
         let promiseA = someFunction()
         let promiseB = someFunction()
-        await(promiseA, promiseB)
+        
+        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        
+        onBackgroundQueue {
+            await(promiseA, promiseB)
+            awaitExpectation.fulfill()
+        }()
+        
+         self.waitForExpectationsWithTimeout(1, handler: nil)
         
         switch (promiseA.state, promiseB.state) {
         case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
