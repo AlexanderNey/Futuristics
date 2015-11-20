@@ -270,7 +270,7 @@ class PromiseTests: XCTestCase {
     }
 
     
-    func testBurteforceCompletionBlocksOnCustomQueue() {
+    func testBurteforceAddCompletionBlocksOnMainQueueFulfillFutureOnCustomQueue() {
        
         for _ in 1...500 {
             let future = Future<Void>()
@@ -306,7 +306,7 @@ class PromiseTests: XCTestCase {
         }
     }
     
-    func testBurteforceCompletionBlocksOnMainQueueASynch() {
+    func testBurteforceAddCompletionBlocksOnMainQueueFulfillFutureOnMainQueue() {
         
         for _ in 1...500 {
             let future = Future<Void>()
@@ -331,6 +331,44 @@ class PromiseTests: XCTestCase {
                         if successExecuted == 50 && finallyExecuted == 50 {
                             preFulfillExpectation.fulfill()
                         }
+                }
+            }
+            
+            self.waitForExpectationsWithTimeout(5.0, handler: { error in
+                XCTAssertNil(error, "")
+            })
+        }
+    }
+    
+    func testBurteforceAddCompletionBlocksOnRandomCustomQueueFulfillFutureOnMainQueue() {
+        
+        for _ in 1...500 {
+            let future = Future<Void>()
+            
+            let preFulfillExpectation = self.expectationWithDescription("Bruteforce")
+            
+            var successExecuted = 0
+            var finallyExecuted = 0
+            for i in  1...50 {
+                if i == 25 {
+                    future.fulfill()
+                }
+                let dispatchQueue = dispatch_queue_create("custom serial queue \(i)", DISPATCH_QUEUE_SERIAL)
+                dispatch_async(dispatchQueue) {
+                    future.onSuccess {
+                        successExecuted++
+                        if successExecuted == 50 && finallyExecuted == 50 {
+                            preFulfillExpectation.fulfill()
+                        }
+                    }
+                }
+                dispatch_sync(dispatchQueue) {
+                    future.finally {
+                        finallyExecuted++
+                        if successExecuted == 50 && finallyExecuted == 50 {
+                            preFulfillExpectation.fulfill()
+                        }
+                    }
                 }
             }
             
