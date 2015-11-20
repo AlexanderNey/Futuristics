@@ -210,8 +210,11 @@ class PromiseTests: XCTestCase {
         let preFulfillExpectation = self.expectationWithDescription("Pre fulfill success should execute on background thread")
         
         future.onSuccess {
-            if !NSThread.isMainThread() {
+            if NSThread.isMainThread() {
                 preFulfillExpectation.fulfill()
+            } else {
+                let queueLabel = String(UTF8String: dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))
+                XCTFail("wrong queue \(queueLabel)")
             }
         }
         
@@ -221,16 +224,19 @@ class PromiseTests: XCTestCase {
         }
         
         
-        self.waitForExpectationsWithTimeout(3, handler: nil)
+        self.waitForExpectationsWithTimeout(15, handler: nil)
         let postFulfillExpectation = self.expectationWithDescription("Post fulfill success should execute on main thread")
         
         future.onSuccess {
             if NSThread.isMainThread() {
                 postFulfillExpectation.fulfill()
+            } else {
+                let queueLabel = String(UTF8String: dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))
+                XCTFail("wrong queue \(queueLabel)")
             }
         }
         
-        self.waitForExpectationsWithTimeout(3, handler: nil)
+        self.waitForExpectationsWithTimeout(10, handler: nil)
     }
 
     func testSuccessCustomContext() {
@@ -266,19 +272,21 @@ class PromiseTests: XCTestCase {
     
     func testBurteforceCompletionBlocksOnCustomQueue() {
        
-        for _ in 1...300 {
+        for _ in 1...500 {
             let future = Future<Void>()
             
             let preFulfillExpectation = self.expectationWithDescription("Bruteforce")
             
             let dispatchQueue = dispatch_queue_create("custom serial queue", DISPATCH_QUEUE_SERIAL)
-            dispatch_async(dispatchQueue) {
-                future.fulfill()
-            }
             
             var successExecuted = 0
             var finallyExecuted = 0
-            for _ in  1...50 {
+            for i in  1...50 {
+                if i == 25 {
+                    dispatch_async(dispatchQueue) {
+                        future.fulfill()
+                    }
+                }
                 future.onSuccess {
                     successExecuted++
                     if successExecuted == 50 && finallyExecuted == 50 {
