@@ -15,6 +15,7 @@ This library adds [Promises / Futures](https://en.wikipedia.org/wiki/Futures_and
 ✔️ Type Safety
 ✔️ Composable
 
+
 ## Asynchronous Code Without Futures
 Just some asynchronous code with proper error handling in Swift 2.0
 ```swift
@@ -45,6 +46,7 @@ client.exectueRequest(request) { response, error in
 
 Ok ok... I am maybe exaggerating. But you get the idea...
 
+
 ## Futures To The Rescue
 With futures the code can be much leaner and intutive.
 
@@ -67,12 +69,14 @@ There are a few differences to the non future example above:
 5. `onSuccess` and `onFailure` are the compltion blocks that are executed depending on the state of the whole function chain encapusled in `requestAndParse`
 5. the completion blocks execution are explicitly set to take place on the main queue by invoking them with `onMainQueue`
 
+
 ## Future & Promise
 In order to create a function that returns a Future you have to create a Promise first. A Promise is pretty much a notion of the aim to compute a value after some delay. Promises are holding their Future value which then represents that computed value. A promise can be fulfilled or rejected and shouldn't be exposed to any scope unrelated to the computation of the final value. In other words yor function creates the Promise, takes care of the fulfillment or rejection but returns only the Future of the Promise as an immutable read only value. Promises and Futures are sharing a common set of states:
 
-*Pending* - Represents the initial state when the Future value is to be computed
+**Pending** - Represents the initial state when the Future value is to be computed
 
-*Fulfilled / Rejected* - The final state which indicates either a successful compoutation of the value or a failure. Those states contain either the concrete value or an Swift `ErrorType` that represents the failure reason.
+**Fulfilled / Rejected** - The final state which indicates either a successful compoutation of the value or a failure. Those states contain either the concrete value or an Swift `ErrorType` that represents the failure reason.
+
 
 ## Asynchronous Functions
 Lets make a somewhat more concrete exmaple:
@@ -97,17 +101,19 @@ func exectueRequest(request: NSURLRequest) -> Future<NSURLResponse> {
 
 In order to return the Future you have to create a typed Promise with the expected value type NSURLResponse. The function will imediately return the future of the created Promise and probably delay some asynchonous code to fulfill or reject the Promise. You can only either fulfill or reject the Promise once.
 
+
 ## Completion Handlers
+
 Futures can have completion handlers attached. There are three possible handlers which can be chained arbitrary.
 
-```swift onSuccess: T -> Void``` - value of T is the type of the Future; executed only if the Promise was succesfully resolved
+```onSuccess: T -> Void``` - value of T is the type of the Future; executed only if the Promise was succesfully resolved
 
-```swift onFailure: ErrorType -> Void``` - arbitrary ErrorType; executed only of the Promise was rejected
+```onFailure: ErrorType -> Void``` - arbitrary ErrorType; executed only of the Promise was rejected
 
-```swift finally: Void -> Void``` - executed after the Promise was either failed or rejected and is more for tasks where you don't care about the result. Usually this is used in conjunction with the other handlers.
+```finally: Void -> Void``` - executed after the Promise was either failed or rejected and is more for tasks where you don't care about the result. Usually this is used in conjunction with the other handlers.
 
 
-### Example
+#### Example
 
 ```swift
 self.loadingUI(true)
@@ -127,12 +133,12 @@ In that example we made good use of `finally` to e.g. return from the loading st
 ## Composing Asynchronous Functions
 
 For the sake of readability functions with the following type can be chained together:
-```swift A -> Future<B>```  AND ```swift B -> Future<C>``` 
+```A -> Future<B>```  AND ```B -> Future<C>``` 
 The result of type B of the first function will be then used as a argument of the second function to compute a value of type C so the resulting function will have a type of:
-```swift A -> Future<C>``` 
+```A -> Future<C>``` 
 Chaining is realised with the **>>>** operator.
 
-### Example
+#### Example
 
 ```swift
 
@@ -149,13 +155,14 @@ requestAndParse(request).onSuccess { text in
 
 
 ## Make Synchronous Functions Asynchronous
-Ideally a function should not care in which thread or queue it is executed to have a better separation of concerns and create more resuable code. For this Futuristics provides some wrapper functions also reffered to as the **Execution Context**. Simply put a regalar function like ```swift A throws -> B``` as an argument and the resulting function will be of type ```swift A -> Future<B>```. More about Execution Contexts below
+Ideally a function should not care in which thread or queue it is executed to have a better separation of concerns and create more resuable code. For this Futuristics provides some wrapper functions also reffered to as the **Execution Context**. Simply put a regalar function like ```A throws -> B``` as an argument and the resulting function will be of type ```A -> Future<B>```. More about Execution Contexts below
 
-## Example
+### Example
 ```swift
 func parseResponseSynch(response: NSURLResponse) -> String { ... }
 let parseResponseOnBackground = onBackgroundQueue(parseResponseSynch)
 ```
+
 
 ## Execution Context
 
@@ -165,7 +172,7 @@ onMainQueue // execute on the main queue synchronous if called from it or asynch
 onBackgroundQueue // execute on a well known background queue - perfect if you just want to avoid blocking the main thread - equvalent to dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 onQueue(queue: dispatch_queue_t) // execute on a sepcified queue
 ```
-The implementation of the included Execution Contexts is based on GCD but you can create any custom context you desire by simply folllowing the pattern ```swift (A -> throws B) -> (A -> Future<B>)```.
+The implementation of the included Execution Contexts is based on GCD but you can create any custom context you desire by simply folllowing the pattern ```(A -> throws B) -> (A -> Future<B>)```.
 
 
 ## Error Handling
