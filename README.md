@@ -15,7 +15,7 @@ This library adds [Promises / Futures](https://en.wikipedia.org/wiki/Futures_and
 ✔️ Type Safety
 ✔️ Composable
 
-## Asynchronous code without Futures
+## Asynchronous Code Without Futures
 Just some asynchronous code with proper error handling in Swift 2.0
 ```swift
 let client = NetworkClient()
@@ -45,7 +45,7 @@ client.exectueRequest(request) { response, error in
 
 Ok ok... I am maybe exaggerating. But you get the idea...
 
-## Futures to the rescue
+## Futures To The Rescue
 With futures the code can be much leaner and intutive.
 
 ```swift
@@ -120,15 +120,81 @@ requestAndParse(request).onSuccess { name in
 }
 ```
 
-That is a example of making good use of `finally` to e.g. return from the loading state of the UI which we previosly may have activated to visually indicate an ongoing network request.
+In that example we made good use of `finally` to e.g. return from the loading state of the UI which we previosly may have activated to visually indicate an ongoing network request.
+
 
 
 ## Composing Asynchronous Functions
 
+For the sake of readability functions with the following type can be chained together:
+```swift A -> Future<B>```  AND ```swift B -> Future<C>``` 
+The result of type B of the first function will be then used as a argument of the second function to compute a value of type C so the resulting function will have a type of:
+```swift A -> Future<C>``` 
+Chaining is realised with the **>>>** operator.
+
+### Example
+
+```swift
+
+func exectueRequest(request: NSURLRequest) -> Future<NSURLResponse> { ... }
+    func parseResponse(response: NSURLResponse) -> Future<String> { ... }
+    
+
+let request = NSURLRequest( ... )
+let requestAndParse = exectueRequest >>> parseResponse
+requestAndParse(request).onSuccess { text in
+	print(text)
+}
+```
+
+
 ## Make Synchronous Functions Asynchronous
+Ideally a function should not care in which thread or queue it is executed to have a better separation of concerns and create more resuable code. For this Futuristics provides some wrapper functions also reffered to as the **Execution Context**. Simply put a regalar function like ```swift A throws -> B``` as an argument and the resulting function will be of type ```swift A -> Future<B>```. More about Execution Contexts below
+
+## Example
+```swift
+func parseResponseSynch(response: NSURLResponse) -> String { ... }
+let parseResponseOnBackground = onBackgroundQueue(parseResponseSynch)
+```
 
 ## Execution Context
 
+You can use any of the following included Execution Contexts
+```swift
+onMainQueue // execute on the main queue synchronous if called from it or asynchronous if called from another queue
+onBackgroundQueue // execute on a well known background queue - perfect if you just want to avoid blocking the main thread - equvalent to dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+onQueue(queue: dispatch_queue_t) // execute on a sepcified queue
+```
+The implementation of the included Execution Contexts is based on GCD but you can create any custom context you desire by simply folllowing the pattern ```swift (A -> throws B) -> (A -> Future<B>)```.
+
+
 ## Error Handling
+
+As meantioned before a Future can either be fulfilled or rejected. A rejected Future conveys a failure of the computation operation that returned the Future by containing the failure reason as an arbitrary `ErrorType`.
+
+Functions that return a Future should not thorw - instead they should reject the Promise to transport the error to the scope above.
+
+However functions that where generated with the Execution Context will internally catch any error that was thrown by the origin function and automatically reject the Promise which then results in a rejected Future.
+
+## Example
+
+```swift
+enum ParserError : ErrorType {
+	case InvalidJSON
+    // ...
+}
+
+func parseResponseSynch(response: NSURLResponse) throws -> String {
+    throw ParserError.InvalidJSON
+}
+
+let parseResponseOnBackground = onBackgroundQueue(parseResponseSynch)
+
+parseResponseOnBackground().onFailure { error in 
+	println("Will always fail with ParserError.InvalidJSON")
+	
+}
+```
+
 
 ## Coposing Functions
