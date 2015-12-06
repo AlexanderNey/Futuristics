@@ -46,7 +46,7 @@ client.exectueRequest(request) { response, error in
 Ok ok... I am maybe exaggerating. But you get the idea...
 
 ## Futures to the rescue
-With futures the code can be much leaner
+With futures the code can be much leaner and intutive.
 ```swift
 let client = NetworkClient()
 let request = NSURLRequest(URL: NSURL(string: "http://foo.com/bar")!)
@@ -58,3 +58,25 @@ requestAndParse(request).onSuccess(onMainQueue) { name in
     self.displayError(error)
 } }
 ```
+
+There are a few differences to the non future example above:
+1. the `executeRequest` function now receives a `NSRULRequest` and returns a `Future<NSURLResponse>`
+2. `requestAndParse` is a composition of `exectueRequest`, `jsonFromResponse` and `extractNameFromJSON` - the type of this function now is `NSURLRequest -> Future<String>`!
+4. `jsonFromResponse` and `extractNameFromJSON` are made explicity asynchronous by wrapping them in the `onBackgroundQueue` function
+5. `onSuccess` and `onFailure` are the compltion blocks that are executed depending on the state of the whole function chain encapusled in `requestAndParse`
+5. the completion blocks execution are explicitly set to take place on the main queue by invoking them with `onMainQueue`
+
+
+## Asynchronous Functions
+
+## Completion Handlers
+
+## Composing Asynchronous Functions
+
+## Make Synchronous Functions Asynchronous
+
+## Execution Context
+
+## Error Handling
+
+## Coposing Functions
