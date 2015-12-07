@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Futuristics'
-  s.version = '0.2.1-alpha'
+  s.version = '0.2.1'
   s.license = { :type => "MIT" }
   s.summary = 'Futures for Swift 2.0'
   s.homepage = 'https://github.com/AlexanderNey/Futuristics'
@@ -13,5 +13,4 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '2.0'
 
   s.source_files = 'Source/*.swift'
-
 end
