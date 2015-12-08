@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Alexander Ney. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 //! Project version number for Futuristics.
 FOUNDATION_EXPORT double FuturisticsVersionNumber;
