@@ -29,16 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AC7808C51B6F6DD300D048C6"
-               BuildableName = "FuturisticsTest.xctest"
-               BlueprintName = "FuturisticsTests iOS"
-               ReferencedContainer = "container:Futuristics.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
