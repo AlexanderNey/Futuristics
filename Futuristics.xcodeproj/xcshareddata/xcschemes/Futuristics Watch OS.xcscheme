@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "ACF2DD611C16F5CE0049243A"
-               BuildableName = "Futuristics watchOS.framework"
+               BuildableName = "Futuristics.framework"
                BlueprintName = "Futuristics watchOS"
                ReferencedContainer = "container:Futuristics.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ACF2DD611C16F5CE0049243A"
-            BuildableName = "Futuristics watchOS.framework"
+            BuildableName = "Futuristics.framework"
             BlueprintName = "Futuristics watchOS"
             ReferencedContainer = "container:Futuristics.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ACF2DD611C16F5CE0049243A"
-            BuildableName = "Futuristics watchOS.framework"
+            BuildableName = "Futuristics.framework"
             BlueprintName = "Futuristics watchOS"
             ReferencedContainer = "container:Futuristics.xcodeproj">
          </BuildableReference>
@@ -84,7 +84,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ACF2DD611C16F5CE0049243A"
-            BuildableName = "Futuristics watchOS.framework"
+            BuildableName = "Futuristics.framework"
             BlueprintName = "Futuristics watchOS"
             ReferencedContainer = "container:Futuristics.xcodeproj">
          </BuildableReference>
