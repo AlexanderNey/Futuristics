@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Futuristics'
-  s.version = '0.2.2'
+  s.version = '0.2.3'
   s.license = { :type => "MIT" }
   s.summary = 'Futures for Swift 2.0'
   s.homepage = 'https://github.com/AlexanderNey/Futuristics'
