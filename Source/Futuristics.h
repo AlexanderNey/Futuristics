@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Alexander Ney. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 //! Project version number for Futuristics.
 FOUNDATION_EXPORT double FuturisticsVersionNumber;

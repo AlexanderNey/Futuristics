@@ -21,6 +21,12 @@
 		ACD6DD541B71056A0040351A /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6DD531B71056A0040351A /* PromiseTests.swift */; };
 		ACE19F161B70F5660066377E /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE19F151B70F5660066377E /* TestHelper.swift */; };
 		ACF239D71B7225A300774A49 /* PromiseCopositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF239D61B7225A300774A49 /* PromiseCopositionTests.swift */; };
+		ACF2DD6B1C16FDD60049243A /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE01B7252F1002449C8 /* Operators.swift */; };
+		ACF2DD6C1C16FDD60049243A /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDE1B72516B002449C8 /* FunctionComposition.swift */; };
+		ACF2DD6D1C16FDD60049243A /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
+		ACF2DD6E1C16FDD60049243A /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
+		ACF2DD6F1C16FDD60049243A /* FutureComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDA1B7250F4002449C8 /* FutureComposition.swift */; };
+		ACF2DD701C16FDD60049243A /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +57,7 @@
 		ACD6DD531B71056A0040351A /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		ACE19F151B70F5660066377E /* TestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
 		ACF239D61B7225A300774A49 /* PromiseCopositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseCopositionTests.swift; sourceTree = "<group>"; };
+		ACF2DD621C16F5CE0049243A /* Futuristics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Futuristics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +73,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7808C71B6F6DD300D048C6 /* Futuristics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACF2DD5E1C16F5CE0049243A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +100,7 @@
 			children = (
 				AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */,
 				AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */,
+				ACF2DD621C16F5CE0049243A /* Futuristics.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -146,12 +161,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ACF2DD5F1C16F5CE0049243A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		AC7808BA1B6F6DD300D048C6 /* Futuristics */ = {
+		AC7808BA1B6F6DD300D048C6 /* Futuristics iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "Futuristics" */;
+			buildConfigurationList = AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "Futuristics iOS" */;
 			buildPhases = (
 				AC7808B61B6F6DD300D048C6 /* Sources */,
 				AC7808B71B6F6DD300D048C6 /* Frameworks */,
@@ -162,14 +184,14 @@
 			);
 			dependencies = (
 			);
-			name = Futuristics;
+			name = "Futuristics iOS";
 			productName = PromiseME;
 			productReference = AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AC7808C51B6F6DD300D048C6 /* FuturisticsTests */ = {
+		AC7808C51B6F6DD300D048C6 /* FuturisticsTests iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "FuturisticsTests" */;
+			buildConfigurationList = AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "FuturisticsTests iOS" */;
 			buildPhases = (
 				AC7808C21B6F6DD300D048C6 /* Sources */,
 				AC7808C31B6F6DD300D048C6 /* Frameworks */,
@@ -180,10 +202,28 @@
 			dependencies = (
 				AC7808C91B6F6DD300D048C6 /* PBXTargetDependency */,
 			);
-			name = FuturisticsTests;
+			name = "FuturisticsTests iOS";
 			productName = PromiseMETests;
 			productReference = AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		ACF2DD611C16F5CE0049243A /* Futuristics watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACF2DD671C16F5CE0049243A /* Build configuration list for PBXNativeTarget "Futuristics watchOS" */;
+			buildPhases = (
+				ACF2DD5D1C16F5CE0049243A /* Sources */,
+				ACF2DD5E1C16F5CE0049243A /* Frameworks */,
+				ACF2DD5F1C16F5CE0049243A /* Headers */,
+				ACF2DD601C16F5CE0049243A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Futuristics watchOS";
+			productName = "Futuristics Watch OS";
+			productReference = ACF2DD621C16F5CE0049243A /* Futuristics.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -201,6 +241,9 @@
 					AC7808C51B6F6DD300D048C6 = {
 						CreatedOnToolsVersion = 6.4;
 					};
+					ACF2DD611C16F5CE0049243A = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
 				};
 			};
 			buildConfigurationList = AC7808B51B6F6DD300D048C6 /* Build configuration list for PBXProject "Futuristics" */;
@@ -215,8 +258,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AC7808BA1B6F6DD300D048C6 /* Futuristics */,
-				AC7808C51B6F6DD300D048C6 /* FuturisticsTests */,
+				AC7808BA1B6F6DD300D048C6 /* Futuristics iOS */,
+				AC7808C51B6F6DD300D048C6 /* FuturisticsTests iOS */,
+				ACF2DD611C16F5CE0049243A /* Futuristics watchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -230,6 +274,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AC7808C41B6F6DD300D048C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACF2DD601C16F5CE0049243A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -265,12 +316,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ACF2DD5D1C16F5CE0049243A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACF2DD6D1C16FDD60049243A /* Future.swift in Sources */,
+				ACF2DD6C1C16FDD60049243A /* FunctionComposition.swift in Sources */,
+				ACF2DD6B1C16FDD60049243A /* Operators.swift in Sources */,
+				ACF2DD701C16FDD60049243A /* Asynchronous.swift in Sources */,
+				ACF2DD6E1C16FDD60049243A /* Promise.swift in Sources */,
+				ACF2DD6F1C16FDD60049243A /* FutureComposition.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		AC7808C91B6F6DD300D048C6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AC7808BA1B6F6DD300D048C6 /* Futuristics */;
+			target = AC7808BA1B6F6DD300D048C6 /* Futuristics iOS */;
 			targetProxy = AC7808C81B6F6DD300D048C6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -293,6 +357,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -314,7 +379,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -322,6 +387,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -342,6 +408,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -356,20 +423,23 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
 		AC7808D21B6F6DD300D048C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -389,7 +459,9 @@
 		AC7808D31B6F6DD300D048C6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -421,6 +493,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = FuturisticsTest;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -437,6 +510,50 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = FuturisticsTest;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		ACF2DD681C16F5CE0049243A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchsimulator*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
+				PRODUCT_NAME = Futuristics;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		ACF2DD691C16F5CE0049243A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchsimulator2.0]" = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
+				PRODUCT_NAME = Futuristics;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -453,7 +570,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "Futuristics" */ = {
+		AC7808D11B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "Futuristics iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC7808D21B6F6DD300D048C6 /* Debug */,
@@ -462,11 +579,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "FuturisticsTests" */ = {
+		AC7808D41B6F6DD300D048C6 /* Build configuration list for PBXNativeTarget "FuturisticsTests iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC7808D51B6F6DD300D048C6 /* Debug */,
 				AC7808D61B6F6DD300D048C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ACF2DD671C16F5CE0049243A /* Build configuration list for PBXNativeTarget "Futuristics watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACF2DD681C16F5CE0049243A /* Debug */,
+				ACF2DD691C16F5CE0049243A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
