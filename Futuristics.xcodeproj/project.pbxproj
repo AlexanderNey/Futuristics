@@ -20,6 +20,7 @@
 		AC7808C71B6F6DD300D048C6 /* Futuristics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */; };
 		ACD6DD541B71056A0040351A /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6DD531B71056A0040351A /* PromiseTests.swift */; };
 		ACE19F161B70F5660066377E /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE19F151B70F5660066377E /* TestHelper.swift */; };
+		ACF1965B1C2980240028E51A /* Futuristics.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* Futuristics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACF239D71B7225A300774A49 /* PromiseCopositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF239D61B7225A300774A49 /* PromiseCopositionTests.swift */; };
 		ACF2DD6B1C16FDD60049243A /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE01B7252F1002449C8 /* Operators.swift */; };
 		ACF2DD6C1C16FDD60049243A /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDE1B72516B002449C8 /* FunctionComposition.swift */; };
@@ -165,6 +166,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACF1965B1C2980240028E51A /* Futuristics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
