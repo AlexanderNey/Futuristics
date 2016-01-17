@@ -51,7 +51,7 @@ Just some asynchronous code with proper error handling in Swift 2.x
 ```swift
 let client = NetworkClient()
 let request = NSURLRequest(URL: NSURL(string: "http://foo.com/bar")!)
-client.exectueRequest(request) { response, error in
+client.executeRequest(request) { response, error in
     if error != nil {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             do {
@@ -84,7 +84,7 @@ With futures the code can be much leaner and intuitive.
 let client = NetworkClient()
 let request = NSURLRequest(URL: NSURL(string: "http://foo.com/bar")!)
 
-let requestAndParse = client.exectueRequest >>> onBackgroundQueue(self.jsonFromResponse >>> self.extractNameFromJSON)
+let requestAndParse = client.executeRequest >>> onBackgroundQueue(self.jsonFromResponse >>> self.extractNameFromJSON)
 requestAndParse(request).onSuccess(onMainQueue) { name in
     self.updateUIWithName(name)
 }.onFailure(onMainQueue) { error in
@@ -94,7 +94,7 @@ requestAndParse(request).onSuccess(onMainQueue) { name in
 
 There are a few differences to the non future example above:
 1. the `executeRequest` function now receives a `NSRULRequest` and returns a `Future<NSURLResponse>` that is a future value of NSURLResponse 
-2. `requestAndParse` is a composition of `exectueRequest`, `jsonFromResponse` and `extractNameFromJSON` - the signature of this function now is `NSURLRequest -> Future<String>`
+2. `requestAndParse` is a composition of `executeRequest`, `jsonFromResponse` and `extractNameFromJSON` - the signature of this function now is `NSURLRequest -> Future<String>`
 4. `jsonFromResponse` and `extractNameFromJSON` are made explicitly asynchronous by wrapping them in the `onBackgroundQueue` function
 5. the `onSuccess` and `onFailure` closures are are executed depending on the result of the Future determined by the function `requestAndParse`
 5. the completion blocks execution are explicitly set to take place on the main queue by invoking them with the execution context `onMainQueue`
@@ -117,7 +117,7 @@ Note that you can't create Futures only Promises. Promises are always typed (hel
 Lets make a somewhat more concrete example:
 
 ```swift
-func exectueRequest(request: NSURLRequest) -> Future<NSURLResponse> {
+func executeRequest(request: NSURLRequest) -> Future<NSURLResponse> {
         // Create a promise
         let promise = Promise<NSURLResponse>()
         // asynchronous code block start
@@ -187,12 +187,12 @@ With this you could chain multiple Future returning functions together.
 
 ```swift
 
-func exectueRequest(request: NSURLRequest) -> Future<NSURLResponse> { ... }
+func executeRequest(request: NSURLRequest) -> Future<NSURLResponse> { ... }
 func parseResponse(response: NSURLResponse) -> Future<String> { ... }
     
 
 let request = NSURLRequest( ... )
-let requestAndParse = exectueRequest >>> parseResponse
+let requestAndParse = executeRequest >>> parseResponse
 requestAndParse(request).onSuccess { text in
 	print(text)
 }
