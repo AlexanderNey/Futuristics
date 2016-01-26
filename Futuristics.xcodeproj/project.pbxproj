@@ -14,6 +14,7 @@
 		AC29ABF01B6FA7C300B0BCBD /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
 		AC29ABF21B6FA84E00B0BCBD /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
 		AC29ABF41B6FAA4700B0BCBD /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */; };
+		AC35F3231C568A18006A01B2 /* AsynchTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */; };
 		AC474FA51B727C1300B725D7 /* PromiseGuarantorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC474FA41B727C1300B725D7 /* PromiseGuarantorTests.swift */; };
 		AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */; };
 		AC7808C11B6F6DD300D048C6 /* Futuristics.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* Futuristics.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -48,6 +49,7 @@
 		AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		AC29ABF11B6FA84E00B0BCBD /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
+		AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchTesting.swift; sourceTree = "<group>"; };
 		AC474FA41B727C1300B725D7 /* PromiseGuarantorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseGuarantorTests.swift; sourceTree = "<group>"; };
 		AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousTests.swift; sourceTree = "<group>"; };
 		AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Futuristics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 				AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */,
 				AC7808CB1B6F6DD300D048C6 /* Supporting Files */,
 				ACE19F151B70F5660066377E /* TestHelper.swift */,
+				AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC35F3231C568A18006A01B2 /* AsynchTesting.swift in Sources */,
 				AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */,
 				AC474FA51B727C1300B725D7 /* PromiseGuarantorTests.swift in Sources */,
 				ACE19F161B70F5660066377E /* TestHelper.swift in Sources */,
