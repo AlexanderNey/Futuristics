@@ -25,7 +25,7 @@ class AsynchronousTests : XCTestCase {
     
     func testMainQueueAsynch() {
         
-        let expectExecutionOnMainThread = self.expectationWithDescription("runs on main thread")
+        let expectExecutionOnMainThread = AsynchTestExpectation("runs on main thread")
         
         let somefunction = onMainQueue {
             if NSThread.isMainThread() {
@@ -37,12 +37,12 @@ class AsynchronousTests : XCTestCase {
             somefunction()
         }
         
-        self.waitForExpectationsWithTimeout(5, handler: nil)
+        expectExecutionOnMainThread.waitForExpectationsWithTimeout()
     }
     
     func testMainQueueSynch() {
         
-        let expectExecutionOnMainThread = self.expectationWithDescription("runs on main thread")
+        let expectExecutionOnMainThread = AsynchTestExpectation("runs on main thread")
         var imediateExecution = false
         let somefunction = onMainQueue { 
             imediateExecution = true
@@ -53,15 +53,15 @@ class AsynchronousTests : XCTestCase {
         
         somefunction()
         XCTAssertTrue(imediateExecution)
-        self.waitForExpectationsWithTimeout(5, handler: nil)
+        expectExecutionOnMainThread.waitForExpectationsWithTimeout()
     }
     
     func testMainQueueDelayedAsynch() {
         
-        let expectExecutionOnMainThread = self.expectationWithDescription("runs on main thread")
+        let expectExecutionOnMainThread = AsynchTestExpectation("runs on main thread")
         let startDate = NSDate()
-        let somefunction = onMainQueue(after: 2.0)() {
-            XCTAssertEqualWithAccuracy(startDate.timeIntervalSinceNow, -2.0, accuracy: 0.3, "expected to be executed with a 2 seconds delay")
+        let somefunction = onMainQueue(after: 0.5)() {
+            XCTAssertEqualWithAccuracy(startDate.timeIntervalSinceNow, -0.5, accuracy: 0.1, "expected to be executed with a 2 seconds delay")
             if NSThread.isMainThread() {
                 expectExecutionOnMainThread.fulfill()
             }
@@ -71,12 +71,12 @@ class AsynchronousTests : XCTestCase {
             somefunction()
         }
         
-        self.waitForExpectationsWithTimeout(5, handler: nil)
+        expectExecutionOnMainThread.waitForExpectationsWithTimeout()
     }
     
     func testBackgroundQueueAsynch() {
         
-        let expectExecutionOnBackgroundQueue = self.expectationWithDescription("runs on background queue")
+        let expectExecutionOnBackgroundQueue = AsynchTestExpectation("runs on background queue")
         
         let somefunction = onBackgroundQueue {
             if !NSThread.isMainThread() {
@@ -88,14 +88,14 @@ class AsynchronousTests : XCTestCase {
             somefunction()
         }
         
-        self.waitForExpectationsWithTimeout(5, handler: nil)
+        expectExecutionOnBackgroundQueue.waitForExpectationsWithTimeout()
     }
     
     func testAsynchOnCustomQueue() {
     
         let queue = dispatch_queue_create("testQueue", nil)
        
-        let expectExecutionOnCustomQueue = self.expectationWithDescription("runs on background queue")
+        let expectExecutionOnCustomQueue = AsynchTestExpectation("runs on background queue")
         
         let somefunction = onQueue(queue)() { () -> Void in
             let queueLabel = String(UTF8String: dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))
@@ -106,23 +106,23 @@ class AsynchronousTests : XCTestCase {
         
         somefunction()
         
-        self.waitForExpectationsWithTimeout(5, handler: nil)
+        expectExecutionOnCustomQueue.waitForExpectationsWithTimeout()
     }
     
     func testAwaitSinglePromiseDelayed() {
-        let somefunction = onBackgroundQueue(after: 1)() { () -> String in
+        let somefunction = onBackgroundQueue(after: 2)() { () -> String in
             return "done"
         }
         let future = somefunction()
         
-        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        let awaitExpectation = AsynchTestExpectation("await on some background queue")
         
         onBackgroundQueue {
             await(future)
             awaitExpectation.fulfill()
         }()
         
-        self.waitForExpectationsWithTimeout(2, handler: nil)
+        awaitExpectation.waitForExpectationsWithTimeout(3)
         
         if case .Fulfilled(let value) = future.state {
             XCTAssertEqual(value, "done")
@@ -140,14 +140,14 @@ class AsynchronousTests : XCTestCase {
         }
         let future = somefunction()
         
-        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        let awaitExpectation = AsynchTestExpectation("await on some background queue")
         
         onBackgroundQueue {
             await(future)
             awaitExpectation.fulfill()
         }()
         
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        awaitExpectation.waitForExpectationsWithTimeout()
 
         
         if case .Fulfilled(let value) = future.state {
@@ -170,14 +170,14 @@ class AsynchronousTests : XCTestCase {
         let promiseA = someBackgroundfunctionA()
         let promiseB = someBackgroundfunctionB()
         
-        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        let awaitExpectation = AsynchTestExpectation("await on some background queue")
         
         onBackgroundQueue {
             await(promiseA, promiseB)
             awaitExpectation.fulfill()
         }()
         
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        awaitExpectation.waitForExpectationsWithTimeout()
         
         switch (promiseA.state, promiseB.state) {
         case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
@@ -199,14 +199,14 @@ class AsynchronousTests : XCTestCase {
         let promiseA = someFunction()
         let promiseB = someFunction()
         
-        let awaitExpectation = self.expectationWithDescription("await on some background queue")
+        let awaitExpectation = AsynchTestExpectation("await on some background queue")
         
         onBackgroundQueue {
             await(promiseA, promiseB)
             awaitExpectation.fulfill()
         }()
         
-         self.waitForExpectationsWithTimeout(1, handler: nil)
+         awaitExpectation.waitForExpectationsWithTimeout()
         
         switch (promiseA.state, promiseB.state) {
         case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
