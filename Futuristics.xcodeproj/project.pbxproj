@@ -141,10 +141,10 @@
 				ACF239D61B7225A300774A49 /* FutureCopositionTests.swift */,
 				AC474FA41B727C1300B725D7 /* PromiseTests.swift */,
 				AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */,
+				AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */,
 				AC7808CB1B6F6DD300D048C6 /* Supporting Files */,
 				ACE19F151B70F5660066377E /* TestHelper.swift */,
 				AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */,
-				AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";

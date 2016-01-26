@@ -1,5 +1,5 @@
 //
-//  PromiseCopositionTests.swift
+//  FutureCopositionTests.swift
 //  Futuristics
 //
 //  Created by Alexander Ney on 05/08/2015.
@@ -11,7 +11,7 @@ import XCTest
 import Futuristics
 
 
-class PromiseCopositionTests : XCTestCase {
+class FutureCopositionTests : XCTestCase {
     
     enum TestError: ErrorType {
         case FailedToConvertNumberToString(Int)

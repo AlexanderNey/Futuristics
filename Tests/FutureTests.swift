@@ -11,7 +11,7 @@ import XCTest
 @testable import Futuristics
 
 
-class PromiseTests: XCTestCase {
+class FutureTests: XCTestCase {
 
     enum TestError: ErrorType {
         case SomeError

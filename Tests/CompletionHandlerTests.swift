@@ -7,3 +7,10 @@
 //
 
 import Foundation
+import XCTest
+import Futuristics
+
+
+
+class CompletionHandlerTests : XCTestCase {
+}

@@ -24,7 +24,7 @@ func somethingThatDontThrows() throws -> String {
     return "test"
 }
 
-class PromiseGuarantorTests : XCTestCase {
+class PromiseTests : XCTestCase {
     
     func testFulfill() {
         let promise = Promise<String>()
