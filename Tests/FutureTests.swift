@@ -377,5 +377,5 @@ class FutureTests: XCTestCase {
             preFulfillExpectation.waitForExpectationsWithTimeout()
         }
     }
-
+    
 }

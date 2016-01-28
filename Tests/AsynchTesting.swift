@@ -13,6 +13,7 @@ import XCTest
 class AsynchTestExpectation {
     private let sem: dispatch_semaphore_t
     let description: String
+    private var rejected: Bool = false
     
     init (_ description: String) {
         self.description = description
@@ -22,13 +23,17 @@ class AsynchTestExpectation {
     func fulfill() {
         dispatch_semaphore_signal(self.sem)
     }
+    
+    func reject() {
+        rejected = true
+    }
 
-    func waitForExpectationsWithTimeout(timeout: NSTimeInterval = 2.0, handler: (Void -> Void)? = nil) {
+    func waitForExpectationsWithTimeout(timeout: NSTimeInterval = 2.0, mustFulfill: Bool = true, handler: (Void -> Void)? = nil) {
         
         let end = NSDate(timeIntervalSinceNow: timeout)
         let interval: NSTimeInterval  = 0.01
         var didFulfill = false
-        while (!didFulfill || end.compare(NSDate()) == .OrderedDescending) {
+        while (end.compare(NSDate()) == .OrderedDescending) {
             let intervalTimeout: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(interval * Double(NSEC_PER_SEC)));
             let waitResult = dispatch_semaphore_wait(self.sem, intervalTimeout)
             didFulfill = waitResult == 0
@@ -41,8 +46,8 @@ class AsynchTestExpectation {
             }
         }
         
-        if !didFulfill {
-             XCTFail("\(self.description) timed out after \(timeout) second(s)")
+        if didFulfill != mustFulfill {
+            XCTFail("\(self.description) was expected to be \(mustFulfill ? "" : "not" ) fulfilled")
         }
     }
 

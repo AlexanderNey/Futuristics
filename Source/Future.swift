@@ -25,10 +25,22 @@ public typealias ExecutionContext = (task: Void throws -> Void) -> (Void -> Futu
 
 let defaultExecutionContext: ExecutionContext = onMainQueue
 
+private class FutureCompletionHandlerOwner {
+    weak var owner: AnyObject?
+    
+    init?(owner: AnyObject?) {
+        if let owner = owner {
+            self.owner = owner
+        } else {
+            return nil
+        }
+    }
+}
+
 private enum FutureCompletionHandler<T> {
-    case Success(task: T -> Void, context: ExecutionContext)
-    case Failure(task: ErrorType -> Void, context: ExecutionContext)
-    case Finally(task: Void -> Void, context: ExecutionContext)
+    case Success(task: T -> Void, context: ExecutionContext, owner: FutureCompletionHandlerOwner?)
+    case Failure(task: ErrorType -> Void, context: ExecutionContext, owner: FutureCompletionHandlerOwner?)
+    case Finally(task: Void -> Void, context: ExecutionContext, owner: FutureCompletionHandlerOwner?)
 }
 
 
@@ -46,16 +58,6 @@ public class Future<T> {
                 return
             }
         }
-        
-        /*
-        didSet {
-            switch (self.state) {
-            case .Rejected(_): fallthrough
-            case .Fulfilled(_):
-                
-            default: break
-            }
-        }*/
     }
     
     private var stateHandlers: [FutureCompletionHandler<T>] = []
@@ -105,13 +107,21 @@ public class Future<T> {
 
     private func executeCompletionHandler(handler: FutureCompletionHandler<T>) {
         switch (handler, self.state) {
-        case (.Success(let successHandler, let context), .Fulfilled(let value)):
-            context { successHandler(value) }()
-        case (.Failure(let failureHandler, let context), .Rejected(let error)):
-            context { failureHandler(error) }()
-        case (.Finally(let finalHandler, let context), _) where !self.state.isPending:
-            context { finalHandler() }()
+        case (.Success(let successHandler, let context, let ownerContainer), .Fulfilled(let value)):
+            self.executeIfOwnershipIsVerified(ownerContainer, onContext: context) { successHandler(value) }
+        case (.Failure(let failureHandler, let context, let ownerContainer), .Rejected(let error)):
+            self.executeIfOwnershipIsVerified(ownerContainer, onContext: context) { failureHandler(error) }
+        case (.Finally(let finalHandler, let context, let ownerContainer), _) where !self.state.isPending:
+            self.executeIfOwnershipIsVerified(ownerContainer, onContext: context) { finalHandler() }
         default: break
+        }
+    }
+    
+    private func executeIfOwnershipIsVerified(ownerContainer: FutureCompletionHandlerOwner?, onContext context: ExecutionContext, closure: Void -> Void) {
+        if let ownerContainer = ownerContainer where  ownerContainer.owner != nil {
+            context { closure() }()
+        } else if ownerContainer == nil {
+            context { closure() }()
         }
     }
     
@@ -120,9 +130,10 @@ public class Future<T> {
     }
     
     
-    public func onSuccess(context: ExecutionContext = defaultExecutionContext, successHandler: T -> Void) -> Future<T> {
-        dispatch_async(self.syncQueue) {
-            let completionHandler = FutureCompletionHandler.Success(task: successHandler, context: context)
+    public func onSuccess(context: ExecutionContext = defaultExecutionContext, owner: AnyObject? = nil, successHandler: T -> Void) -> Future<T> {
+        let ownerContainer = FutureCompletionHandlerOwner(owner: owner)
+        dispatch_sync(self.syncQueue) {
+            let completionHandler = FutureCompletionHandler.Success(task: successHandler, context: context, owner: ownerContainer)
             switch self.state {
             case .Pending:
                 self.deferCompletionHandler(completionHandler)
@@ -135,9 +146,10 @@ public class Future<T> {
         return self
     }
     
-    public func onFailure(context: ExecutionContext = defaultExecutionContext, failureHandler: ErrorType -> Void) -> Future<T> {
-        dispatch_async(self.syncQueue) {
-            let completionHandler = FutureCompletionHandler<T>.Failure(task: failureHandler, context: context)
+    public func onFailure(context: ExecutionContext = defaultExecutionContext, owner: AnyObject? = nil, failureHandler: ErrorType -> Void) -> Future<T> {
+        let ownerContainer = FutureCompletionHandlerOwner(owner: owner)
+        dispatch_sync(self.syncQueue) {
+            let completionHandler = FutureCompletionHandler<T>.Failure(task: failureHandler, context: context, owner: ownerContainer)
             switch self.state {
             case .Pending:
                 self.deferCompletionHandler(completionHandler)
@@ -150,9 +162,10 @@ public class Future<T> {
         return self
     }
     
-    public func finally(context: ExecutionContext = defaultExecutionContext, handler: Void -> Void) -> Future<T> {
-        dispatch_async(self.syncQueue) {
-            let completionHandler = FutureCompletionHandler<T>.Finally(task: handler, context: context)
+    public func finally(context: ExecutionContext = defaultExecutionContext, owner: AnyObject? = nil, handler: Void -> Void) -> Future<T> {
+        let ownerContainer = FutureCompletionHandlerOwner(owner: owner)
+        dispatch_sync(self.syncQueue) {
+            let completionHandler = FutureCompletionHandler<T>.Finally(task: handler, context: context, owner: ownerContainer)
             switch self.state {
             case .Pending:
                 self.deferCompletionHandler(completionHandler)
@@ -162,4 +175,5 @@ public class Future<T> {
         }
         return self
     }
+    
 }
