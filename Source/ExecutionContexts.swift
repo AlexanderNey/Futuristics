@@ -61,3 +61,8 @@ public func await<T>(futures: [Future<T>]) {
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
     }
 }
+
+public func awaitResult<T>(future: Future<T>) throws -> T {
+    await(future)
+    return try future.getResult()
+}
