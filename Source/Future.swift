@@ -35,6 +35,10 @@ private enum FutureCompletionHandler<T> {
 // FIXME: had to move this out of the Future class as private static stored properties are not supported in generic classes yet
 private var FutureCounter = 0
 
+public enum FutureError : ErrorType {
+    case FutureISStillPending
+}
+
 public class Future<T> {
     
     private let syncQueue: dispatch_queue_t!
@@ -54,6 +58,17 @@ public class Future<T> {
         FutureCounter = FutureCounter &+ 1
         let queueName = "com.futuristics.future-queue\(FutureCounter)"
         self.syncQueue = dispatch_queue_create(queueName, DISPATCH_QUEUE_SERIAL)
+    }
+    
+    public func getResult() throws -> T {
+        switch self.state {
+        case .Pending:
+            throw FutureError.FutureISStillPending
+        case .Rejected(let error):
+            throw error
+        case .Fulfilled(let result):
+            return result
+        }
     }
     
     internal func fulfill(value: T) {
