@@ -9,10 +9,10 @@
 import Foundation
 
 
-public enum FutureState<T> {
+internal enum FutureState<T> {
     case Pending, Fulfilled(T), Rejected(ErrorType)
     
-    public var isPending: Bool  {
+    var isPending: Bool  {
         if case .Pending = self {
             return true
         }
@@ -39,7 +39,7 @@ public class Future<T> {
     
     private let syncQueue: dispatch_queue_t!
     
-    public internal(set) var state: FutureState<T> = .Pending {
+    internal var state: FutureState<T> = .Pending {
         willSet {
             guard case .Pending = self.state else {
                 assertionFailure("Future state can not be changed as it is \(self.state) already")
