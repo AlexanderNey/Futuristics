@@ -46,16 +46,6 @@ public class Future<T> {
                 return
             }
         }
-        
-        /*
-        didSet {
-            switch (self.state) {
-            case .Rejected(_): fallthrough
-            case .Fulfilled(_):
-                
-            default: break
-            }
-        }*/
     }
     
     private var stateHandlers: [FutureCompletionHandler<T>] = []
