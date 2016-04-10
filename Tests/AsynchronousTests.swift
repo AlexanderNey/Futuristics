@@ -56,24 +56,6 @@ class AsynchronousTests : XCTestCase {
         expectExecutionOnMainThread.waitForExpectationsWithTimeout()
     }
     
-    func testMainQueueDelayedAsynch() {
-        
-        let expectExecutionOnMainThread = AsynchTestExpectation("runs on main thread")
-        let startDate = NSDate()
-        let somefunction = onMainQueue(after: 0.5)() {
-            XCTAssertEqualWithAccuracy(startDate.timeIntervalSinceNow, -0.5, accuracy: 0.1, "expected to be executed with a 2 seconds delay")
-            if NSThread.isMainThread() {
-                expectExecutionOnMainThread.fulfill()
-            }
-        }
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            somefunction()
-        }
-        
-        expectExecutionOnMainThread.waitForExpectationsWithTimeout()
-    }
-    
     func testBackgroundQueueAsynch() {
         
         let expectExecutionOnBackgroundQueue = AsynchTestExpectation("runs on background queue")
@@ -109,29 +91,6 @@ class AsynchronousTests : XCTestCase {
         expectExecutionOnCustomQueue.waitForExpectationsWithTimeout()
     }
     
-    func testAwaitSinglePromiseDelayed() {
-        let somefunction = onBackgroundQueue(after: 2)() { () -> String in
-            return "done"
-        }
-        let future = somefunction()
-        
-        let awaitExpectation = AsynchTestExpectation("await on some background queue")
-        
-        onBackgroundQueue {
-            await(future)
-            awaitExpectation.fulfill()
-        }()
-        
-        awaitExpectation.waitForExpectationsWithTimeout(3)
-        
-        if case .Fulfilled(let value) = future.state {
-            XCTAssertEqual(value, "done")
-        } else {
-            XCTFail()
-        }
-    }
-
-    
     func testAwaitSinglePromiseImediateResult() {
         let somefunction = { () -> Future<String> in
             let promise = Promise<String>()
@@ -157,37 +116,6 @@ class AsynchronousTests : XCTestCase {
         }
     }
 
-    
-    func testAwaitMultiplePromisesDelayed() {
-        let someBackgroundfunctionA = onBackgroundQueue(after: 0.1)({ () -> String in
-            return "doneA"
-        })
-        
-        let someBackgroundfunctionB = onBackgroundQueue(after: 0.2)({ () -> String in
-            return "doneB"
-        })
-        
-        let promiseA = someBackgroundfunctionA()
-        let promiseB = someBackgroundfunctionB()
-        
-        let awaitExpectation = AsynchTestExpectation("await on some background queue")
-        
-        onBackgroundQueue {
-            await(promiseA, promiseB)
-            awaitExpectation.fulfill()
-        }()
-        
-        awaitExpectation.waitForExpectationsWithTimeout()
-        
-        switch (promiseA.state, promiseB.state) {
-        case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
-            XCTAssertEqual(valueA, "doneA")
-            XCTAssertEqual(valueB, "doneB")
-        default:
-            XCTFail()
-        }
-    }
-    
     func testAwaitMultiplePromisesImediateResult() {
         func someFunction() -> Future<String> {
             let promise = Promise<String>()

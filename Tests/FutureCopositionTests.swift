@@ -69,7 +69,7 @@ class FutureCopositionTests : XCTestCase {
             }
         }
         
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        succeedExpectation.waitForExpectationsWithTimeout(1, handler: nil)
   }
     
     func testFailurePromiseFunctionComposition() {
@@ -87,18 +87,18 @@ class FutureCopositionTests : XCTestCase {
             }
         }
         
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        failureExpectation.waitForExpectationsWithTimeout(1, handler: nil)
     }
     
     func testPromiseFunctionCompositionInvocation() {
         let succeedExpectation = AsynchTestExpectation("should succeed")
         let result = 100 |> doubleNumber |> numberToString |> stringToNumber |> doubleNumber
         result.onSuccess { number in
-            //if number == 400 {
+            if number == 400 {
                 succeedExpectation.fulfill()
-            //}
+            }
         }
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        succeedExpectation.waitForExpectationsWithTimeout(1, handler: nil)
     }
     
     func testPromiseFunctionCompositionInvocationThrowing() {
@@ -108,7 +108,7 @@ class FutureCopositionTests : XCTestCase {
             failureExpectation.fulfill()
         }
         
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        failureExpectation.waitForExpectationsWithTimeout(1, handler: nil)
     }
     
     
