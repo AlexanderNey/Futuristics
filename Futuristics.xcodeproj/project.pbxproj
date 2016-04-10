@@ -13,7 +13,7 @@
 		AC160EE31B725A6F002449C8 /* FunctionCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE21B725A6F002449C8 /* FunctionCompositionTests.swift */; };
 		AC29ABF01B6FA7C300B0BCBD /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
 		AC29ABF21B6FA84E00B0BCBD /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
-		AC29ABF41B6FAA4700B0BCBD /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */; };
+		AC29ABF41B6FAA4700B0BCBD /* ExecutionContexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */; };
 		AC35F3231C568A18006A01B2 /* AsynchTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */; };
 		AC35F3251C579F75006A01B2 /* CompletionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */; };
 		AC474FA51B727C1300B725D7 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC474FA41B727C1300B725D7 /* PromiseTests.swift */; };
@@ -29,7 +29,7 @@
 		ACF2DD6D1C16FDD60049243A /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
 		ACF2DD6E1C16FDD60049243A /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
 		ACF2DD6F1C16FDD60049243A /* FutureComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDA1B7250F4002449C8 /* FutureComposition.swift */; };
-		ACF2DD701C16FDD60049243A /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */; };
+		ACF2DD701C16FDD60049243A /* ExecutionContexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +49,7 @@
 		AC160EE21B725A6F002449C8 /* FunctionCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionCompositionTests.swift; sourceTree = "<group>"; };
 		AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		AC29ABF11B6FA84E00B0BCBD /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
-		AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
+		AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionContexts.swift; sourceTree = "<group>"; };
 		AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchTesting.swift; sourceTree = "<group>"; };
 		AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionHandlerTests.swift; sourceTree = "<group>"; };
 		AC474FA41B727C1300B725D7 /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 				AC29ABF11B6FA84E00B0BCBD /* Future.swift */,
 				AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */,
 				AC160EDA1B7250F4002449C8 /* FutureComposition.swift */,
-				AC29ABF31B6FAA4700B0BCBD /* Asynchronous.swift */,
+				AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */,
 				AC7808BE1B6F6DD300D048C6 /* Supporting Files */,
 			);
 			path = Source;
@@ -302,7 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC29ABF41B6FAA4700B0BCBD /* Asynchronous.swift in Sources */,
+				AC29ABF41B6FAA4700B0BCBD /* ExecutionContexts.swift in Sources */,
 				AC160EE11B7252F1002449C8 /* Operators.swift in Sources */,
 				AC160EDB1B7250F4002449C8 /* FutureComposition.swift in Sources */,
 				AC160EDF1B72516B002449C8 /* FunctionComposition.swift in Sources */,
@@ -333,7 +333,7 @@
 				ACF2DD6D1C16FDD60049243A /* Future.swift in Sources */,
 				ACF2DD6C1C16FDD60049243A /* FunctionComposition.swift in Sources */,
 				ACF2DD6B1C16FDD60049243A /* Operators.swift in Sources */,
-				ACF2DD701C16FDD60049243A /* Asynchronous.swift in Sources */,
+				ACF2DD701C16FDD60049243A /* ExecutionContexts.swift in Sources */,
 				ACF2DD6E1C16FDD60049243A /* Promise.swift in Sources */,
 				ACF2DD6F1C16FDD60049243A /* FutureComposition.swift in Sources */,
 			);
