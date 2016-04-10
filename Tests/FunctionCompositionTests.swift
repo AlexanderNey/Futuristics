@@ -7,9 +7,6 @@
 //
 
 import Foundation
-
-
-import Foundation
 import XCTest
 import Futuristics
 
@@ -48,7 +45,7 @@ class FunctionCopositionTests : XCTestCase {
     func testBasicFunctionCompositionThrowing() {
         let composition = stringToNumber >>> doubleNumber
         
-        let throwExpectation = self.expectationWithDescription("throw expectation")
+        let throwExpectation = AsynchTestExpectation("throw expectation")
         
         do {
             try composition("abc")
@@ -61,7 +58,7 @@ class FunctionCopositionTests : XCTestCase {
             XCTFail("generic error not expected")
         }
         
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        throwExpectation.waitForExpectationsWithTimeout()
     }
     
     func testBasicFunctionCompositionInvocation() {
@@ -74,7 +71,7 @@ class FunctionCopositionTests : XCTestCase {
     }
     
     func testBasicFunctionCompositionInvocationThrowing() {
-        let throwExpectation = self.expectationWithDescription("throw expectation")
+        let throwExpectation = AsynchTestExpectation("throw expectation")
         
         do {
             try "abc" |> stringToNumber |> doubleNumber
@@ -87,6 +84,6 @@ class FunctionCopositionTests : XCTestCase {
             XCTFail("generic error not expected")
         }
         
-        self.waitForExpectationsWithTimeout(1, handler: nil)
+        throwExpectation.waitForExpectationsWithTimeout()
     }
 }
