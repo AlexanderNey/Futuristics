@@ -94,7 +94,7 @@ class PromiseTests : XCTestCase {
             XCTFail("initial state should be pending")
         }
         
-        promise.resolve(somethingThatDontThrows)
+        promise.resolveWith(somethingThatDontThrows)
         
         XCTAssertFalse(promise.isPending)
         
@@ -123,7 +123,7 @@ class PromiseTests : XCTestCase {
             XCTFail("initial state should be pending")
         }
         
-        promise.resolve { try somethingThatThrows() }
+        promise.resolveWith { try somethingThatThrows() }
         
         XCTAssertFalse(promise.isPending)
         

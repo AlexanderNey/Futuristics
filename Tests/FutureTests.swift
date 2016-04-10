@@ -179,7 +179,7 @@ class FutureTests: XCTestCase {
             XCTFail("initial state should be pending")
         }
 
-        future.resolve { try willThrow() }
+        future.resolveWith { try willThrow() }
         
         if case .Rejected(let error) = future.state where error as? TestError == TestError.SomeError  {
         } else {
@@ -200,7 +200,7 @@ class FutureTests: XCTestCase {
             XCTFail("initial state should be pending")
         }
         
-        future.resolve { try willNotThrow() }
+        future.resolveWith { try willNotThrow() }
         
         if case .Fulfilled(let value) = future.state where value == "test"  {
         } else {
