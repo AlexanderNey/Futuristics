@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-import Futuristics
+@testable import Futuristics
 
 
 enum AnError: ErrorType {
