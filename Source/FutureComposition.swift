@@ -1,5 +1,5 @@
 //
-//  PromiseComposition.swift
+//  FutureComposition.swift
 //  Futuristics
 //
 //  Created by Alexander Ney on 05/08/2015.
