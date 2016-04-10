@@ -8,45 +8,33 @@
 
 import Foundation
 
-
 public func onMainQueue<T, U>(closure: T throws -> U) -> (T -> Future<U>) {
-    return onMainQueue(after: nil)(closure)
+    let mainQueue = dispatch_get_main_queue()
+    return onQueue(mainQueue)(closure: closure)
 }
 
-public func onMainQueue<T, U>(after delay: Double? = nil)(_ closure: T throws -> U) -> (T -> Future<U>) {
-    return onQueue(dispatch_get_main_queue(), after: delay)(closure)
-}
 
 public func onBackgroundQueue<T, U>(closure: T throws -> U) -> (T -> Future<U>) {
-    return onBackgroundQueue(after: nil)(closure)
+    let aBackgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+    return onQueue(aBackgroundQueue)(closure: closure)
 }
 
-public func onBackgroundQueue<T, U>(after delay: Double? = nil)(_ closure: T throws -> U) -> (T -> Future<U>) {
-    return onQueue(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), after: delay)(closure)
+public func onQueue<T, U>(queue: dispatch_queue_t) -> (closure: T throws -> U) -> (T -> Future<U>) {
+    return { [queue] (closure: T throws -> U) in
+        return onQueue(queue, closure: closure)
+    }
 }
 
-public func onQueue<T, U>(queue: dispatch_queue_t, closure: T throws -> U) -> (T -> Future<U>) {
-    return onQueue(queue, after: nil)(closure)
-}
-
-public func onQueue<T, U>(queue: dispatch_queue_t, after delay: Double? = nil)(_ closure: T throws -> U) -> (T -> Future<U>) {
+private func onQueue<T, U>(queue: dispatch_queue_t, closure: T throws -> U) -> (T -> Future<U>) {
     return { (parameter: T) in
         let promise = Promise<U>()
-        if let delay = delay {
-            let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-            dispatch_after(dispatchTime, queue) {
-                defer { promise.ensureResolution() }
-                promise.resolve { try closure(parameter) }
-            }
+        if queue === dispatch_get_main_queue() && NSThread.isMainThread() {
+            defer { promise.ensureResolution() }
+            promise.resolve { try closure(parameter) }
         } else {
-            if queue === dispatch_get_main_queue() && NSThread.isMainThread() {
+            dispatch_async(queue) {
                 defer { promise.ensureResolution() }
                 promise.resolve { try closure(parameter) }
-            } else {
-                dispatch_async(queue) {
-                    defer { promise.ensureResolution() }
-                    promise.resolve { try closure(parameter) }
-                }
             }
         }
         return promise.future
