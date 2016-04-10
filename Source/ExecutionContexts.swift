@@ -30,11 +30,11 @@ private func onQueue<T, U>(queue: dispatch_queue_t, closure: T throws -> U) -> (
         let promise = Promise<U>()
         if queue === dispatch_get_main_queue() && NSThread.isMainThread() {
             defer { promise.ensureResolution() }
-            promise.resolve { try closure(parameter) }
+            promise.resolveWith { try closure(parameter) }
         } else {
             dispatch_async(queue) {
                 defer { promise.ensureResolution() }
-                promise.resolve { try closure(parameter) }
+                promise.resolveWith { try closure(parameter) }
             }
         }
         return promise.future

@@ -72,7 +72,7 @@ public class Future<T> {
         }
     }
     
-    internal func resolve(f: Void throws -> T) {
+    internal func resolveWith(f: Void throws -> T) {
         do {
             self.fulfill(try f())
         } catch {

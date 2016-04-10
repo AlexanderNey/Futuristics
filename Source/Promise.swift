@@ -31,8 +31,8 @@ public class Promise<T> {
         return self.future
     }
     
-    public func resolve(f: Void throws -> T) {
-        future.resolve(f)
+    public func resolveWith(f: Void throws -> T) {
+        future.resolveWith(f)
     }
     
     /**
