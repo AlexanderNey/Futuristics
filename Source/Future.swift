@@ -36,7 +36,7 @@ private enum FutureCompletionHandler<T> {
 private var FutureCounter = 0
 
 public enum FutureError : ErrorType {
-    case FutureISStillPending
+    case FutureStillPending
 }
 
 public class Future<T> {
@@ -63,7 +63,7 @@ public class Future<T> {
     public func getResult() throws -> T {
         switch self.state {
         case .Pending:
-            throw FutureError.FutureISStillPending
+            throw FutureError.FutureStillPending
         case .Rejected(let error):
             throw error
         case .Fulfilled(let result):
