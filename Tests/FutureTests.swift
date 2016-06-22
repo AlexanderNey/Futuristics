@@ -294,12 +294,12 @@ class FutureTests: XCTestCase {
                     }
                 }
                 future.onSuccess {
-                    successExecuted++
+                    successExecuted += 1
                     if successExecuted == 50 && finallyExecuted == 50 {
                         preFulfillExpectation.fulfill()
                     }
                 }.finally {
-                    finallyExecuted++
+                    finallyExecuted += 1
                     if successExecuted == 50 && finallyExecuted == 50 {
                         preFulfillExpectation.fulfill()
                     }
@@ -326,12 +326,12 @@ class FutureTests: XCTestCase {
                     }
                 }
                 future.onSuccess {
-                    successExecuted++
+                    successExecuted += 1
                     if successExecuted == 50 && finallyExecuted == 50 {
                         preFulfillExpectation.fulfill()
                     }
                     }.finally {
-                        finallyExecuted++
+                        finallyExecuted += 1
                         if successExecuted == 50 && finallyExecuted == 50 {
                             preFulfillExpectation.fulfill()
                         }
@@ -358,7 +358,7 @@ class FutureTests: XCTestCase {
                 let dispatchQueue = dispatch_queue_create("custom serial queue \(i)", DISPATCH_QUEUE_SERIAL)
                 dispatch_async(dispatchQueue) {
                     future.onSuccess {
-                        successExecuted++
+                        successExecuted += 1
                         if successExecuted == 50 && finallyExecuted == 50 {
                             preFulfillExpectation.fulfill()
                         }
@@ -366,7 +366,7 @@ class FutureTests: XCTestCase {
                 }
                 dispatch_sync(dispatchQueue) {
                     future.finally {
-                        finallyExecuted++
+                        finallyExecuted += 1
                         if successExecuted == 50 && finallyExecuted == 50 {
                             preFulfillExpectation.fulfill()
                         }
