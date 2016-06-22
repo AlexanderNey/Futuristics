@@ -39,6 +39,6 @@ public class Promise<T> {
     Experimental - use with defer
     */
     public func ensureResolution() {
-        assert(!self.isPending, "Guarantor was not resolved")
+        assert(!self.isPending, "Promise was not resolved")
     }
 }
