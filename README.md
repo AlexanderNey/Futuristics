@@ -5,7 +5,7 @@
 ![Platform](https://img.shields.io/cocoapods/p/Futuristics.svg)
 ![License](https://img.shields.io/cocoapods/l/Futuristics.svg)
 ![Travis](https://img.shields.io/travis/AlexanderNey/Futuristics.svg)
-[![Swift Version](https://img.shields.io/badge/Swift-2.1-F16D39.svg?style=flat)](https://developer.apple.com/swift)
+[![Swift Version](https://img.shields.io/badge/Swift-3.0-F16D39.svg?style=flat)](https://developer.apple.com/swift)
 
 This library adds the concept of [Promises / Futures](https://en.wikipedia.org/wiki/Futures_and_promises) to Swift with the goal of making asynchronous code easy to handle. Futures are simply a value type representing the notion of a value that is yet to be computed.
 
@@ -93,7 +93,7 @@ requestAndParse(request).onSuccess(onMainQueue) { name in
 ```
 
 There are a few differences to the non future example above:
-1. the `executeRequest` function now receives a `NSRULRequest` and returns a `Future<NSURLResponse>` that is a future value of NSURLResponse 
+1. the `executeRequest` function now receives a `NSRULRequest` and returns a `Future<NSURLResponse>` that is a future value of NSURLResponse
 2. `requestAndParse` is a composition of `executeRequest`, `jsonFromResponse` and `extractNameFromJSON` - the signature of this function now is `NSURLRequest -> Future<String>`
 4. `jsonFromResponse` and `extractNameFromJSON` are made explicitly asynchronous by wrapping them in the `onBackgroundQueue` function
 5. the `onSuccess` and `onFailure` closures are are executed depending on the result of the Future determined by the function `requestAndParse`
@@ -123,19 +123,19 @@ func executeRequest(request: NSURLRequest) -> Future<NSURLResponse> {
         // asynchronous code block start
             // If operation fails
             promise.reject(error)
-        
+
             // OR
-        
+
             // If operation succeeds
             promise.fulfill(response)
         // asynchronous code block end
-        
+
         return promise.future
     }
 
 ```
 
-In order to return the Future you have to create a typed Promise with the expected value type NSURLResponse. The function will immediately return the future of the created Promise and probably delay some asynchronous code to fulfil or reject the Promise. You can only either fulfil or reject the Promise once. 
+In order to return the Future you have to create a typed Promise with the expected value type NSURLResponse. The function will immediately return the future of the created Promise and probably delay some asynchronous code to fulfil or reject the Promise. You can only either fulfil or reject the Promise once.
 
 Not that you can also fulfil the Promise (synchronously) before returning its future. The scope above will immediately get a Future that is fulfilled.
 
@@ -176,9 +176,9 @@ In that example we made good use of `finally` to e.g. dismiss the loading state 
 ## Composing Asynchronous Functions
 
 For the sake of readability functions with the following signature can be chained together:
-```A -> Future<B>```  AND ```B -> Future<C>``` 
+```A -> Future<B>```  AND ```B -> Future<C>```
 The result of type B of the first function will be then used as a argument for the second function to compute a value of type C so the resulting function will have a type of:
-```A -> Future<C>``` 
+```A -> Future<C>```
 Chaining is realised with the **>>>** operator.
 
 With this you could chain multiple Future returning functions together.
@@ -189,7 +189,7 @@ With this you could chain multiple Future returning functions together.
 
 func executeRequest(request: NSURLRequest) -> Future<NSURLResponse> { ... }
 func parseResponse(response: NSURLResponse) -> Future<String> { ... }
-    
+
 
 let request = NSURLRequest( ... )
 let requestAndParse = executeRequest >>> parseResponse
@@ -218,7 +218,7 @@ You can use any of the following included Execution Contexts
 ####onMainQueue
 execute on the main queue synchronous if called from it or asynchronous if called from another queue
 
-####onBackgroundQueue 
+####onBackgroundQueue
 execute on a well known background queue - perfect if you just want to avoid blocking the main thread - equivalent to dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
 ####onQueue(queue: dispatch_queue_t)
@@ -250,9 +250,9 @@ func parseResponseSynch(response: NSURLResponse) throws -> String {
 
 let parseResponseOnBackground = onBackgroundQueue(parseResponseSynch)
 
-parseResponseOnBackground().onFailure { error in 
+parseResponseOnBackground().onFailure { error in
 	println("Will always fail with ParserError.InvalidJSON")
-	
+
 }
 ```
 
@@ -260,4 +260,3 @@ parseResponseOnBackground().onFailure { error in
 ## License
 
 MIT license. See the [LICENSE file](LICENSE.txt) for details.
-
