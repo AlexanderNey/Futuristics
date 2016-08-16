@@ -13,24 +13,24 @@ public enum AsynchError : Error {
 }
 
 
-@discardableResult public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+@discardableResult public func onMainQueue<T, U>(_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     let mainQueue = DispatchQueue.main
-    return onQueue(mainQueue)(closure: closure)
+    return onQueue(mainQueue)(closure)
 }
 
 
-@discardableResult public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+@discardableResult public func onBackgroundQueue<T, U>(_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     let aBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
-    return onQueue(aBackgroundQueue)(closure: closure)
+    return onQueue(aBackgroundQueue)(closure)
 }
 
-@discardableResult public func onQueue<T, U>(_ queue: DispatchQueue) -> (closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    return { [queue] (closure: (T) throws -> U) in
+@discardableResult public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
+    return { [queue] (closure: @escaping (T) throws -> U) in
         return onQueue(queue, closure: closure)
     }
 }
 
-@discardableResult private func onQueue<T, U>(_ queue: DispatchQueue, closure: (T) throws -> U) -> ((T) -> Future<U>) {
+@discardableResult private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     return { (parameter: T) in
         let promise = Promise<U>()
         if queue === DispatchQueue.main && Thread.isMainThread {

@@ -18,7 +18,7 @@ import Foundation
  
  - returns: a new function that with the argument signature of the left function and the result signature of the right function
  */
-public func >>> <A,B,C>(left: (A) throws -> B, right: (B) throws -> C) -> ((A) throws -> C) {
+public func >>> <A,B,C>(left: @escaping (A) throws -> B, right: @escaping (B) throws -> C) -> ((A) throws -> C) {
     return { (parameter: A) throws -> C in
         let finalResult = try right(left(parameter))
         return finalResult

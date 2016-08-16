@@ -20,15 +20,15 @@ internal enum FutureState<T> {
     }
 }
 
-public typealias ExecutionContext = (task: (Void) throws -> Void) -> ((Void) -> Future<Void>)
+public typealias ExecutionContext = (_ task: @escaping (Void) throws -> Void) -> ((Void) -> Future<Void>)
 
 
 let defaultExecutionContext: ExecutionContext = onMainQueue
 
 private enum FutureCompletionHandler<T> {
-    case success(task: (T) -> Void, context: ExecutionContext)
-    case failure(task: (Error) -> Void, context: ExecutionContext)
-    case finally(task: (Void) -> Void, context: ExecutionContext)
+    case success(task: @escaping (T) -> Void, context: ExecutionContext)
+    case failure(task: @escaping (Error) -> Void, context: ExecutionContext)
+    case finally(task: @escaping (Void) -> Void, context: ExecutionContext)
 }
 
 
@@ -96,7 +96,7 @@ public class Future<T> {
         }
     }
     
-    internal func correlate<U>(_ future: Future<U>, _ transform: (U) -> T) {
+    internal func correlate<U>(_ future: Future<U>, _ transform: @escaping (U) -> T) {
         future.onSuccess {
             self.fulfill(transform($0))
         }.onFailure {
@@ -127,7 +127,7 @@ public class Future<T> {
     
     
     @discardableResult
-    public func onSuccess(_ context: ExecutionContext = defaultExecutionContext, successHandler: (T) -> Void) -> Future<T> {
+    public func onSuccess(_ context: ExecutionContext = defaultExecutionContext, successHandler: @escaping (T) -> Void) -> Future<T> {
         self.syncQueue.async {
             let completionHandler = FutureCompletionHandler.success(task: successHandler, context: context)
             switch self.state {
@@ -143,7 +143,7 @@ public class Future<T> {
     }
     
     @discardableResult
-    public func onFailure(_ context: ExecutionContext = defaultExecutionContext, failureHandler: (Error) -> Void) -> Future<T> {
+    public func onFailure(_ context: ExecutionContext = defaultExecutionContext, failureHandler: @escaping (Error) -> Void) -> Future<T> {
         self.syncQueue.async {
             let completionHandler = FutureCompletionHandler<T>.failure(task: failureHandler, context: context)
             switch self.state {
@@ -159,7 +159,7 @@ public class Future<T> {
     }
     
     @discardableResult
-    public func finally(_ context: ExecutionContext = defaultExecutionContext, handler: (Void) -> Void) -> Future<T> {
+    public func finally(_ context: ExecutionContext = defaultExecutionContext, handler: @escaping (Void) -> Void) -> Future<T> {
         self.syncQueue.async {
             let completionHandler = FutureCompletionHandler<T>.finally(task: handler, context: context)
             switch self.state {
