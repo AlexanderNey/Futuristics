@@ -13,7 +13,7 @@ public class Promise<T> {
     public let future = Future<T>()
     
     public var isPending: Bool  {
-        if case .Pending = future.state {
+        if case .pending = future.state {
             return true
         }
         return false
@@ -21,17 +21,19 @@ public class Promise<T> {
     
     public init() { }
     
-    public func reject(error: ErrorType) -> Future<T> {
+    @discardableResult
+    public func reject(_ error: Error) -> Future<T> {
         self.future.reject(error)
         return self.future
     }
     
-    public func fulfill(value: T) -> Future<T> {
+    @discardableResult
+    public func fulfill(_ value: T) -> Future<T> {
         self.future.fulfill(value)
         return self.future
     }
     
-    public func resolveWith(f: Void throws -> T) {
+    public func resolveWith(_ f: (Void) throws -> T) {
         future.resolveWith(f)
     }
     

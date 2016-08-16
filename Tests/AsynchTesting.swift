@@ -11,39 +11,51 @@ import XCTest
 
 
 class AsynchTestExpectation {
-    private let sem: dispatch_semaphore_t
+    
+    enum TestError: Error {
+        case timedOut
+    }
+    
+    private let sem: DispatchSemaphore
     let description: String
     
     init (_ description: String) {
         self.description = description
-        self.sem = dispatch_semaphore_create(0)
+        self.sem = DispatchSemaphore(value: 0)
     }
     
     func fulfill() {
-        dispatch_semaphore_signal(self.sem)
+        self.sem.signal()
     }
 
-    func waitForExpectationsWithTimeout(timeout: NSTimeInterval = 2.0, handler: (Void -> Void)? = nil) {
+    func waitForExpectationsWithTimeout(_ timeout: TimeInterval = 2.0, handler: ((Void) -> Void)? = nil) {
         
-        let end = NSDate(timeIntervalSinceNow: timeout)
-        let interval: NSTimeInterval  = 0.01
-        var didFulfill = false
-        while (!didFulfill || end.compare(NSDate()) == .OrderedDescending) {
-            let intervalTimeout: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(interval * Double(NSEC_PER_SEC)));
-            let waitResult = dispatch_semaphore_wait(self.sem, intervalTimeout)
-            didFulfill = waitResult == 0
-            if didFulfill {
-                break
+        let endDate = Date(timeIntervalSinceNow: timeout)
+        let interval: TimeInterval  = 0.01
+        do {
+            waitLoop: while (true) {
+                guard Date() < endDate else {
+                    throw TestError.timedOut
+                }
+                
+                let intervalTimeout: DispatchTime = .now() + interval
+                let waitResult = self.sem.wait(timeout: intervalTimeout)
+                
+                switch waitResult {
+                case .success:
+                    break waitLoop
+                case .timedOut:
+                    if !RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before: Date(timeIntervalSinceNow: interval)) {
+                        Thread.sleep(forTimeInterval: interval)
+                    }
+                }
             }
-            
-            if !NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: interval)) {
-                NSThread.sleepForTimeInterval(interval)
-            }
+        } catch TestError.timedOut {
+            XCTFail("\(self.description) timed out after \(timeout) second(s)")
+        } catch {
+            XCTFail("\(self.description) failed with unhandled error \(error)")
         }
         
-        if !didFulfill {
-             XCTFail("\(self.description) timed out after \(timeout) second(s)")
-        }
     }
 
 }

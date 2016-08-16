@@ -13,46 +13,46 @@ import Futuristics
 
 class FutureCopositionTests : XCTestCase {
     
-    enum TestError: ErrorType {
-        case FailedToConvertNumberToString(Int)
-        case AnotherError
+    enum TestError: Error {
+        case failedToConvertNumberToString(Int)
+        case anotherError
     }
     
     
-    func generateTestInt(number: Int) -> Future<Int> {
+    func generateTestInt(_ number: Int) -> Future<Int> {
         let promise = Promise<Int>()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+        DispatchQueue.global(qos: .userInitiated).async {
             promise.fulfill(number)
         }
         return promise.future
     }
     
-    func numberToString(number: Int) -> Future<String> {
+    func numberToString(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+        DispatchQueue.global(qos: .userInitiated).async {
             let str = String(number)
             promise.fulfill(str)
         }
         return promise.future
     }
     
-    func stringToNumber(str: String) -> Future<Int> {
+    func stringToNumber(_ str: String) -> Future<Int> {
         let promise = Promise<Int>()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+        DispatchQueue.global(qos: .userInitiated).async {
             promise.fulfill(Int(str)!)
         }
         return promise.future
     }
     
-    func numberToStringThrows(number: Int) -> Future<String> {
+    func numberToStringThrows(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            promise.reject(TestError.FailedToConvertNumberToString(number))
+        DispatchQueue.global(qos: .userInitiated).async {
+            promise.reject(TestError.failedToConvertNumberToString(number))
         }
         return promise.future
     }
     
-    func doubleNumber(number: Int) -> Future<Int> {
+    func doubleNumber(_ number: Int) -> Future<Int> {
         let promise = Promise<Int>()
         promise.fulfill(number * 2)
         return promise.future
@@ -69,7 +69,7 @@ class FutureCopositionTests : XCTestCase {
             }
         }
         
-        succeedExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        succeedExpectation.waitForExpectationsWithTimeout(3, handler: nil)
   }
     
     func testFailurePromiseFunctionComposition() {
@@ -79,7 +79,7 @@ class FutureCopositionTests : XCTestCase {
         composition(444).onFailure { error in
             if let testError = error as? TestError {
                 switch testError {
-                case .FailedToConvertNumberToString(let number) where number == 888:
+                case .failedToConvertNumberToString(let number) where number == 888:
                     failureExpectation.fulfill()
                 default:
                     XCTFail("FailedToConvertNumberToString error expected")
@@ -87,7 +87,7 @@ class FutureCopositionTests : XCTestCase {
             }
         }
         
-        failureExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        failureExpectation.waitForExpectationsWithTimeout(3, handler: nil)
     }
     
     func testPromiseFunctionCompositionInvocation() {
@@ -98,7 +98,7 @@ class FutureCopositionTests : XCTestCase {
                 succeedExpectation.fulfill()
             }
         }
-        succeedExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        succeedExpectation.waitForExpectationsWithTimeout(3, handler: nil)
     }
     
     func testPromiseFunctionCompositionInvocationThrowing() {
@@ -108,16 +108,16 @@ class FutureCopositionTests : XCTestCase {
             failureExpectation.fulfill()
         }
         
-        failureExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        failureExpectation.waitForExpectationsWithTimeout(3, handler: nil)
     }
     
     
     func testFunctionCompositionPerformance() {
         
-        measureBlock() {
+        measure() {
             var counter = 0
             for _ in 0...1000 {
-                func doubleNumber(number: Int) -> Future<Int> {
+                func doubleNumber(_ number: Int) -> Future<Int> {
                     let promise = Promise<Int>()
                     promise.fulfill(number)
                     return promise.future

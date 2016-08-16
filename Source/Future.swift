@@ -10,42 +10,42 @@ import Foundation
 
 
 internal enum FutureState<T> {
-    case Pending, Fulfilled(T), Rejected(ErrorType)
+    case pending, fulfilled(T), rejected(Error)
     
     var isPending: Bool  {
-        if case .Pending = self {
+        if case .pending = self {
             return true
         }
         return false
     }
 }
 
-public typealias ExecutionContext = (task: Void throws -> Void) -> (Void -> Future<Void>)
+public typealias ExecutionContext = (task: (Void) throws -> Void) -> ((Void) -> Future<Void>)
 
 
 let defaultExecutionContext: ExecutionContext = onMainQueue
 
 private enum FutureCompletionHandler<T> {
-    case Success(task: T -> Void, context: ExecutionContext)
-    case Failure(task: ErrorType -> Void, context: ExecutionContext)
-    case Finally(task: Void -> Void, context: ExecutionContext)
+    case success(task: (T) -> Void, context: ExecutionContext)
+    case failure(task: (Error) -> Void, context: ExecutionContext)
+    case finally(task: (Void) -> Void, context: ExecutionContext)
 }
 
 
 // FIXME: had to move this out of the Future class as private static stored properties are not supported in generic classes yet
 private var FutureCounter = 0
 
-public enum FutureError : ErrorType {
-    case FutureStillPending
+public enum FutureError : Error {
+    case futureStillPending
 }
 
 public class Future<T> {
     
-    private let syncQueue: dispatch_queue_t!
+    private let syncQueue: DispatchQueue!
     
-    internal var state: FutureState<T> = .Pending {
+    internal var state: FutureState<T> = .pending {
         willSet {
-            guard case .Pending = self.state else {
+            guard case .pending = self.state else {
                 assertionFailure("Future state can not be changed as it is \(self.state) already")
                 return
             }
@@ -57,37 +57,38 @@ public class Future<T> {
     internal init() {
         FutureCounter = FutureCounter &+ 1
         let queueName = "com.futuristics.future-queue\(FutureCounter)"
-        self.syncQueue = dispatch_queue_create(queueName, DISPATCH_QUEUE_SERIAL)
+
+        self.syncQueue = DispatchQueue(label: queueName)
     }
     
     public func getResult() throws -> T {
         switch self.state {
-        case .Pending:
-            throw FutureError.FutureStillPending
-        case .Rejected(let error):
+        case .pending:
+            throw FutureError.futureStillPending
+        case .rejected(let error):
             throw error
-        case .Fulfilled(let result):
+        case .fulfilled(let result):
             return result
         }
     }
     
-    internal func fulfill(value: T) {
-        guard case .Pending = self.state else { return }
-        dispatch_sync(self.syncQueue) { self.state = .Fulfilled(value) }
-        dispatch_async(self.syncQueue) {
+    internal func fulfill(_ value: T) {
+        guard case .pending = self.state else { return }
+        self.syncQueue.sync { self.state = .fulfilled(value) }
+        self.syncQueue.async {
             self.executeDeferedCompletionHandlers()
         }
     }
     
-    internal func reject(error: ErrorType) {
-        guard case .Pending = self.state else { return }
-        dispatch_sync(self.syncQueue) { self.state = .Rejected(error) }
-        dispatch_async(self.syncQueue) {
+    internal func reject(_ error: Error) {
+        guard case .pending = self.state else { return }
+        self.syncQueue.sync { self.state = .rejected(error) }
+        self.syncQueue.async {
             self.executeDeferedCompletionHandlers()
         }
     }
     
-    internal func resolveWith(f: Void throws -> T) {
+    internal func resolveWith(_ f: (Void) throws -> T) {
         do {
             self.fulfill(try f())
         } catch {
@@ -95,7 +96,7 @@ public class Future<T> {
         }
     }
     
-    internal func correlate<U>(future: Future<U>, _ transform: U -> T) {
+    internal func correlate<U>(_ future: Future<U>, _ transform: (U) -> T) {
         future.onSuccess {
             self.fulfill(transform($0))
         }.onFailure {
@@ -108,30 +109,31 @@ public class Future<T> {
         self.stateHandlers = []
     }
 
-    private func executeCompletionHandler(handler: FutureCompletionHandler<T>) {
+    private func executeCompletionHandler(_ handler: FutureCompletionHandler<T>) {
         switch (handler, self.state) {
-        case (.Success(let successHandler, let context), .Fulfilled(let value)):
-            context { successHandler(value) }()
-        case (.Failure(let failureHandler, let context), .Rejected(let error)):
-            context { failureHandler(error) }()
-        case (.Finally(let finalHandler, let context), _) where !self.state.isPending:
-            context { finalHandler() }()
+        case (.success(let successHandler, let context), .fulfilled(let value)):
+            _ = context { successHandler(value) }()
+        case (.failure(let failureHandler, let context), .rejected(let error)):
+            _ = context { failureHandler(error) }()
+        case (.finally(let finalHandler, let context), _) where !self.state.isPending:
+            _ = context { finalHandler() }()
         default: break
         }
     }
     
-    private func deferCompletionHandler(handler: FutureCompletionHandler<T>) {
+    private func deferCompletionHandler(_ handler: FutureCompletionHandler<T>) {
         self.stateHandlers.append(handler)
     }
     
     
-    public func onSuccess(context: ExecutionContext = defaultExecutionContext, successHandler: T -> Void) -> Future<T> {
-        dispatch_async(self.syncQueue) {
-            let completionHandler = FutureCompletionHandler.Success(task: successHandler, context: context)
+    @discardableResult
+    public func onSuccess(_ context: ExecutionContext = defaultExecutionContext, successHandler: (T) -> Void) -> Future<T> {
+        self.syncQueue.async {
+            let completionHandler = FutureCompletionHandler.success(task: successHandler, context: context)
             switch self.state {
-            case .Pending:
+            case .pending:
                 self.deferCompletionHandler(completionHandler)
-            case .Fulfilled(_):
+            case .fulfilled(_):
                 self.executeCompletionHandler(completionHandler)
             default:
                 break
@@ -140,13 +142,14 @@ public class Future<T> {
         return self
     }
     
-    public func onFailure(context: ExecutionContext = defaultExecutionContext, failureHandler: ErrorType -> Void) -> Future<T> {
-        dispatch_async(self.syncQueue) {
-            let completionHandler = FutureCompletionHandler<T>.Failure(task: failureHandler, context: context)
+    @discardableResult
+    public func onFailure(_ context: ExecutionContext = defaultExecutionContext, failureHandler: (Error) -> Void) -> Future<T> {
+        self.syncQueue.async {
+            let completionHandler = FutureCompletionHandler<T>.failure(task: failureHandler, context: context)
             switch self.state {
-            case .Pending:
+            case .pending:
                 self.deferCompletionHandler(completionHandler)
-            case .Rejected(_):
+            case .rejected(_):
                 self.executeCompletionHandler(completionHandler)
             default:
                 break
@@ -155,11 +158,12 @@ public class Future<T> {
         return self
     }
     
-    public func finally(context: ExecutionContext = defaultExecutionContext, handler: Void -> Void) -> Future<T> {
-        dispatch_async(self.syncQueue) {
-            let completionHandler = FutureCompletionHandler<T>.Finally(task: handler, context: context)
+    @discardableResult
+    public func finally(_ context: ExecutionContext = defaultExecutionContext, handler: (Void) -> Void) -> Future<T> {
+        self.syncQueue.async {
+            let completionHandler = FutureCompletionHandler<T>.finally(task: handler, context: context)
             switch self.state {
-            case .Pending:
+            case .pending:
                 self.deferCompletionHandler(completionHandler)
             default:
                 self.executeCompletionHandler(completionHandler)
