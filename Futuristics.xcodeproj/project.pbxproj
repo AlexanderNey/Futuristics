@@ -245,9 +245,11 @@
 				TargetAttributes = {
 					AC7808BA1B6F6DD300D048C6 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0810;
 					};
 					AC7808C51B6F6DD300D048C6 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0810;
 					};
 					ACF2DD611C16F5CE0049243A = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -462,6 +464,7 @@
 				PRODUCT_NAME = Futuristics;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -483,6 +486,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
 				PRODUCT_NAME = Futuristics;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -504,6 +508,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = FuturisticsTest;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -521,6 +526,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = FuturisticsTest;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;

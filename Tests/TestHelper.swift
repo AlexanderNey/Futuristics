@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 
 
-func TAssertNoThrow(@autoclosure f: (Void throws -> Any)) {
+func TAssertNoThrow(_ f: @autoclosure ((Void) throws -> Any)) {
     do {
         try f()
     } catch {
@@ -19,7 +19,7 @@ func TAssertNoThrow(@autoclosure f: (Void throws -> Any)) {
 }
 
 
-func TAssertThrow(@autoclosure f: (Void throws -> Any)) {
+func TAssertThrow(_ f: @autoclosure ((Void) throws -> Any)) {
     do {
         try f()
         XCTFail("was expected to throw")
@@ -28,12 +28,12 @@ func TAssertThrow(@autoclosure f: (Void throws -> Any)) {
     }
 }
 
-func TAssertThrowSpecific<T: Equatable>(@autoclosure f: (Void throws -> Any), expected: T) {
+func TAssertThrowSpecific<T: Equatable>(_ f: @autoclosure ((Void) throws -> Any), expected: T) {
     do {
         try f()
         XCTFail("was expected to throw")
     } catch {
-        if let e = error as? T where e == expected {
+        if let e = error as? T, e == expected {
 
         } else {
             XCTFail("was expected to throw \(expected) but throwed \(error) instead")
@@ -41,8 +41,8 @@ func TAssertThrowSpecific<T: Equatable>(@autoclosure f: (Void throws -> Any), ex
     }
 }
 
-func TAssertErrorType<T: Equatable>(error: ErrorType, _ expected: T) {
-    if let e = error as? T where e == expected {
+func TAssertErrorType<T: Equatable>(_ error: Error, _ expected: T) {
+    if let e = error as? T, e == expected {
     } else {
         XCTFail("expected \(expected) but got \(error) instead")
     }

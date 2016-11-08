@@ -13,19 +13,19 @@ import Futuristics
 
 class FunctionCopositionTests : XCTestCase {
 
-    enum ConvertError: ErrorType {
-        case FailedToConvertStringToNumber(String)
+    enum ConvertError: Error {
+        case failedToConvertStringToNumber(String)
     }
     
-    func stringToNumber(str: String) throws -> Int {
+    func stringToNumber(_ str: String) throws -> Int {
         if let number = Int(str) {
             return number
         } else {
-            throw ConvertError.FailedToConvertStringToNumber(str)
+            throw ConvertError.failedToConvertStringToNumber(str)
         }
     }
     
-    func doubleNumber(number: Int) throws -> Int {
+    func doubleNumber(_ number: Int) throws -> Int {
         return number * 2
     }
     
@@ -50,7 +50,7 @@ class FunctionCopositionTests : XCTestCase {
         do {
             try composition("abc")
             XCTFail("function call expected to throw")
-        } catch ConvertError.FailedToConvertStringToNumber(let str) {
+        } catch ConvertError.failedToConvertStringToNumber(let str) {
             if str == "abc" {
                 throwExpectation.fulfill()
             }
@@ -76,7 +76,7 @@ class FunctionCopositionTests : XCTestCase {
         do {
             try "abc" |> stringToNumber |> doubleNumber
             XCTFail("function call expected to throw")
-        } catch ConvertError.FailedToConvertStringToNumber(let str) {
+        } catch ConvertError.failedToConvertStringToNumber(let str) {
             if str == "abc" {
                 throwExpectation.fulfill()
             }

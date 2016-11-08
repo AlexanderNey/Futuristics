@@ -8,31 +8,31 @@
 
 import Foundation
 
-public func onMainQueue<T, U>(closure: T throws -> U) -> (T -> Future<U>) {
-    let mainQueue = dispatch_get_main_queue()
-    return onQueue(mainQueue)(closure: closure)
+public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+    let mainQueue = DispatchQueue.main
+    return onQueue(mainQueue)(closure)
 }
 
 
-public func onBackgroundQueue<T, U>(closure: T throws -> U) -> (T -> Future<U>) {
-    let aBackgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
-    return onQueue(aBackgroundQueue)(closure: closure)
+public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+    let aBackgroundQueue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high)
+    return onQueue(aBackgroundQueue)(closure)
 }
 
-public func onQueue<T, U>(queue: dispatch_queue_t) -> (closure: T throws -> U) -> (T -> Future<U>) {
-    return { [queue] (closure: T throws -> U) in
+public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+    return { [queue] (closure: @escaping (T) throws -> U) in
         return onQueue(queue, closure: closure)
-    }
+    } as! ((T) throws -> U) -> ((T) -> Future<U>)
 }
 
-private func onQueue<T, U>(queue: dispatch_queue_t, closure: T throws -> U) -> (T -> Future<U>) {
+private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     return { (parameter: T) in
         let promise = Promise<U>()
-        if queue === dispatch_get_main_queue() && NSThread.isMainThread() {
+        if queue === DispatchQueue.main && Thread.isMainThread {
             defer { promise.ensureResolution() }
             promise.resolveWith { try closure(parameter) }
         } else {
-            dispatch_async(queue) {
+            queue.async {
                 defer { promise.ensureResolution() }
                 promise.resolveWith { try closure(parameter) }
             }
@@ -41,28 +41,28 @@ private func onQueue<T, U>(queue: dispatch_queue_t, closure: T throws -> U) -> (
     }
 }
 
-public func await<T>(futures: Future<T> ...) {
+public func await<T>(_ futures: Future<T> ...) {
     await(futures)
 }
 
-public func await<T>(futures: [Future<T>]) {
-    guard !NSThread.isMainThread() else {
+public func await<T>(_ futures: [Future<T>]) {
+    guard !Thread.isMainThread else {
         fatalError("await will block main thread")
     }
-    let semaphore = dispatch_semaphore_create(0)
+    let semaphore = DispatchSemaphore(value: 0)
     
     futures.forEach { future in
         future.finally {
-            dispatch_semaphore_signal(semaphore)
+            semaphore.signal()
         }
     }
     
     futures.forEach { _ in
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        semaphore.wait(timeout: DispatchTime.distantFuture)
     }
 }
 
-public func awaitResult<T>(future: Future<T>) throws -> T {
+public func awaitResult<T>(_ future: Future<T>) throws -> T {
     await(future)
     return try future.getResult()
 }

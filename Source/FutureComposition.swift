@@ -9,7 +9,7 @@
 import Foundation
 
 
-internal func bind<A, B>(closure: A -> Future<B>) -> (Future<A> -> Future<B>) {
+internal func bind<A, B>(_ closure: @escaping (A) -> Future<B>) -> ((Future<A>) -> Future<B>) {
     return { promiseA in
         let future = Future<B>()
         promiseA.onSuccess { a in
@@ -21,17 +21,17 @@ internal func bind<A, B>(closure: A -> Future<B>) -> (Future<A> -> Future<B>) {
     }
 }
 
-public func >>> <A,B,C>(left: A -> Future<B>, right: B -> Future<C>) -> (A -> Future<C>) {
+public func >>> <A,B,C>(left: @escaping (A) -> Future<B>, right: @escaping (B) -> Future<C>) -> ((A) -> Future<C>) {
     return { a in
         let rightBound = bind(right)
         return rightBound(left(a))
     }
 }
 
-public func |> <A,B>(left: A, right: A -> Future<B>) -> Future<B> {
+public func |> <A,B>(left: A, right: (A) -> Future<B>) -> Future<B> {
     return right(left)
 }
 
-public func |> <A,B>(left: Future<A>, right: A -> Future<B>) -> Future<B> {
+public func |> <A,B>(left: Future<A>, right: @escaping (A) -> Future<B>) -> Future<B> {
     return bind(right)(left)
 }
