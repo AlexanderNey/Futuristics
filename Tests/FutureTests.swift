@@ -219,13 +219,13 @@ class FutureTests: XCTestCase {
             if Thread.isMainThread {
                 preFulfillExpectation.fulfill()
             } else {
-                let queueLabel = String(validatingUTF8: DISPATCH_CURRENT_QUEUE_LABEL.label)
+                let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
                 XCTFail("wrong queue \(queueLabel)")
             }
         }
         
         let dispatchTime = DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).asyncAfter(deadline: dispatchTime) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: dispatchTime) {
             future.fulfill()
         }
         
@@ -237,7 +237,7 @@ class FutureTests: XCTestCase {
             if Thread.isMainThread {
                 postFulfillExpectation.fulfill()
             } else {
-                let queueLabel = String(validatingUTF8: DISPATCH_CURRENT_QUEUE_LABEL.label)
+                let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
                 XCTFail("wrong queue \(queueLabel)")
             }
         }
@@ -258,7 +258,7 @@ class FutureTests: XCTestCase {
         }
         
         let dispatchTime = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).asyncAfter(deadline: dispatchTime) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: dispatchTime) {
             future.fulfill()
         }
         
@@ -364,7 +364,7 @@ class FutureTests: XCTestCase {
                         }
                     }
                 }
-                dispatchQueue.sync {
+                _ = dispatchQueue.sync {
                     future.finally {
                         finallyExecuted += 1
                         if successExecuted == 50 && finallyExecuted == 50 {

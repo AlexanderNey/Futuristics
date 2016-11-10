@@ -23,16 +23,17 @@ class AsynchTestExpectation {
         self.sem.signal()
     }
 
-    func waitForExpectationsWithTimeout(_ timeout: TimeInterval = 2.0, handler: ((Void) -> Void)? = nil) {
+    func waitForExpectationsWithTimeout(_ timeout: TimeInterval = 2.0,
+                                        handler: ((Void) -> Void)? = nil) {
         
         let end = Date(timeIntervalSinceNow: timeout)
         let interval: TimeInterval  = 0.01
         var didFulfill = false
-        while (!didFulfill || end.compare(Date()) == .orderedDescending) {
+        while (end.compare(Date()) == .orderedDescending) {
             let intervalTimeout: DispatchTime = DispatchTime.now() + Double(Int64(interval * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC);
             let waitResult = self.sem.wait(timeout: intervalTimeout)
-            didFulfill = waitResult == 0
-            if didFulfill {
+            if case .success = waitResult {
+                didFulfill = true
                 break
             }
             

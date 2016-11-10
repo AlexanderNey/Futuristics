@@ -21,7 +21,7 @@ class FutureCopositionTests : XCTestCase {
     
     func generateTestInt(_ number: Int) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .background).async {
             promise.fulfill(number)
         }
         return promise.future
@@ -29,7 +29,7 @@ class FutureCopositionTests : XCTestCase {
     
     func numberToString(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .background).async {
             let str = String(number)
             promise.fulfill(str)
         }
@@ -38,7 +38,7 @@ class FutureCopositionTests : XCTestCase {
     
     func stringToNumber(_ str: String) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .background).async {
             promise.fulfill(Int(str)!)
         }
         return promise.future
@@ -46,7 +46,7 @@ class FutureCopositionTests : XCTestCase {
     
     func numberToStringThrows(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .background).async {
             promise.reject(TestError.failedToConvertNumberToString(number))
         }
         return promise.future
@@ -82,14 +82,15 @@ class FutureCopositionTests : XCTestCase {
                 case .failedToConvertNumberToString(let number) where number == 888:
                     failureExpectation.fulfill()
                 default:
-                    XCTFail("FailedToConvertNumberToString error expected")
+                    XCTFail("failedToConvertNumberToString(888) error expected but got \(error)")
                 }
             }
         }
         
         failureExpectation.waitForExpectationsWithTimeout(1, handler: nil)
     }
-    
+
+
     func testPromiseFunctionCompositionInvocation() {
         let succeedExpectation = AsynchTestExpectation("should succeed")
         let result = 100 |> doubleNumber |> numberToString |> stringToNumber |> doubleNumber

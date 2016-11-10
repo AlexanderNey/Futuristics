@@ -48,7 +48,7 @@ class FunctionCopositionTests : XCTestCase {
         let throwExpectation = AsynchTestExpectation("throw expectation")
         
         do {
-            try composition("abc")
+            _ = try composition("abc")
             XCTFail("function call expected to throw")
         } catch ConvertError.failedToConvertStringToNumber(let str) {
             if str == "abc" {

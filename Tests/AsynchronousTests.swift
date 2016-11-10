@@ -32,9 +32,9 @@ class AsynchronousTests : XCTestCase {
                 expectExecutionOnMainThread.fulfill()
             }
         }
-        
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
-            somefunction()
+
+        DispatchQueue.global(qos: .background).async {
+            _ = somefunction()
         }
         
         expectExecutionOnMainThread.waitForExpectationsWithTimeout()
@@ -51,7 +51,7 @@ class AsynchronousTests : XCTestCase {
             }
         }
         
-        somefunction()
+        _ = somefunction()
         XCTAssertTrue(imediateExecution)
         expectExecutionOnMainThread.waitForExpectationsWithTimeout()
     }
@@ -67,7 +67,7 @@ class AsynchronousTests : XCTestCase {
         }
         
         DispatchQueue.main.async {
-            somefunction()
+            _ = somefunction()
         }
         
         expectExecutionOnBackgroundQueue.waitForExpectationsWithTimeout()
@@ -80,13 +80,13 @@ class AsynchronousTests : XCTestCase {
         let expectExecutionOnCustomQueue = AsynchTestExpectation("runs on background queue")
         
         let somefunction = onQueue(queue)() { () -> Void in
-            let queueLabel = String(validatingUTF8: DISPATCH_CURRENT_QUEUE_LABEL.label)
+            let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
             if queueLabel == "testQueue"  {
                 expectExecutionOnCustomQueue.fulfill()
             }
         }
         
-        somefunction()
+        _ = somefunction()
         
         expectExecutionOnCustomQueue.waitForExpectationsWithTimeout()
     }

@@ -10,27 +10,27 @@ import Foundation
 import XCTest
 
 
-func TAssertNoThrow(_ f: @autoclosure ((Void) throws -> Any)) {
+func TAssertNoThrow(_ f: (Void) throws -> Any) {
     do {
-        try f()
+        _ = try f()
     } catch {
         XCTFail("was not expected to throw \(error)")
     }
 }
 
 
-func TAssertThrow(_ f: @autoclosure ((Void) throws -> Any)) {
+func TAssertThrow(_ f: (Void) throws -> Any) {
     do {
-        try f()
+        _ = try f()
         XCTFail("was expected to throw")
     } catch {
         
     }
 }
 
-func TAssertThrowSpecific<T: Equatable>(_ f: @autoclosure ((Void) throws -> Any), expected: T) {
+func TAssertThrowSpecific<T: Equatable>(_ f: (Void) throws -> Any, expected: T) {
     do {
-        try f()
+        _ = try f()
         XCTFail("was expected to throw")
     } catch {
         if let e = error as? T, e == expected {
