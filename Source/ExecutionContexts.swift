@@ -8,23 +8,27 @@
 
 import Foundation
 
+@discardableResult
 public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
     let mainQueue = DispatchQueue.main
     return onQueue(mainQueue)(closure)
 }
 
 
+@discardableResult
 public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    let aBackgroundQueue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high)
+    let aBackgroundQueue = DispatchQueue.global(qos: .background)
     return onQueue(aBackgroundQueue)(closure)
 }
 
+@discardableResult
 public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
     return { [queue] (closure: @escaping (T) throws -> U) in
         return onQueue(queue, closure: closure)
     } as! ((T) throws -> U) -> ((T) -> Future<U>)
 }
 
+@discardableResult
 private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     return { (parameter: T) in
         let promise = Promise<U>()
@@ -58,7 +62,7 @@ public func await<T>(_ futures: [Future<T>]) {
     }
     
     futures.forEach { _ in
-        semaphore.wait(timeout: DispatchTime.distantFuture)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
 }
 

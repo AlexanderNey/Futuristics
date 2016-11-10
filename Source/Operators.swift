@@ -8,14 +8,17 @@
 
 import Foundation
 
+precedencegroup FunctionCompositionPrecedence {
+    associativity: left
+}
 
 /**
 *  Function composition operator for functions
 *  used >>> instead of >> to avoid ambiguity
 */
-infix operator >>> { precedence 50 associativity left }
+infix operator >>> : FunctionCompositionPrecedence
 
 /**
 *  Pipe forward operator to compose & execute functions
 */
-infix operator |> { precedence 50 associativity left }
+infix operator |> : FunctionCompositionPrecedence

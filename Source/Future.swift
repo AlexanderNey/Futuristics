@@ -111,11 +111,11 @@ open class Future<T> {
     fileprivate func executeCompletionHandler(_ handler: FutureCompletionHandler<T>) {
         switch (handler, self.state) {
         case (.success(let successHandler, let context), .fulfilled(let value)):
-            context { successHandler(value) }()
+            _ = context { successHandler(value) }()
         case (.failure(let failureHandler, let context), .rejected(let error)):
-            context { failureHandler(error) }()
+            _ = context { failureHandler(error) }()
         case (.finally(let finalHandler, let context), _) where !self.state.isPending:
-            context { finalHandler() }()
+            _ = context { finalHandler() }()
         default: break
         }
     }
@@ -124,7 +124,7 @@ open class Future<T> {
         self.stateHandlers.append(handler)
     }
     
-    
+    @discardableResult
     open func onSuccess(_ context: @escaping ExecutionContext = defaultExecutionContext, successHandler: @escaping (T) -> Void) -> Future<T> {
         self.syncQueue.async {
             let completionHandler = FutureCompletionHandler.success(task: successHandler, context: context)
@@ -139,7 +139,8 @@ open class Future<T> {
         }
         return self
     }
-    
+
+    @discardableResult
     open func onFailure(_ context: @escaping ExecutionContext = defaultExecutionContext, failureHandler: @escaping (Error) -> Void) -> Future<T> {
         self.syncQueue.async {
             let completionHandler = FutureCompletionHandler<T>.failure(task: failureHandler, context: context)
@@ -154,7 +155,8 @@ open class Future<T> {
         }
         return self
     }
-    
+
+    @discardableResult
     open func finally(_ context: @escaping ExecutionContext = defaultExecutionContext, handler: @escaping (Void) -> Void) -> Future<T> {
         self.syncQueue.async {
             let completionHandler = FutureCompletionHandler<T>.finally(task: handler, context: context)

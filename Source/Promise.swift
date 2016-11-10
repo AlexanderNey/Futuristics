@@ -20,17 +20,19 @@ open class Promise<T> {
     }
     
     public init() { }
-    
+
+    @discardableResult
     open func reject(_ error: Error) -> Future<T> {
         self.future.reject(error)
         return self.future
     }
-    
+
+    @discardableResult
     open func fulfill(_ value: T) -> Future<T> {
         self.future.fulfill(value)
         return self.future
     }
-    
+
     open func resolveWith(_ f: (Void) throws -> T) {
         future.resolveWith(f)
     }
