@@ -17,7 +17,7 @@ public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) 
 
 @discardableResult
 public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    let aBackgroundQueue = DispatchQueue.global(qos: .background)
+    let aBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
     return onQueue(aBackgroundQueue)(closure)
 }
 
@@ -33,7 +33,6 @@ private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws
     return { (parameter: T) in
         let promise = Promise<U>()
         if queue === DispatchQueue.main && Thread.isMainThread {
-            defer { promise.ensureResolution() }
             promise.resolveWith { try closure(parameter) }
         } else {
             queue.async {
@@ -46,13 +45,11 @@ private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws
 }
 
 public func await<T>(_ futures: Future<T> ...) {
-    await(futures)
-}
-
-public func await<T>(_ futures: [Future<T>]) {
-    guard !Thread.isMainThread else {
-        fatalError("await will block main thread")
+    assert(!Thread.isMainThread, "await will block main thread")
+    if #available(iOS 10.0, *) {
+        dispatchPrecondition(condition: .notOnQueue(DispatchQueue.main))
     }
+
     let semaphore = DispatchSemaphore(value: 0)
     
     futures.forEach { future in
@@ -70,3 +67,5 @@ public func awaitResult<T>(_ future: Future<T>) throws -> T {
     await(future)
     return try future.getResult()
 }
+
+
