@@ -20,33 +20,26 @@ internal enum FutureState<T> {
     }
 }
 
-public typealias ExecutionContext = (_ task: (Void) throws -> Void) -> ((Void) -> Future<Void>)
-
-
-let defaultExecutionContext: ExecutionContext = onMainQueue
-
-private enum FutureCompletionHandler<T> {
-    case success(task: (T) -> Void, context: ExecutionContext)
-    case failure(task: (Error) -> Void, context: ExecutionContext)
-    case finally(task: (Void) -> Void, context: ExecutionContext)
+fileprivate enum FutureCompletionHandler<T> {
+    case success(task: (T) -> Void, queue: DispatchQueue)
+    case failure(task: (Error) -> Void, queue: DispatchQueue)
+    case finally(task: (Void) -> Void, queue: DispatchQueue)
 }
-
-
-// FIXME: had to move this out of the Future class as private static stored properties are not supported in generic classes yet
-private var FutureCounter = 0
 
 public enum FutureError : Error {
     case futureStillPending
 }
 
-open class Future<T> {
-    
+public class Future<T> {
+
+    private let futureIdentifierKey = DispatchSpecificKey<String>()
+
     fileprivate let syncQueue: DispatchQueue!
     
     internal var state: FutureState<T> = .pending {
         willSet {
-            guard case .pending = self.state else {
-                assertionFailure("Future state can not be changed as it is \(self.state) already")
+            guard case .pending = state else {
+                assertionFailure("Future state can not be changed as it is \(state) already")
                 return
             }
         }
@@ -55,13 +48,13 @@ open class Future<T> {
     fileprivate var stateHandlers: [FutureCompletionHandler<T>] = []
     
     internal init() {
-        FutureCounter = FutureCounter &+ 1
-        let queueName = "com.futuristics.future-queue\(FutureCounter)"
-        self.syncQueue = DispatchQueue(label: queueName, attributes: [])
+        self.syncQueue = DispatchQueue(label: "com.futuristics.future-queue")
+        let address = String(format: "Future<%p>", unsafeBitCast(self, to: Int.self))
+        self.syncQueue.setSpecific(key: futureIdentifierKey, value: address)
     }
     
     open func getResult() throws -> T {
-        switch self.state {
+        switch state {
         case .pending:
             throw FutureError.futureStillPending
         case .rejected(let error):
@@ -72,16 +65,16 @@ open class Future<T> {
     }
     
     internal func fulfill(_ value: T) {
-        guard case .pending = self.state else { return }
-        self.syncQueue.sync { self.state = .fulfilled(value) }
+        guard case .pending = state else { return }
+        self.syncQueue.sync { state = .fulfilled(value) }
         self.syncQueue.async {
             self.executeDeferedCompletionHandlers()
         }
     }
     
     internal func reject(_ error: Error) {
-        guard case .pending = self.state else { return }
-        self.syncQueue.sync { self.state = .rejected(error) }
+        guard case .pending = state else { return }
+        self.syncQueue.sync { state = .rejected(error) }
         self.syncQueue.async {
             self.executeDeferedCompletionHandlers()
         }
@@ -104,30 +97,32 @@ open class Future<T> {
     }
     
     fileprivate func executeDeferedCompletionHandlers() {
-        self.stateHandlers.forEach { self.executeCompletionHandler($0) }
+        self.stateHandlers.forEach(executeCompletionHandler)
         self.stateHandlers = []
     }
 
     fileprivate func executeCompletionHandler(_ handler: FutureCompletionHandler<T>) {
-        switch (handler, self.state) {
-        case (.success(let successHandler, let context), .fulfilled(let value)):
-            _ = context { successHandler(value) }()
-        case (.failure(let failureHandler, let context), .rejected(let error)):
-            _ = context { failureHandler(error) }()
-        case (.finally(let finalHandler, let context), _) where !self.state.isPending:
-            _ = context { finalHandler() }()
+        switch (handler, state) {
+        case (.success(let successHandler, let queue), .fulfilled(let value)):
+            queue.async { successHandler(value) }
+        case (.failure(let failureHandler, let queue), .rejected(let error)):
+            queue.async { failureHandler(error) }
+        case (.finally(let finalHandler, let queue), _) where !self.state.isPending:
+            queue.async { finalHandler() }
         default: break
         }
     }
     
     fileprivate func deferCompletionHandler(_ handler: FutureCompletionHandler<T>) {
-        self.stateHandlers.append(handler)
+        stateHandlers.append(handler)
     }
     
     @discardableResult
-    open func onSuccess(_ context: @escaping ExecutionContext = defaultExecutionContext, successHandler: @escaping (T) -> Void) -> Future<T> {
-        self.syncQueue.async {
-            let completionHandler = FutureCompletionHandler.success(task: successHandler, context: context)
+    public func onSuccess(on queue: DispatchQueue = DispatchQueue.main,
+                          successHandler: @escaping (T) -> Void) -> Future<T> {
+
+        syncQueue.async {
+            let completionHandler = FutureCompletionHandler.success(task: successHandler, queue: queue)
             switch self.state {
             case .pending:
                 self.deferCompletionHandler(completionHandler)
@@ -141,9 +136,11 @@ open class Future<T> {
     }
 
     @discardableResult
-    open func onFailure(_ context: @escaping ExecutionContext = defaultExecutionContext, failureHandler: @escaping (Error) -> Void) -> Future<T> {
+    public func onFailure(on queue: DispatchQueue = DispatchQueue.main,
+                          failureHandler: @escaping (Error) -> Void) -> Future<T> {
+
         self.syncQueue.async {
-            let completionHandler = FutureCompletionHandler<T>.failure(task: failureHandler, context: context)
+            let completionHandler = FutureCompletionHandler<T>.failure(task: failureHandler, queue: queue)
             switch self.state {
             case .pending:
                 self.deferCompletionHandler(completionHandler)
@@ -157,9 +154,10 @@ open class Future<T> {
     }
 
     @discardableResult
-    open func finally(_ context: @escaping ExecutionContext = defaultExecutionContext, handler: @escaping (Void) -> Void) -> Future<T> {
-        self.syncQueue.async {
-            let completionHandler = FutureCompletionHandler<T>.finally(task: handler, context: context)
+    public func finally(on queue: DispatchQueue = DispatchQueue.main,
+                        handler: @escaping (Void) -> Void) -> Future<T> {
+        syncQueue.async {
+            let completionHandler = FutureCompletionHandler<T>.finally(task: handler, queue: queue)
             switch self.state {
             case .pending:
                 self.deferCompletionHandler(completionHandler)
