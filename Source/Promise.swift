@@ -9,10 +9,11 @@
 import Foundation
 
 
-open class Promise<T> {
-    open let future = Future<T>()
+public class Promise<T> {
+
+    public let future = Future<T>()
     
-    open var isPending: Bool  {
+    public var isPending: Bool  {
         if case .pending = future.state {
             return true
         }
@@ -22,25 +23,25 @@ open class Promise<T> {
     public init() { }
 
     @discardableResult
-    open func reject(_ error: Error) -> Future<T> {
+    public func reject(_ error: Error) -> Future<T> {
         self.future.reject(error)
         return self.future
     }
 
     @discardableResult
-    open func fulfill(_ value: T) -> Future<T> {
+    public func fulfill(_ value: T) -> Future<T> {
         self.future.fulfill(value)
         return self.future
     }
 
-    open func resolveWith(_ f: (Void) throws -> T) {
+    public func resolveWith(_ f: (Void) throws -> T) {
         future.resolveWith(f)
     }
     
     /**
     Experimental - use with defer
     */
-    open func ensureResolution() {
+    public func ensureResolution() {
         assert(!self.isPending, "Promise was not resolved")
     }
 }
