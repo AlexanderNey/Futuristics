@@ -21,7 +21,7 @@ class FutureCopositionTests : XCTestCase {
     
     func generateTestInt(_ number: Int) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             promise.fulfill(number)
         }
         return promise.future
@@ -29,7 +29,7 @@ class FutureCopositionTests : XCTestCase {
     
     func numberToString(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             let str = String(number)
             promise.fulfill(str)
         }
@@ -38,7 +38,7 @@ class FutureCopositionTests : XCTestCase {
     
     func stringToNumber(_ str: String) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             promise.fulfill(Int(str)!)
         }
         return promise.future
@@ -46,7 +46,7 @@ class FutureCopositionTests : XCTestCase {
     
     func numberToStringThrows(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             promise.reject(TestError.failedToConvertNumberToString(number))
         }
         return promise.future
@@ -69,7 +69,7 @@ class FutureCopositionTests : XCTestCase {
             }
         }
         
-        succeedExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        succeedExpectation.waitForExpectationsWithTimeout(2, handler: nil)
   }
     
     func testFailurePromiseFunctionComposition() {
@@ -87,7 +87,7 @@ class FutureCopositionTests : XCTestCase {
             }
         }
         
-        failureExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        failureExpectation.waitForExpectationsWithTimeout(2, handler: nil)
     }
 
 
@@ -99,7 +99,7 @@ class FutureCopositionTests : XCTestCase {
                 succeedExpectation.fulfill()
             }
         }
-        succeedExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        succeedExpectation.waitForExpectationsWithTimeout(2, handler: nil)
     }
     
     func testPromiseFunctionCompositionInvocationThrowing() {
@@ -109,7 +109,7 @@ class FutureCopositionTests : XCTestCase {
             failureExpectation.fulfill()
         }
         
-        failureExpectation.waitForExpectationsWithTimeout(1, handler: nil)
+        failureExpectation.waitForExpectationsWithTimeout(2, handler: nil)
     }
     
     
