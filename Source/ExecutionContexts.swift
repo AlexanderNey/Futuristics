@@ -17,7 +17,7 @@ public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) 
 
 @discardableResult
 public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    let aBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
+    let aBackgroundQueue = DispatchQueue.global(qos: .default)
     return onQueue(aBackgroundQueue)(closure)
 }
 
@@ -67,5 +67,4 @@ public func awaitResult<T>(_ future: Future<T>) throws -> T {
     await(future)
     return try future.getResult()
 }
-
 
