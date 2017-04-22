@@ -33,7 +33,7 @@ class AsynchronousTests : XCTestCase {
             }
         }
 
-        DispatchQueue.global(qos: .default).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             _ = somefunction()
         }
         

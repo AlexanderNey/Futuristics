@@ -225,7 +225,7 @@ class FutureTests: XCTestCase {
         }
         
         let dispatchTime = DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: dispatchTime) {
+        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: dispatchTime) {
             future.fulfill()
         }
         
@@ -258,7 +258,7 @@ class FutureTests: XCTestCase {
         }
         
         let dispatchTime = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: dispatchTime) {
+        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: dispatchTime) {
             future.fulfill()
         }
         
@@ -266,7 +266,7 @@ class FutureTests: XCTestCase {
         
         let postFulfillExpectation = AsynchTestExpectation("Post fulfill success should execute on background thread")
         
-        future.onSuccess(on: DispatchQueue.global()) {
+        future.onSuccess(on: DispatchQueue.global(qos: .userInteractive)) {
             if !Thread.isMainThread {
                 postFulfillExpectation.fulfill()
             }

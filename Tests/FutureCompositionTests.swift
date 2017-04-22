@@ -1,5 +1,5 @@
 //
-//  FutureCopositionTests.swift
+//  FutureCompositionTests.swift
 //  Futuristics
 //
 //  Created by Alexander Ney on 05/08/2015.
@@ -11,7 +11,7 @@ import XCTest
 import Futuristics
 
 
-class FutureCopositionTests : XCTestCase {
+class FutureCompositionTests : XCTestCase {
     
     enum TestError: Error {
         case failedToConvertNumberToString(Int)
@@ -21,7 +21,7 @@ class FutureCopositionTests : XCTestCase {
     
     func generateTestInt(_ number: Int) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             promise.fulfill(number)
         }
         return promise.future
@@ -29,7 +29,7 @@ class FutureCopositionTests : XCTestCase {
     
     func numberToString(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             let str = String(number)
             promise.fulfill(str)
         }
@@ -38,7 +38,7 @@ class FutureCopositionTests : XCTestCase {
     
     func stringToNumber(_ str: String) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             promise.fulfill(Int(str)!)
         }
         return promise.future
