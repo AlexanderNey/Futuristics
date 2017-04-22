@@ -27,7 +27,7 @@ fileprivate enum FutureCompletionHandler<T> {
 }
 
 public enum FutureError : Error {
-    case futureStillPending
+    case stillPending
 }
 
 public class Future<T> {
@@ -53,10 +53,10 @@ public class Future<T> {
         self.syncQueue.setSpecific(key: futureIdentifierKey, value: address)
     }
     
-    open func getResult() throws -> T {
+    open func result() throws -> T {
         switch state {
         case .pending:
-            throw FutureError.futureStillPending
+            throw FutureError.stillPending
         case .rejected(let error):
             throw error
         case .fulfilled(let result):

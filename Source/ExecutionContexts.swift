@@ -65,6 +65,6 @@ public func await<T>(_ futures: Future<T> ...) {
 
 public func awaitResult<T>(_ future: Future<T>) throws -> T {
     await(future)
-    return try future.getResult()
+    return try future.result()
 }
 
