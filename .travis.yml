@@ -1,5 +1,5 @@
-osx_image: xcode7
+osx_image: xcode8.1
 language: objective-c
 xcode_project: Futuristics.xcodeproj
 xcode_scheme: Futuristics
-xcode_sdk: iphonesimulator9.0
+xcode_sdk: iphonesimulator10.1
