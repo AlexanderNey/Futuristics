@@ -74,7 +74,7 @@ class FunctionCopositionTests : XCTestCase {
         let throwExpectation = expectation(description: "throw expectation")
         
         do {
-            try "abc" |> stringToNumber |> doubleNumber
+            _ = try ( "abc" |> stringToNumber |> doubleNumber )
             XCTFail("function call expected to throw")
         } catch ConvertError.failedToConvertStringToNumber(let str) {
             if str == "abc" {
