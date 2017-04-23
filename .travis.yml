@@ -1,5 +1,4 @@
-osx_image: xcode8.1
+osx_image: xcode8.2
 language: objective-c
-xcode_project: Futuristics.xcodeproj
-xcode_scheme: Futuristics
-xcode_sdk: iphonesimulator10.1
+script: — xcodebuild clean build -project Futuristics.xcodeproj -scheme Futuristics -destination “platform=iOS Simulator,name=iPhone 6S, OS=10.0”
+after_success: - bash <(curl -s https://codecov.io/bash) -t 5a482304-d924-4a83-9e07-bc8db90df465
