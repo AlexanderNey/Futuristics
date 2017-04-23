@@ -70,7 +70,7 @@ class FutureCompositionTests : XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
   }
     
     func testFailurePromiseFunctionComposition() {
@@ -88,7 +88,7 @@ class FutureCompositionTests : XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
 
 
@@ -100,7 +100,7 @@ class FutureCompositionTests : XCTestCase {
                 succeedExpectation.fulfill()
             }
         }
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testPromiseFunctionCompositionInvocationThrowing() {
@@ -110,7 +110,7 @@ class FutureCompositionTests : XCTestCase {
             failureExpectation.fulfill()
         }
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     

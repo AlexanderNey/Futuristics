@@ -37,7 +37,7 @@ class AsynchronousTests : XCTestCase {
             _ = somefunction()
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testMainQueueSynch() {
@@ -53,7 +53,7 @@ class AsynchronousTests : XCTestCase {
         
         _ = somefunction()
         XCTAssertTrue(imediateExecution)
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testBackgroundQueueAsynch() {
@@ -70,7 +70,7 @@ class AsynchronousTests : XCTestCase {
             _ = somefunction()
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testAsynchOnCustomQueue() {
@@ -88,7 +88,7 @@ class AsynchronousTests : XCTestCase {
         
         _ = somefunction()
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testAwaitSinglePromiseImediateResult() {
@@ -106,7 +106,7 @@ class AsynchronousTests : XCTestCase {
             awaitExpectation.fulfill()
         }()
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
 
         
         if case .fulfilled(let value) = future.state {
@@ -134,7 +134,7 @@ class AsynchronousTests : XCTestCase {
             awaitExpectation.fulfill()
         }()
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
         
         switch (promiseA.state, promiseB.state) {
         case (.fulfilled(let valueA), .fulfilled(let valueB)):

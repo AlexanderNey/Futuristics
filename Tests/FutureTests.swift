@@ -82,7 +82,7 @@ class FutureTests: XCTestCase {
         
         future.fulfill("test")
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testFulfillMultipleHandler() {
@@ -121,7 +121,7 @@ class FutureTests: XCTestCase {
             XCTFail()
         }
     
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testRejectMultipleHandler() {
@@ -156,7 +156,7 @@ class FutureTests: XCTestCase {
                 afterFulfillFailureExpectation.fulfill()
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testResolveRejectionWithThrowable() {
@@ -223,7 +223,7 @@ class FutureTests: XCTestCase {
         }
         
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
 
         let postFulfillExpectation = expectation(description: "Post fulfill success should execute on main thread")
         
@@ -236,7 +236,7 @@ class FutureTests: XCTestCase {
             }
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
 
     func testSuccessCustomContext() {
@@ -256,7 +256,7 @@ class FutureTests: XCTestCase {
             future.fulfill()
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
         
         let postFulfillExpectation = expectation(description: "Post fulfill success should execute on background thread")
         
@@ -266,7 +266,7 @@ class FutureTests: XCTestCase {
             }
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
 
     
@@ -300,7 +300,7 @@ class FutureTests: XCTestCase {
                 }
             }
            
-            waitForExpectations(timeout: 2, handler: nil)
+            waitForExpectationsWithDefaultTimeout()
         }
     }
     
@@ -332,7 +332,7 @@ class FutureTests: XCTestCase {
                 }
             }
             
-            waitForExpectations(timeout: 2, handler: nil)
+            waitForExpectationsWithDefaultTimeout()
         }
     }
     
@@ -368,7 +368,7 @@ class FutureTests: XCTestCase {
                 }
             }
             
-            waitForExpectations(timeout: 2, handler: nil)
+            waitForExpectationsWithDefaultTimeout()
         }
     }
 

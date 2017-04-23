@@ -58,7 +58,7 @@ class FunctionCopositionTests : XCTestCase {
             XCTFail("generic error not expected")
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testBasicFunctionCompositionInvocation() {
@@ -84,6 +84,6 @@ class FunctionCopositionTests : XCTestCase {
             XCTFail("generic error not expected")
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectationsWithDefaultTimeout()
     }
 }
