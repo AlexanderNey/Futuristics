@@ -63,20 +63,20 @@ class FutureCompositionTests : XCTestCase {
     func testSuccessfulPromiseFunctionComposition() {
         let composition = generateTestInt >>> doubleNumber >>> numberToString >>> stringToNumber >>> doubleNumber >>> numberToString
         
-        let succeedExpectation = AsynchTestExpectation("should succeed")
+        let succeedExpectation = expectation(description: "should succeed")
         composition(444).onSuccess { str in
             if str == "1776" {
                 succeedExpectation.fulfill()
             }
         }
-        
-        succeedExpectation.waitForExpectationsWithTimeout(2, handler: nil)
+
+        waitForExpectations(timeout: 2, handler: nil)
   }
     
     func testFailurePromiseFunctionComposition() {
         let composition = generateTestInt >>> doubleNumber >>> numberToStringThrows >>> stringToNumber
         
-        let failureExpectation = AsynchTestExpectation("should fail")
+        let failureExpectation = expectation(description: "should fail")
         composition(444).onFailure { error in
             if let testError = error as? TestError {
                 switch testError {
@@ -87,30 +87,30 @@ class FutureCompositionTests : XCTestCase {
                 }
             }
         }
-        
-        failureExpectation.waitForExpectationsWithTimeout(2, handler: nil)
+
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
 
     func testPromiseFunctionCompositionInvocation() {
-        let succeedExpectation = AsynchTestExpectation("should succeed")
+        let succeedExpectation = expectation(description: "should succeed")
         let result = 100 |> doubleNumber |> numberToString |> stringToNumber |> doubleNumber
         result.onSuccess { number in
             if number == 400 {
                 succeedExpectation.fulfill()
             }
         }
-        succeedExpectation.waitForExpectationsWithTimeout(2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testPromiseFunctionCompositionInvocationThrowing() {
-        let failureExpectation = AsynchTestExpectation("should fail")
+        let failureExpectation = expectation(description: "should fail")
         let result = 100 |> doubleNumber |> numberToStringThrows |> stringToNumber
         result.onFailure { error in
             failureExpectation.fulfill()
         }
         
-        failureExpectation.waitForExpectationsWithTimeout(2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     

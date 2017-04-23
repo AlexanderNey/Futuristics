@@ -25,7 +25,7 @@ class AsynchronousTests : XCTestCase {
     
     func testMainQueueAsynch() {
         
-        let expectExecutionOnMainThread = AsynchTestExpectation("runs on main thread")
+        let expectExecutionOnMainThread = expectation(description: "runs on main thread")
         
         let somefunction = onMainQueue {
             if Thread.isMainThread {
@@ -37,12 +37,12 @@ class AsynchronousTests : XCTestCase {
             _ = somefunction()
         }
         
-        expectExecutionOnMainThread.waitForExpectationsWithTimeout()
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testMainQueueSynch() {
         
-        let expectExecutionOnMainThread = AsynchTestExpectation("runs on main thread")
+        let expectExecutionOnMainThread = expectation(description: "runs on main thread")
         var imediateExecution = false
         let somefunction = onMainQueue { 
             imediateExecution = true
@@ -53,12 +53,12 @@ class AsynchronousTests : XCTestCase {
         
         _ = somefunction()
         XCTAssertTrue(imediateExecution)
-        expectExecutionOnMainThread.waitForExpectationsWithTimeout()
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testBackgroundQueueAsynch() {
         
-        let expectExecutionOnBackgroundQueue = AsynchTestExpectation("runs on background queue")
+        let expectExecutionOnBackgroundQueue = expectation(description: "runs on background queue")
         
         let somefunction = onBackgroundQueue {
             if !Thread.isMainThread {
@@ -70,14 +70,14 @@ class AsynchronousTests : XCTestCase {
             _ = somefunction()
         }
         
-        expectExecutionOnBackgroundQueue.waitForExpectationsWithTimeout()
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testAsynchOnCustomQueue() {
     
         let queue = DispatchQueue(label: "testQueue", attributes: [])
        
-        let expectExecutionOnCustomQueue = AsynchTestExpectation("runs on background queue")
+        let expectExecutionOnCustomQueue = expectation(description: "runs on background queue")
         
         let somefunction = onQueue(queue)() { () -> Void in
             let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
@@ -88,7 +88,7 @@ class AsynchronousTests : XCTestCase {
         
         _ = somefunction()
         
-        expectExecutionOnCustomQueue.waitForExpectationsWithTimeout()
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testAwaitSinglePromiseImediateResult() {
@@ -99,14 +99,14 @@ class AsynchronousTests : XCTestCase {
         }
         let future = somefunction()
         
-        let awaitExpectation = AsynchTestExpectation("await on some background queue")
+        let awaitExpectation = expectation(description: "await on some background queue")
         
         onBackgroundQueue {
             await(future)
             awaitExpectation.fulfill()
         }()
         
-        awaitExpectation.waitForExpectationsWithTimeout()
+        waitForExpectations(timeout: 2, handler: nil)
 
         
         if case .fulfilled(let value) = future.state {
@@ -127,14 +127,14 @@ class AsynchronousTests : XCTestCase {
         let promiseA = someFunction()
         let promiseB = someFunction()
         
-        let awaitExpectation = AsynchTestExpectation("await on some background queue")
+        let awaitExpectation = expectation(description: "await on some background queue")
         
         onBackgroundQueue {
             await(promiseA, promiseB)
             awaitExpectation.fulfill()
         }()
         
-         awaitExpectation.waitForExpectationsWithTimeout()
+        waitForExpectations(timeout: 2, handler: nil)
         
         switch (promiseA.state, promiseB.state) {
         case (.fulfilled(let valueA), .fulfilled(let valueB)):
