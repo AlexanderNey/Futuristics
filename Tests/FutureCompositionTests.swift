@@ -17,11 +17,12 @@ class FutureCompositionTests : XCTestCase {
         case failedToConvertNumberToString(Int)
         case anotherError
     }
-    
+
+    let someBackgroungQueue = DispatchQueue(label: "test queue")
     
     func generateTestInt(_ number: Int) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(qos: .userInteractive).async {
+        someBackgroungQueue.async {
             promise.fulfill(number)
         }
         return promise.future
@@ -29,7 +30,7 @@ class FutureCompositionTests : XCTestCase {
     
     func numberToString(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        DispatchQueue.global(qos: .userInteractive).async {
+        someBackgroungQueue.async {
             let str = String(number)
             promise.fulfill(str)
         }
@@ -38,7 +39,7 @@ class FutureCompositionTests : XCTestCase {
     
     func stringToNumber(_ str: String) -> Future<Int> {
         let promise = Promise<Int>()
-        DispatchQueue.global(qos: .userInteractive).async {
+        someBackgroungQueue.async {
             promise.fulfill(Int(str)!)
         }
         return promise.future
@@ -46,7 +47,7 @@ class FutureCompositionTests : XCTestCase {
     
     func numberToStringThrows(_ number: Int) -> Future<String> {
         let promise = Promise<String>()
-        DispatchQueue.global(qos: .userInitiated).async {
+        someBackgroungQueue.async {
             promise.reject(TestError.failedToConvertNumberToString(number))
         }
         return promise.future
