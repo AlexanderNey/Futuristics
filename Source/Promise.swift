@@ -10,6 +10,7 @@ import Foundation
 
 
 public class Promise<T> {
+
     public let future = Future<T>()
     
     public var isPending: Bool  {
@@ -20,19 +21,19 @@ public class Promise<T> {
     }
     
     public init() { }
-    
+
     @discardableResult
     public func reject(_ error: Error) -> Future<T> {
         self.future.reject(error)
         return self.future
     }
-    
+
     @discardableResult
     public func fulfill(_ value: T) -> Future<T> {
         self.future.fulfill(value)
         return self.future
     }
-    
+
     public func resolveWith(_ f: (Void) throws -> T) {
         future.resolveWith(f)
     }

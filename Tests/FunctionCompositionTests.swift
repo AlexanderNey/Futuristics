@@ -45,7 +45,7 @@ class FunctionCopositionTests : XCTestCase {
     func testBasicFunctionCompositionThrowing() {
         let composition = stringToNumber >>> doubleNumber
         
-        let throwExpectation = AsynchTestExpectation("throw expectation")
+        let throwExpectation = expectation(description: "throw expectation")
         
         do {
             _ = try composition("abc")
@@ -58,7 +58,7 @@ class FunctionCopositionTests : XCTestCase {
             XCTFail("generic error not expected")
         }
         
-        throwExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testBasicFunctionCompositionInvocation() {
@@ -71,7 +71,7 @@ class FunctionCopositionTests : XCTestCase {
     }
     
     func testBasicFunctionCompositionInvocationThrowing() {
-        let throwExpectation = AsynchTestExpectation("throw expectation")
+        let throwExpectation = expectation(description: "throw expectation")
         
         do {
             _ = try ( "abc" |> stringToNumber |> doubleNumber )
@@ -84,6 +84,6 @@ class FunctionCopositionTests : XCTestCase {
             XCTFail("generic error not expected")
         }
         
-        throwExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
     }
 }

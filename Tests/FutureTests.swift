@@ -73,7 +73,7 @@ class FutureTests: XCTestCase {
     
     func testFulfillHandler() {
         let future = Future<String>()
-        let handlerExpectation = AsynchTestExpectation("Success handler called")
+        let handlerExpectation = expectation(description: "Success handler called")
         
         future.onSuccess { value in
             XCTAssertEqual(value, "test")
@@ -82,17 +82,17 @@ class FutureTests: XCTestCase {
         
         future.fulfill("test")
         
-        handlerExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testFulfillMultipleHandler() {
         let future = Future<String>()
         
-        let successExpectation = AsynchTestExpectation("Success handler called")
-        let secondSuccessExpectation = AsynchTestExpectation("Second success handler called")
-        let afterFulfillSuccessExpectation = AsynchTestExpectation("After fulfillment success handler called")
-        let finallyExpectation = AsynchTestExpectation("Finally  called")
-        let afterFulfillFinallyExpectation = AsynchTestExpectation("After fulfillment finally called")
+        let successExpectation = expectation(description: "Success handler called")
+        let secondSuccessExpectation = expectation(description: "Second success handler called")
+        let afterFulfillSuccessExpectation = expectation(description: "After fulfillment success handler called")
+        let finallyExpectation = expectation(description: "Finally  called")
+        let afterFulfillFinallyExpectation = expectation(description: "After fulfillment finally called")
         
         future.onSuccess { value in
             XCTAssertEqual(value, "test")
@@ -121,20 +121,16 @@ class FutureTests: XCTestCase {
             XCTFail()
         }
     
-        successExpectation.waitForExpectationsWithTimeout()
-        secondSuccessExpectation.waitForExpectationsWithTimeout()
-        afterFulfillSuccessExpectation.waitForExpectationsWithTimeout()
-        finallyExpectation.waitForExpectationsWithTimeout()
-        afterFulfillFinallyExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testRejectMultipleHandler() {
         let future = Future<String>()
         
-        let failureExpectation = AsynchTestExpectation("Failure handler called")
-        let afterFulfillFailureExpectation = AsynchTestExpectation("After fulfillment failure handler called")
-        let finallyExpectation = AsynchTestExpectation("Finally  called")
-        let afterFulfillFinallyExpectation = AsynchTestExpectation("After fulfillment finally called")
+        let failureExpectation = expectation(description: "Failure handler called")
+        let afterFulfillFailureExpectation = expectation(description: "After fulfillment failure handler called")
+        let finallyExpectation = expectation(description: "Finally  called")
+        let afterFulfillFinallyExpectation = expectation(description: "After fulfillment finally called")
         
         future.onSuccess { value in
                 XCTFail()
@@ -160,10 +156,7 @@ class FutureTests: XCTestCase {
                 afterFulfillFailureExpectation.fulfill()
         }
         
-        failureExpectation.waitForExpectationsWithTimeout()
-        afterFulfillFailureExpectation.waitForExpectationsWithTimeout()
-        finallyExpectation.waitForExpectationsWithTimeout()
-        afterFulfillFinallyExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
     }
     
     func testResolveRejectionWithThrowable() {
@@ -213,66 +206,67 @@ class FutureTests: XCTestCase {
         
         let future = Future<Void>()
         
-        let preFulfillExpectation = AsynchTestExpectation("Pre fulfill success should execute on background thread")
+        let preFulfillExpectation = expectation(description: "Pre fulfill success should execute on background thread")
         
         future.onSuccess {
             if Thread.isMainThread {
                 preFulfillExpectation.fulfill()
             } else {
-                // WARN: validate __dispatch_queue_get_label() implementation
                 let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
                 XCTFail("wrong queue \(queueLabel)")
             }
         }
-
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.3) {
+        
+        let dispatchTime = DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: dispatchTime) {
             future.fulfill()
         }
         
         
-        preFulfillExpectation.waitForExpectationsWithTimeout()
-        let postFulfillExpectation = AsynchTestExpectation("Post fulfill success should execute on main thread")
+        waitForExpectationsWithDefaultTimeout()
+
+        let postFulfillExpectation = expectation(description: "Post fulfill success should execute on main thread")
         
         future.onSuccess {
             if Thread.isMainThread {
                 postFulfillExpectation.fulfill()
             } else {
-                // WARN: validate __dispatch_queue_get_label() implementation
                 let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
                 XCTFail("wrong queue \(queueLabel)")
             }
         }
         
-        postFulfillExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
     }
 
     func testSuccessCustomContext() {
         
         let future = Future<Void>()
         
-        let preFulfillExpectation = AsynchTestExpectation("Pre fulfill success should execute on main thread")
+        let preFulfillExpectation = expectation(description: "Pre fulfill success should execute on main thread")
         
-        future.onSuccess(onMainQueue) {
+        future.onSuccess(on: DispatchQueue.main) {
             if Thread.isMainThread {
                 preFulfillExpectation.fulfill()
             }
         }
         
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.5) {
+        let dispatchTime = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: dispatchTime) {
             future.fulfill()
         }
         
-        preFulfillExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
         
-        let postFulfillExpectation = AsynchTestExpectation("Post fulfill success should execute on background thread")
+        let postFulfillExpectation = expectation(description: "Post fulfill success should execute on background thread")
         
-        future.onSuccess(onBackgroundQueue) {
+        future.onSuccess(on: DispatchQueue.global(qos: .userInteractive)) {
             if !Thread.isMainThread {
                 postFulfillExpectation.fulfill()
             }
         }
         
-        postFulfillExpectation.waitForExpectationsWithTimeout()
+        waitForExpectationsWithDefaultTimeout()
     }
 
     
@@ -281,9 +275,9 @@ class FutureTests: XCTestCase {
         for _ in 1...100 {
             let future = Future<Void>()
             
-            let preFulfillExpectation = AsynchTestExpectation("Bruteforce")
+            let preFulfillExpectation = expectation(description: "Bruteforce")
             
-            let dispatchQueue = DispatchQueue(label: "custom serial queue")
+            let dispatchQueue = DispatchQueue(label: "custom serial queue", attributes: [])
             
             var successExecuted = 0
             var finallyExecuted = 0
@@ -306,7 +300,7 @@ class FutureTests: XCTestCase {
                 }
             }
            
-            preFulfillExpectation.waitForExpectationsWithTimeout()
+            waitForExpectationsWithDefaultTimeout()
         }
     }
     
@@ -315,7 +309,7 @@ class FutureTests: XCTestCase {
         for _ in 1...100 {
             let future = Future<Void>()
             
-            let preFulfillExpectation = AsynchTestExpectation("Bruteforce")
+            let preFulfillExpectation = expectation(description: "Bruteforce")
             
             var successExecuted = 0
             var finallyExecuted = 0
@@ -338,7 +332,7 @@ class FutureTests: XCTestCase {
                 }
             }
             
-            preFulfillExpectation.waitForExpectationsWithTimeout()
+            waitForExpectationsWithDefaultTimeout()
         }
     }
     
@@ -347,7 +341,7 @@ class FutureTests: XCTestCase {
         for _ in 1...100 {
             let future = Future<Void>()
             
-            let preFulfillExpectation = AsynchTestExpectation("Bruteforce")
+            let preFulfillExpectation = expectation(description: "Bruteforce")
             
             var successExecuted = 0
             var finallyExecuted = 0
@@ -355,7 +349,7 @@ class FutureTests: XCTestCase {
                 if i == 25 {
                     future.fulfill()
                 }
-                let dispatchQueue = DispatchQueue(label: "custom serial queue \(i)")
+                let dispatchQueue = DispatchQueue(label: "custom serial queue \(i)", attributes: [])
                 dispatchQueue.async {
                     future.onSuccess {
                         successExecuted += 1
@@ -374,7 +368,7 @@ class FutureTests: XCTestCase {
                 }
             }
             
-            preFulfillExpectation.waitForExpectationsWithTimeout()
+            waitForExpectationsWithDefaultTimeout()
         }
     }
 

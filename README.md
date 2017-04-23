@@ -6,6 +6,7 @@
 ![License](https://img.shields.io/cocoapods/l/Futuristics.svg)
 ![Travis](https://img.shields.io/travis/AlexanderNey/Futuristics.svg)
 [![Swift Version](https://img.shields.io/badge/Swift-3.0-F16D39.svg?style=flat)](https://developer.apple.com/swift)
+[![codecov](https://codecov.io/gh/AlexanderNey/Futuristics/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderNey/Futuristics)
 
 This library adds the concept of [Promises / Futures](https://en.wikipedia.org/wiki/Futures_and_promises) to Swift with the goal of making asynchronous code easy to handle. Futures are simply a value type representing the notion of a value that is yet to be computed.
 

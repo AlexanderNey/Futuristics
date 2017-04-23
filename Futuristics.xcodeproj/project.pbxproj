@@ -14,22 +14,21 @@
 		AC29ABF01B6FA7C300B0BCBD /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
 		AC29ABF21B6FA84E00B0BCBD /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
 		AC29ABF41B6FAA4700B0BCBD /* ExecutionContexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */; };
-		AC35F3231C568A18006A01B2 /* AsynchTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */; };
 		AC35F3251C579F75006A01B2 /* CompletionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */; };
 		AC474FA51B727C1300B725D7 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC474FA41B727C1300B725D7 /* PromiseTests.swift */; };
 		AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */; };
 		AC7808C11B6F6DD300D048C6 /* Futuristics.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* Futuristics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC7808C71B6F6DD300D048C6 /* Futuristics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */; };
 		ACD6DD541B71056A0040351A /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6DD531B71056A0040351A /* FutureTests.swift */; };
-		ACE19F161B70F5660066377E /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE19F151B70F5660066377E /* TestHelper.swift */; };
 		ACF1965B1C2980240028E51A /* Futuristics.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* Futuristics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACF239D71B7225A300774A49 /* FutureCopositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF239D61B7225A300774A49 /* FutureCopositionTests.swift */; };
+		ACF239D71B7225A300774A49 /* FutureCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF239D61B7225A300774A49 /* FutureCompositionTests.swift */; };
 		ACF2DD6B1C16FDD60049243A /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE01B7252F1002449C8 /* Operators.swift */; };
 		ACF2DD6C1C16FDD60049243A /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDE1B72516B002449C8 /* FunctionComposition.swift */; };
 		ACF2DD6D1C16FDD60049243A /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
 		ACF2DD6E1C16FDD60049243A /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
 		ACF2DD6F1C16FDD60049243A /* FutureComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDA1B7250F4002449C8 /* FutureComposition.swift */; };
 		ACF2DD701C16FDD60049243A /* ExecutionContexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */; };
+		BD05C4A41EAC7E7F0072FF38 /* XCTest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05C4A21EAC7E4C0072FF38 /* XCTest+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +49,6 @@
 		AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		AC29ABF11B6FA84E00B0BCBD /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionContexts.swift; sourceTree = "<group>"; };
-		AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchTesting.swift; sourceTree = "<group>"; };
 		AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionHandlerTests.swift; sourceTree = "<group>"; };
 		AC474FA41B727C1300B725D7 /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousTests.swift; sourceTree = "<group>"; };
@@ -60,9 +58,9 @@
 		AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FuturisticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7808CC1B6F6DD300D048C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACD6DD531B71056A0040351A /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
-		ACE19F151B70F5660066377E /* TestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
-		ACF239D61B7225A300774A49 /* FutureCopositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureCopositionTests.swift; sourceTree = "<group>"; };
+		ACF239D61B7225A300774A49 /* FutureCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureCompositionTests.swift; sourceTree = "<group>"; };
 		ACF2DD621C16F5CE0049243A /* Futuristics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Futuristics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD05C4A21EAC7E4C0072FF38 /* XCTest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTest+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,13 +136,12 @@
 			children = (
 				AC160EE21B725A6F002449C8 /* FunctionCompositionTests.swift */,
 				ACD6DD531B71056A0040351A /* FutureTests.swift */,
-				ACF239D61B7225A300774A49 /* FutureCopositionTests.swift */,
+				ACF239D61B7225A300774A49 /* FutureCompositionTests.swift */,
 				AC474FA41B727C1300B725D7 /* PromiseTests.swift */,
 				AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */,
 				AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */,
 				AC7808CB1B6F6DD300D048C6 /* Supporting Files */,
-				ACE19F151B70F5660066377E /* TestHelper.swift */,
-				AC35F3201C5688D6006A01B2 /* AsynchTesting.swift */,
+				BD05C4A21EAC7E4C0072FF38 /* XCTest+Extension.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -240,16 +237,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Alexander Ney";
 				TargetAttributes = {
 					AC7808BA1B6F6DD300D048C6 = {
 						CreatedOnToolsVersion = 6.4;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 					AC7808C51B6F6DD300D048C6 = {
 						CreatedOnToolsVersion = 6.4;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 					ACF2DD611C16F5CE0049243A = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -317,14 +314,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC35F3231C568A18006A01B2 /* AsynchTesting.swift in Sources */,
 				AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */,
 				AC35F3251C579F75006A01B2 /* CompletionHandlerTests.swift in Sources */,
 				AC474FA51B727C1300B725D7 /* PromiseTests.swift in Sources */,
-				ACE19F161B70F5660066377E /* TestHelper.swift in Sources */,
+				BD05C4A41EAC7E7F0072FF38 /* XCTest+Extension.swift in Sources */,
 				ACD6DD541B71056A0040351A /* FutureTests.swift in Sources */,
 				AC160EE31B725A6F002449C8 /* FunctionCompositionTests.swift in Sources */,
-				ACF239D71B7225A300774A49 /* FutureCopositionTests.swift in Sources */,
+				ACF239D71B7225A300774A49 /* FutureCompositionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,8 +361,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -396,7 +394,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -417,8 +414,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -439,7 +438,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -454,6 +453,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -477,6 +477,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -488,7 +489,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
 				PRODUCT_NAME = Futuristics;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -529,7 +529,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = FuturisticsTest;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -539,6 +538,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchsimulator*]" = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -561,6 +561,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchsimulator2.0]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -573,7 +574,6 @@
 				PRODUCT_NAME = Futuristics;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};

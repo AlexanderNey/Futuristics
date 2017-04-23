@@ -8,33 +8,31 @@
 
 import Foundation
 
-public enum AsynchError : Error {
-    case awaitTimedOut
-}
-
-
-@discardableResult public func onMainQueue<T, U>(_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
+@discardableResult
+public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
     let mainQueue = DispatchQueue.main
     return onQueue(mainQueue)(closure)
 }
 
 
-@discardableResult public func onBackgroundQueue<T, U>(_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
-    let aBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
+@discardableResult
+public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+    let aBackgroundQueue = DispatchQueue.global(qos: .default)
     return onQueue(aBackgroundQueue)(closure)
 }
 
-@discardableResult public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
+@discardableResult
+public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
     return { [queue] (closure: @escaping (T) throws -> U) in
         return onQueue(queue, closure: closure)
-    }
+    } as! ((T) throws -> U) -> ((T) -> Future<U>)
 }
 
-@discardableResult private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
+@discardableResult
+private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     return { (parameter: T) in
         let promise = Promise<U>()
         if queue === DispatchQueue.main && Thread.isMainThread {
-            defer { promise.ensureResolution() }
             promise.resolveWith { try closure(parameter) }
         } else {
             queue.async {
@@ -47,13 +45,11 @@ public enum AsynchError : Error {
 }
 
 public func await<T>(_ futures: Future<T> ...) {
-    await(futures)
-}
-
-public func await<T>(_ futures: [Future<T>]) {
-    guard !Thread.isMainThread else {
-        fatalError("await will block main thread")
+    assert(!Thread.isMainThread, "await will block main thread")
+    if #available(iOS 10.0, *) {
+        dispatchPrecondition(condition: .notOnQueue(DispatchQueue.main))
     }
+
     let semaphore = DispatchSemaphore(value: 0)
     
     futures.forEach { future in
@@ -62,17 +58,13 @@ public func await<T>(_ futures: [Future<T>]) {
         }
     }
     
-    futures.forEach { future in
-        let result = semaphore.wait(timeout: DispatchTime.distantFuture)
-        /* Handling the timeout case makes really only sense if the await 
-        function can be parameterized with a specific timeout */
-        if case DispatchTimeoutResult.timedOut = result {
-            future.reject(AsynchError.awaitTimedOut)
-        }
+    futures.forEach { _ in
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
 }
 
 public func awaitResult<T>(_ future: Future<T>) throws -> T {
     await(future)
-    return try future.getResult()
+    return try future.result()
 }
+
