@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'Futuristics'
-  s.version = '0.2.6'
+  s.version = '0.3'
   s.license = { :type => "MIT" }
-  s.summary = 'Futures for Swift 2.0'
+  s.summary = 'Futures for Swift 3'
   s.homepage = 'https://github.com/AlexanderNey/Futuristics'
   s.social_media_url = 'http://twitter.com/Ajax64'
   s.authors = { 'Alexander Ney' => 'alexander.ney@me.com' }
