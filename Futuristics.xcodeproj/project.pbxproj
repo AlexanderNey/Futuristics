@@ -14,20 +14,12 @@
 		AC29ABF01B6FA7C300B0BCBD /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
 		AC29ABF21B6FA84E00B0BCBD /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
 		AC29ABF41B6FAA4700B0BCBD /* ExecutionContexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */; };
-		AC35F3251C579F75006A01B2 /* CompletionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */; };
 		AC474FA51B727C1300B725D7 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC474FA41B727C1300B725D7 /* PromiseTests.swift */; };
 		AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */; };
 		AC7808C11B6F6DD300D048C6 /* Futuristics.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* Futuristics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC7808C71B6F6DD300D048C6 /* Futuristics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */; };
 		ACD6DD541B71056A0040351A /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6DD531B71056A0040351A /* FutureTests.swift */; };
-		ACF1965B1C2980240028E51A /* Futuristics.h in Headers */ = {isa = PBXBuildFile; fileRef = AC7808C01B6F6DD300D048C6 /* Futuristics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACF239D71B7225A300774A49 /* FutureCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF239D61B7225A300774A49 /* FutureCompositionTests.swift */; };
-		ACF2DD6B1C16FDD60049243A /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EE01B7252F1002449C8 /* Operators.swift */; };
-		ACF2DD6C1C16FDD60049243A /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDE1B72516B002449C8 /* FunctionComposition.swift */; };
-		ACF2DD6D1C16FDD60049243A /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF11B6FA84E00B0BCBD /* Future.swift */; };
-		ACF2DD6E1C16FDD60049243A /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */; };
-		ACF2DD6F1C16FDD60049243A /* FutureComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC160EDA1B7250F4002449C8 /* FutureComposition.swift */; };
-		ACF2DD701C16FDD60049243A /* ExecutionContexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */; };
 		BD05C4A41EAC7E7F0072FF38 /* XCTest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05C4A21EAC7E4C0072FF38 /* XCTest+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,7 +41,6 @@
 		AC29ABEF1B6FA7C300B0BCBD /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		AC29ABF11B6FA84E00B0BCBD /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		AC29ABF31B6FAA4700B0BCBD /* ExecutionContexts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionContexts.swift; sourceTree = "<group>"; };
-		AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionHandlerTests.swift; sourceTree = "<group>"; };
 		AC474FA41B727C1300B725D7 /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousTests.swift; sourceTree = "<group>"; };
 		AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Futuristics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,8 +50,8 @@
 		AC7808CC1B6F6DD300D048C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACD6DD531B71056A0040351A /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		ACF239D61B7225A300774A49 /* FutureCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureCompositionTests.swift; sourceTree = "<group>"; };
-		ACF2DD621C16F5CE0049243A /* Futuristics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Futuristics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD05C4A21EAC7E4C0072FF38 /* XCTest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTest+Extension.swift"; sourceTree = "<group>"; };
+		BDA0688B1EB72A5300D71C0A /* Futuristics iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Futuristics iOS copy-Info.plist"; path = "/Users/aney/Projects/Futuristics/Futuristics iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +70,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ACF2DD5E1C16F5CE0049243A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -95,6 +79,7 @@
 				AC7808BD1B6F6DD300D048C6 /* Source */,
 				AC7808CA1B6F6DD300D048C6 /* Tests */,
 				AC7808BC1B6F6DD300D048C6 /* Products */,
+				BDA0688B1EB72A5300D71C0A /* Futuristics iOS copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,7 +88,6 @@
 			children = (
 				AC7808BB1B6F6DD300D048C6 /* Futuristics.framework */,
 				AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */,
-				ACF2DD621C16F5CE0049243A /* Futuristics.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,7 +123,6 @@
 				ACF239D61B7225A300774A49 /* FutureCompositionTests.swift */,
 				AC474FA41B727C1300B725D7 /* PromiseTests.swift */,
 				AC4DB1B61B7285130089F837 /* AsynchronousTests.swift */,
-				AC35F3241C579F75006A01B2 /* CompletionHandlerTests.swift */,
 				AC7808CB1B6F6DD300D048C6 /* Supporting Files */,
 				BD05C4A21EAC7E4C0072FF38 /* XCTest+Extension.swift */,
 			);
@@ -162,14 +145,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7808C11B6F6DD300D048C6 /* Futuristics.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ACF2DD5F1C16F5CE0049243A /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ACF1965B1C2980240028E51A /* Futuristics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,24 +187,6 @@
 			productReference = AC7808C61B6F6DD300D048C6 /* FuturisticsTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		ACF2DD611C16F5CE0049243A /* Futuristics watchOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ACF2DD671C16F5CE0049243A /* Build configuration list for PBXNativeTarget "Futuristics watchOS" */;
-			buildPhases = (
-				ACF2DD5D1C16F5CE0049243A /* Sources */,
-				ACF2DD5E1C16F5CE0049243A /* Frameworks */,
-				ACF2DD5F1C16F5CE0049243A /* Headers */,
-				ACF2DD601C16F5CE0049243A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Futuristics watchOS";
-			productName = "Futuristics Watch OS";
-			productReference = ACF2DD621C16F5CE0049243A /* Futuristics.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -248,9 +205,6 @@
 						CreatedOnToolsVersion = 6.4;
 						LastSwiftMigration = 0810;
 					};
-					ACF2DD611C16F5CE0049243A = {
-						CreatedOnToolsVersion = 7.1.1;
-					};
 				};
 			};
 			buildConfigurationList = AC7808B51B6F6DD300D048C6 /* Build configuration list for PBXProject "Futuristics" */;
@@ -267,7 +221,6 @@
 			targets = (
 				AC7808BA1B6F6DD300D048C6 /* Futuristics iOS */,
 				AC7808C51B6F6DD300D048C6 /* FuturisticsTests iOS */,
-				ACF2DD611C16F5CE0049243A /* Futuristics watchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -281,13 +234,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AC7808C41B6F6DD300D048C6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ACF2DD601C16F5CE0049243A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -315,25 +261,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC4DB1B71B7285130089F837 /* AsynchronousTests.swift in Sources */,
-				AC35F3251C579F75006A01B2 /* CompletionHandlerTests.swift in Sources */,
 				AC474FA51B727C1300B725D7 /* PromiseTests.swift in Sources */,
 				BD05C4A41EAC7E7F0072FF38 /* XCTest+Extension.swift in Sources */,
 				ACD6DD541B71056A0040351A /* FutureTests.swift in Sources */,
 				AC160EE31B725A6F002449C8 /* FunctionCompositionTests.swift in Sources */,
 				ACF239D71B7225A300774A49 /* FutureCompositionTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ACF2DD5D1C16F5CE0049243A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ACF2DD6D1C16FDD60049243A /* Future.swift in Sources */,
-				ACF2DD6C1C16FDD60049243A /* FunctionComposition.swift in Sources */,
-				ACF2DD6B1C16FDD60049243A /* Operators.swift in Sources */,
-				ACF2DD701C16FDD60049243A /* ExecutionContexts.swift in Sources */,
-				ACF2DD6E1C16FDD60049243A /* Promise.swift in Sources */,
-				ACF2DD6F1C16FDD60049243A /* FutureComposition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +322,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -436,6 +369,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -530,53 +464,6 @@
 			};
 			name = Release;
 		};
-		ACF2DD681C16F5CE0049243A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchsimulator*]" = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Source/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
-				PRODUCT_NAME = Futuristics;
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		ACF2DD691C16F5CE0049243A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchsimulator2.0]" = "";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Source/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.alexander-ney.Futuristics";
-				PRODUCT_NAME = Futuristics;
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -603,15 +490,6 @@
 			buildConfigurations = (
 				AC7808D51B6F6DD300D048C6 /* Debug */,
 				AC7808D61B6F6DD300D048C6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		ACF2DD671C16F5CE0049243A /* Build configuration list for PBXNativeTarget "Futuristics watchOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ACF2DD681C16F5CE0049243A /* Debug */,
-				ACF2DD691C16F5CE0049243A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
