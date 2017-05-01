@@ -46,7 +46,7 @@ private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws
 
 public func await<T>(_ futures: Future<T> ...) {
     assert(!Thread.isMainThread, "await will block main thread")
-    if #available(iOS 10.0, *) {
+    if #available(iOS 10.0, *), #available(watchOSApplicationExtension 3.0, *) {
         dispatchPrecondition(condition: .notOnQueue(DispatchQueue.main))
     }
 
