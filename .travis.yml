@@ -1,7 +1,7 @@
 osx_image: xcode8.2
 language: objective-c
 script:
-  - xcodebuild clean build -project Futuristics.xcodeproj -scheme "Futuristics iOS" -destination "platform=iOS Simulator,name=iPhone 6S,OS=8.0" test
+  - xcodebuild clean build -project Futuristics.xcodeproj -scheme "Futuristics iOS" -destination "platform=iOS Simulator,name=iPhone 6S,OS=8.1" test
   - xcodebuild clean build -project Futuristics.xcodeproj -scheme "Futuristics iOS" -destination "platform=iOS Simulator,name=iPhone 6S,OS=9.0" test
   - xcodebuild clean build -project Futuristics.xcodeproj -scheme "Futuristics iOS" -destination "platform=iOS Simulator,name=iPhone 6S,OS=10.0" -enableCodeCoverage YES test
 after_success:
