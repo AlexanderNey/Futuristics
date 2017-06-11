@@ -23,7 +23,7 @@ internal enum FutureState<T> {
 fileprivate enum FutureCompletionHandler<T> {
     case success(task: (T) -> Void, queue: DispatchQueue)
     case failure(task: (Error) -> Void, queue: DispatchQueue)
-    case finally(task: (Void) -> Void, queue: DispatchQueue)
+    case finally(task: () -> Void, queue: DispatchQueue)
 }
 
 public enum FutureError : Error {
@@ -80,7 +80,7 @@ public class Future<T> {
         }
     }
     
-    internal func resolveWith(_ f: (Void) throws -> T) {
+    internal func resolveWith(_ f: () throws -> T) {
         do {
             self.fulfill(try f())
         } catch {
@@ -155,7 +155,7 @@ public class Future<T> {
 
     @discardableResult
     public func finally(on queue: DispatchQueue = DispatchQueue.main,
-                        handler: @escaping (Void) -> Void) -> Future<T> {
+                        handler: @escaping () -> Void) -> Future<T> {
         syncQueue.async {
             let completionHandler = FutureCompletionHandler<T>.finally(task: handler, queue: queue)
             switch self.state {

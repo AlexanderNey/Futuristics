@@ -27,14 +27,14 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnMainThread = expectation(description: "runs on main thread")
         
-        let somefunction = onMainQueue {
+        let somefunction = onMainQueue { _ in
             if Thread.isMainThread {
                 expectExecutionOnMainThread.fulfill()
             }
         }
 
         DispatchQueue.global(qos: .userInteractive).async {
-            _ = somefunction()
+            _ = somefunction(())
         }
         
         waitForExpectationsWithDefaultTimeout()
@@ -44,14 +44,14 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnMainThread = expectation(description: "runs on main thread")
         var imediateExecution = false
-        let somefunction = onMainQueue { 
+        let somefunction = onMainQueue { _ in
             imediateExecution = true
             if Thread.isMainThread {
                 expectExecutionOnMainThread.fulfill()
             }
         }
         
-        _ = somefunction()
+        _ = somefunction(())
         XCTAssertTrue(imediateExecution)
         waitForExpectationsWithDefaultTimeout()
     }
@@ -60,14 +60,14 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnBackgroundQueue = expectation(description: "runs on background queue")
         
-        let somefunction = onBackgroundQueue {
+        let somefunction = onBackgroundQueue { _ in
             if !Thread.isMainThread {
                 expectExecutionOnBackgroundQueue.fulfill()
             }
         }
         
         DispatchQueue.main.async {
-            _ = somefunction()
+            _ = somefunction(())
         }
         
         waitForExpectationsWithDefaultTimeout()
@@ -86,7 +86,7 @@ class AsynchronousTests : XCTestCase {
             }
         }
         
-        _ = somefunction()
+        _ = somefunction(())
         
         waitForExpectationsWithDefaultTimeout()
     }
@@ -104,7 +104,7 @@ class AsynchronousTests : XCTestCase {
         onBackgroundQueue {
             await(future)
             awaitExpectation.fulfill()
-        }()
+        }(())
         
         waitForExpectationsWithDefaultTimeout()
 
@@ -132,7 +132,7 @@ class AsynchronousTests : XCTestCase {
         onBackgroundQueue {
             await(promiseA, promiseB)
             awaitExpectation.fulfill()
-        }()
+        }(())
         
         waitForExpectationsWithDefaultTimeout()
         
