@@ -51,7 +51,6 @@
 		ACD6DD531B71056A0040351A /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		ACF239D61B7225A300774A49 /* FutureCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureCompositionTests.swift; sourceTree = "<group>"; };
 		BD05C4A21EAC7E4C0072FF38 /* XCTest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTest+Extension.swift"; sourceTree = "<group>"; };
-		BDA0688B1EB72A5300D71C0A /* Futuristics iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Futuristics iOS copy-Info.plist"; path = "/Users/aney/Projects/Futuristics/Futuristics iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +78,6 @@
 				AC7808BD1B6F6DD300D048C6 /* Source */,
 				AC7808CA1B6F6DD300D048C6 /* Tests */,
 				AC7808BC1B6F6DD300D048C6 /* Products */,
-				BDA0688B1EB72A5300D71C0A /* Futuristics iOS copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
