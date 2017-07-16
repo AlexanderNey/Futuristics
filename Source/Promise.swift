@@ -37,11 +37,4 @@ public class Promise<T> {
     public func resolveWith(_ f: () throws -> T) {
         future.resolveWith(f)
     }
-    
-    /**
-    Experimental - use with defer
-    */
-    public func ensureResolution() {
-        assert(!self.isPending, "Promise was not resolved")
-    }
 }
