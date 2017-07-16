@@ -16,7 +16,6 @@ enum TestError: Error {
     case anotherError
 }
 
-
 func ordinaryFunction() -> Void { }
 func throwingFunction() throws -> Void { throw TestError.anotherError }
 
@@ -26,16 +25,14 @@ class AsynchronousTests : XCTestCase {
     func testMainQueueAsynch() {
         
         let expectExecutionOnMainThread = expectation(description: "runs on main thread")
-        
-        let somefunction = onMainQueue { _ in
+
+        let somefunction = DispatchQueue.main.futureAsync { (_: Void) -> Void in
             if Thread.isMainThread {
                 expectExecutionOnMainThread.fulfill()
             }
         }
 
-        DispatchQueue.global(qos: .userInteractive).async {
-            _ = somefunction(())
-        }
+        _ = somefunction(())
         
         waitForExpectationsWithDefaultTimeout()
     }
@@ -44,7 +41,7 @@ class AsynchronousTests : XCTestCase {
         
         let expectExecutionOnMainThread = expectation(description: "runs on main thread")
         var imediateExecution = false
-        let somefunction = onMainQueue { _ in
+        let somefunction = DispatchQueue.main.futureSync { (_: Void) -> Void in
             imediateExecution = true
             if Thread.isMainThread {
                 expectExecutionOnMainThread.fulfill()
@@ -59,8 +56,8 @@ class AsynchronousTests : XCTestCase {
     func testBackgroundQueueAsynch() {
         
         let expectExecutionOnBackgroundQueue = expectation(description: "runs on background queue")
-        
-        let somefunction = onBackgroundQueue { _ in
+
+        let somefunction = DispatchQueue.global(qos: .userInitiated).futureAsync { (_: Void) -> Void in
             if !Thread.isMainThread {
                 expectExecutionOnBackgroundQueue.fulfill()
             }
@@ -79,7 +76,7 @@ class AsynchronousTests : XCTestCase {
        
         let expectExecutionOnCustomQueue = expectation(description: "runs on background queue")
         
-        let somefunction = onQueue(queue)() { () -> Void in
+        let somefunction = queue.futureAsync { () -> Void in
             let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
             if queueLabel == "testQueue"  {
                 expectExecutionOnCustomQueue.fulfill()
@@ -101,14 +98,13 @@ class AsynchronousTests : XCTestCase {
         
         let awaitExpectation = expectation(description: "await on some background queue")
         
-        onBackgroundQueue {
+        DispatchQueue.global(qos: .userInitiated).async {
             await(future)
             awaitExpectation.fulfill()
-        }(())
+        }
         
         waitForExpectationsWithDefaultTimeout()
 
-        
         if case .fulfilled(let value) = future.state {
             XCTAssertEqual(value, "done")
         } else {
@@ -129,10 +125,10 @@ class AsynchronousTests : XCTestCase {
         
         let awaitExpectation = expectation(description: "await on some background queue")
         
-        onBackgroundQueue {
+        DispatchQueue.global(qos: .userInitiated).async {
             await(promiseA, promiseB)
             awaitExpectation.fulfill()
-        }(())
+        }
         
         waitForExpectationsWithDefaultTimeout()
         
@@ -144,28 +140,4 @@ class AsynchronousTests : XCTestCase {
             XCTFail()
         }
     }
-    
-    /*
-    func testBundleMultiplePromisesImediateResult() {
-        func someFunction() -> Future<String> {
-            let promise = Promise<String>()
-            promise.fulfill("done")
-            return promise.future
-        }
-        
-        
-        let promiseA = someFunction()
-        let promiseB = someFunction()
-        bundle(promiseA, promiseB)
-        
-        switch (promiseA.state, promiseB.state) {
-        case (.Fulfilled(let valueA), .Fulfilled(let valueB)):
-            XCTAssertEqual(valueA, "done")
-            XCTAssertEqual(valueB, "done")
-        default:
-            XCTFail()
-        }
-    }*/
-
-
 }
