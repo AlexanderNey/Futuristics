@@ -212,17 +212,16 @@ class FutureTests: XCTestCase {
             if Thread.isMainThread {
                 preFulfillExpectation.fulfill()
             } else {
-                let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
+                let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil)) ?? ""
                 XCTFail("wrong queue \(queueLabel)")
             }
         }
         
         let dispatchTime = DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: dispatchTime) {
-            future.fulfill()
+            future.fulfill(())
         }
-        
-        
+
         waitForExpectationsWithDefaultTimeout()
 
         let postFulfillExpectation = expectation(description: "Post fulfill success should execute on main thread")
@@ -231,7 +230,7 @@ class FutureTests: XCTestCase {
             if Thread.isMainThread {
                 postFulfillExpectation.fulfill()
             } else {
-                let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil))
+                let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil)) ?? ""
                 XCTFail("wrong queue \(queueLabel)")
             }
         }
@@ -253,7 +252,7 @@ class FutureTests: XCTestCase {
         
         let dispatchTime = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: dispatchTime) {
-            future.fulfill()
+            future.fulfill(())
         }
         
         waitForExpectationsWithDefaultTimeout()
@@ -269,6 +268,36 @@ class FutureTests: XCTestCase {
         waitForExpectationsWithDefaultTimeout()
     }
 
+    func testResultPending() {
+
+        let future = Future<String>()
+        XCTAssertThrowsError(try future.result())
+        XCTAssertTrue(future.state.isPending)
+        XCTAssertFalse(future.state.isRejected)
+        XCTAssertFalse(future.state.isFulfilled)
+    }
+
+    func testResultRejected() {
+
+        let future = Future<String>()
+        future.reject(TestError.someError)
+        XCTAssertThrowsError(try future.result())
+        XCTAssertFalse(future.state.isPending)
+        XCTAssertTrue(future.state.isRejected)
+        XCTAssertFalse(future.state.isFulfilled)
+    }
+
+    func testResultFulfilled() throws {
+
+        let future = Future<String>()
+        future.fulfill("done")
+        XCTAssertNoThrow(try future.result())
+        let result = try future.result()
+        XCTAssertEqual(result, "done")
+        XCTAssertFalse(future.state.isPending)
+        XCTAssertFalse(future.state.isRejected)
+        XCTAssertTrue(future.state.isFulfilled)
+    }
     
     func testBurteforceAddCompletionBlocksOnMainQueueFulfillFutureOnCustomQueue() {
        
@@ -284,7 +313,7 @@ class FutureTests: XCTestCase {
             for i in  1...50 {
                 if i == 25 {
                     dispatchQueue.async {
-                        future.fulfill()
+                        future.fulfill(())
                     }
                 }
                 future.onSuccess {
@@ -316,7 +345,7 @@ class FutureTests: XCTestCase {
             for i in  1...50 {
                 if i == 25 {
                     DispatchQueue.main.async {
-                        future.fulfill()
+                        future.fulfill(())
                     }
                 }
                 future.onSuccess {
@@ -347,7 +376,7 @@ class FutureTests: XCTestCase {
             var finallyExecuted = 0
             for i in  1...50 {
                 if i == 25 {
-                    future.fulfill()
+                    future.fulfill(())
                 }
                 let dispatchQueue = DispatchQueue(label: "custom serial queue \(i)", attributes: [])
                 dispatchQueue.async {

@@ -8,63 +8,32 @@
 
 import Foundation
 
-@discardableResult
-public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    let mainQueue = DispatchQueue.main
-    return onQueue(mainQueue)(closure)
-}
 
+internal extension DispatchQueue {
 
-@discardableResult
-public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    let aBackgroundQueue = DispatchQueue.global(qos: .default)
-    return onQueue(aBackgroundQueue)(closure)
-}
+    func futureAsync<T, V>(execute work: @escaping (T) throws -> V) -> (T) -> Future<V> {
 
-@discardableResult
-public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    return { [queue] (closure: @escaping (T) throws -> U) in
-        return onQueue(queue, closure: closure)
-    } as! ((T) throws -> U) -> ((T) -> Future<U>)
-}
-
-@discardableResult
-private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
-    return { (parameter: T) in
-        let promise = Promise<U>()
-        if queue === DispatchQueue.main && Thread.isMainThread {
-            promise.resolveWith { try closure(parameter) }
-        } else {
-            queue.async {
-                defer { promise.ensureResolution() }
-                promise.resolveWith { try closure(parameter) }
+        return { (parameter: T) -> Future<V> in
+            let promise = Promise<V>()
+            self.async {
+                promise.resolveWith { try work(parameter) }
             }
-        }
-        return promise.future
-    }
-}
-
-public func await<T>(_ futures: Future<T> ...) {
-    assert(!Thread.isMainThread, "await will block main thread")
-    if #available(iOS 10.0, *), #available(watchOSApplicationExtension 3.0, *), #available(OSX 10.12, *) {
-        dispatchPrecondition(condition: .notOnQueue(DispatchQueue.main))
-    }
-
-    let semaphore = DispatchSemaphore(value: 0)
-    
-    futures.forEach { future in
-        future.finally {
-            semaphore.signal()
+            return promise.future
         }
     }
-    
-    futures.forEach { _ in
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+
+    func futureSync<T, V>(execute work: @escaping (T) throws -> V) -> (T) -> Future<V> {
+
+        return { (parameter: T) -> Future<V> in
+            let promise = Promise<V>()
+            if Thread.isMainThread && self == DispatchQueue.main {
+                 promise.resolveWith { try work(parameter) }
+            } else {
+                self.sync {
+                    promise.resolveWith { try work(parameter) }
+                }
+            }
+            return promise.future
+        }
     }
 }
-
-public func awaitResult<T>(_ future: Future<T>) throws -> T {
-    await(future)
-    return try future.result()
-}
-
