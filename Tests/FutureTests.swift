@@ -221,8 +221,7 @@ class FutureTests: XCTestCase {
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: dispatchTime) {
             future.fulfill(())
         }
-        
-        
+
         waitForExpectationsWithDefaultTimeout()
 
         let postFulfillExpectation = expectation(description: "Post fulfill success should execute on main thread")
@@ -269,6 +268,36 @@ class FutureTests: XCTestCase {
         waitForExpectationsWithDefaultTimeout()
     }
 
+    func testResultPending() {
+
+        let future = Future<String>()
+        XCTAssertThrowsError(try future.result())
+        XCTAssertTrue(future.state.isPending)
+        XCTAssertFalse(future.state.isRejected)
+        XCTAssertFalse(future.state.isFulfilled)
+    }
+
+    func testResultRejected() {
+
+        let future = Future<String>()
+        future.reject(TestError.someError)
+        XCTAssertThrowsError(try future.result())
+        XCTAssertFalse(future.state.isPending)
+        XCTAssertTrue(future.state.isRejected)
+        XCTAssertFalse(future.state.isFulfilled)
+    }
+
+    func testResultFulfilled() throws {
+
+        let future = Future<String>()
+        future.fulfill("done")
+        XCTAssertNoThrow(try future.result())
+        let result = try future.result()
+        XCTAssertEqual(result, "done")
+        XCTAssertFalse(future.state.isPending)
+        XCTAssertFalse(future.state.isRejected)
+        XCTAssertTrue(future.state.isFulfilled)
+    }
     
     func testBurteforceAddCompletionBlocksOnMainQueueFulfillFutureOnCustomQueue() {
        
