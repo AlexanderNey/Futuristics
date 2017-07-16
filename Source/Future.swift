@@ -9,11 +9,25 @@
 import Foundation
 
 
-internal enum FutureState<T> {
+public enum FutureState<T> {
     case pending, fulfilled(T), rejected(Error)
     
-    var isPending: Bool  {
+    public var isPending: Bool  {
         if case .pending = self {
+            return true
+        }
+        return false
+    }
+
+    public var isFulfilled: Bool  {
+        if case .fulfilled(_) = self {
+            return true
+        }
+        return false
+    }
+
+    public var isRejected: Bool  {
+        if case .rejected(_) = self {
             return true
         }
         return false
@@ -166,5 +180,22 @@ public class Future<T> {
             }
         }
         return self
+    }
+
+    public func await<T>() throws -> T {
+        assert(!Thread.isMainThread, "await will block main thread")
+        if #available(iOS 10.0, *), #available(watchOSApplicationExtension 3.0, *), #available(OSX 10.12, *) {
+            dispatchPrecondition(condition: .notOnQueue(DispatchQueue.main))
+        }
+
+        let semaphore = DispatchSemaphore(value: 0)
+
+        finally {
+            semaphore.signal()
+        }
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+
+        let value = try result()
+        return value as! T // as! T was required by the Swift 4 beta comiler
     }
 }
