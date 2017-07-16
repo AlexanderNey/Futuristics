@@ -26,7 +26,7 @@ internal extension DispatchQueue {
 
         return { (parameter: T) -> Future<V> in
             let promise = Promise<V>()
-            if Thread.isMainThread {
+            if Thread.isMainThread && self == DispatchQueue.main {
                  promise.resolveWith { try work(parameter) }
             } else {
                 self.sync {
