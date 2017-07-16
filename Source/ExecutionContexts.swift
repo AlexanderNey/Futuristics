@@ -8,41 +8,6 @@
 
 import Foundation
 
-@discardableResult
-public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    let mainQueue = DispatchQueue.main
-    return onQueue(mainQueue)(closure)
-}
-
-
-@discardableResult
-public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    let aBackgroundQueue = DispatchQueue.global(qos: .default)
-    return onQueue(aBackgroundQueue)(closure)
-}
-
-@discardableResult
-public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
-    return { [queue] (closure: @escaping (T) throws -> U) in
-        return onQueue(queue, closure: closure)
-    } as! ((T) throws -> U) -> ((T) -> Future<U>)
-}
-
-@discardableResult
-private func onQueue<T, U>(_ queue: DispatchQueue, closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
-    return { (parameter: T) in
-        let promise = Promise<U>()
-        if queue === DispatchQueue.main && Thread.isMainThread {
-            promise.resolveWith { try closure(parameter) }
-        } else {
-            queue.async {
-                defer { promise.ensureResolution() }
-                promise.resolveWith { try closure(parameter) }
-            }
-        }
-        return promise.future
-    }
-}
 
 public func await<T>(_ futures: Future<T> ...) {
     assert(!Thread.isMainThread, "await will block main thread")
@@ -68,3 +33,31 @@ public func awaitResult<T>(_ future: Future<T>) throws -> T {
     return try future.result()
 }
 
+internal extension DispatchQueue {
+
+    func futureAsync<T, V>(execute work: @escaping (T) throws -> V) -> (T) -> Future<V> {
+
+        return { (parameter: T) -> Future<V> in
+            let promise = Promise<V>()
+            self.async {
+                promise.resolveWith { try work(parameter) }
+            }
+            return promise.future
+        }
+    }
+
+    func futureSync<T, V>(execute work: @escaping (T) throws -> V) -> (T) -> Future<V> {
+
+        return { (parameter: T) -> Future<V> in
+            let promise = Promise<V>()
+            if Thread.isMainThread {
+                 promise.resolveWith { try work(parameter) }
+            } else {
+                self.sync {
+                    promise.resolveWith { try work(parameter) }
+                }
+            }
+            return promise.future
+        }
+    }
+}
