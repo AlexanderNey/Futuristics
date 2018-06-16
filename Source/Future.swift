@@ -32,9 +32,9 @@ public enum FutureError : Error {
 
 public class Future<T> {
 
-    private let futureIdentifierKey = DispatchSpecificKey<String>()
+    private let futureIdentifierKey = DispatchSpecificKey<ObjectIdentifier>()
 
-    fileprivate let syncQueue: DispatchQueue!
+    fileprivate let syncQueue: DispatchQueue
     
     internal var state: FutureState<T> = .pending {
         willSet {
@@ -49,8 +49,8 @@ public class Future<T> {
     
     internal init() {
         self.syncQueue = DispatchQueue(label: "com.futuristics.future-queue")
-        let address = String(format: "Future<%p>", unsafeBitCast(self, to: Int.self))
-        self.syncQueue.setSpecific(key: futureIdentifierKey, value: address)
+        let identifier = ObjectIdentifier(self)
+        self.syncQueue.setSpecific(key: futureIdentifierKey, value: identifier)
     }
     
     open func result() throws -> T {
