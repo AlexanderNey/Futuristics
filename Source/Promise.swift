@@ -34,7 +34,7 @@ public class Promise<T> {
         return self.future
     }
 
-    public func resolveWith(_ f: (Void) throws -> T) {
+    public func resolveWith(_ f: () throws -> T) {
         future.resolveWith(f)
     }
     
