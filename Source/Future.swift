@@ -30,7 +30,7 @@ public enum FutureError : Error {
     case stillPending
 }
 
-public class Future<T> {
+public final class Future<T> {
 
     private let futureIdentifierKey = DispatchSpecificKey<ObjectIdentifier>()
 
@@ -53,7 +53,7 @@ public class Future<T> {
         self.syncQueue.setSpecific(key: futureIdentifierKey, value: identifier)
     }
     
-    open func result() throws -> T {
+    public func result() throws -> T {
         switch state {
         case .pending:
             throw FutureError.stillPending

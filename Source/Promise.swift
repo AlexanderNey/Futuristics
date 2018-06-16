@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class Promise<T> {
+public final class Promise<T> {
 
     public let future = Future<T>()
     
