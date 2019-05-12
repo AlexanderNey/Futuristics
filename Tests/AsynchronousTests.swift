@@ -34,7 +34,7 @@ class AsynchronousTests : XCTestCase {
         }
 
         DispatchQueue.global(qos: .userInteractive).async {
-            _ = somefunction()
+            _ = somefunction(())
         }
         
         waitForExpectationsWithDefaultTimeout()
@@ -51,7 +51,7 @@ class AsynchronousTests : XCTestCase {
             }
         }
         
-        _ = somefunction()
+        _ = somefunction(())
         XCTAssertTrue(imediateExecution)
         waitForExpectationsWithDefaultTimeout()
     }
@@ -67,7 +67,7 @@ class AsynchronousTests : XCTestCase {
         }
         
         DispatchQueue.main.async {
-            _ = somefunction()
+            _ = somefunction(())
         }
         
         waitForExpectationsWithDefaultTimeout()
@@ -86,7 +86,7 @@ class AsynchronousTests : XCTestCase {
             }
         }
         
-        _ = somefunction()
+        _ = somefunction(())
         
         waitForExpectationsWithDefaultTimeout()
     }
@@ -104,7 +104,7 @@ class AsynchronousTests : XCTestCase {
         onBackgroundQueue {
             await(future)
             awaitExpectation.fulfill()
-        }()
+        }(())
         
         waitForExpectationsWithDefaultTimeout()
 
@@ -132,7 +132,7 @@ class AsynchronousTests : XCTestCase {
         onBackgroundQueue {
             await(promiseA, promiseB)
             awaitExpectation.fulfill()
-        }()
+        }(())
         
         waitForExpectationsWithDefaultTimeout()
         

@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class Promise<T> {
+public final class Promise<T> {
 
     public let future = Future<T>()
     
@@ -34,7 +34,7 @@ public class Promise<T> {
         return self.future
     }
 
-    public func resolveWith(_ f: (Void) throws -> T) {
+    public func resolveWith(_ f: () throws -> T) {
         future.resolveWith(f)
     }
     

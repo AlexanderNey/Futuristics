@@ -23,18 +23,18 @@ internal enum FutureState<T> {
 fileprivate enum FutureCompletionHandler<T> {
     case success(task: (T) -> Void, queue: DispatchQueue)
     case failure(task: (Error) -> Void, queue: DispatchQueue)
-    case finally(task: (Void) -> Void, queue: DispatchQueue)
+    case finally(task: () -> Void, queue: DispatchQueue)
 }
 
 public enum FutureError : Error {
     case stillPending
 }
 
-public class Future<T> {
+public final class Future<T> {
 
-    private let futureIdentifierKey = DispatchSpecificKey<String>()
+    private let futureIdentifierKey = DispatchSpecificKey<ObjectIdentifier>()
 
-    fileprivate let syncQueue: DispatchQueue!
+    fileprivate let syncQueue: DispatchQueue
     
     internal var state: FutureState<T> = .pending {
         willSet {
@@ -49,11 +49,11 @@ public class Future<T> {
     
     internal init() {
         self.syncQueue = DispatchQueue(label: "com.futuristics.future-queue")
-        let address = String(format: "Future<%p>", unsafeBitCast(self, to: Int.self))
-        self.syncQueue.setSpecific(key: futureIdentifierKey, value: address)
+        let identifier = ObjectIdentifier(self)
+        self.syncQueue.setSpecific(key: futureIdentifierKey, value: identifier)
     }
     
-    open func result() throws -> T {
+    public func result() throws -> T {
         switch state {
         case .pending:
             throw FutureError.stillPending
@@ -80,7 +80,7 @@ public class Future<T> {
         }
     }
     
-    internal func resolveWith(_ f: (Void) throws -> T) {
+    internal func resolveWith(_ f: () throws -> T) {
         do {
             self.fulfill(try f())
         } catch {
@@ -155,7 +155,7 @@ public class Future<T> {
 
     @discardableResult
     public func finally(on queue: DispatchQueue = DispatchQueue.main,
-                        handler: @escaping (Void) -> Void) -> Future<T> {
+                        handler: @escaping () -> Void) -> Future<T> {
         syncQueue.async {
             let completionHandler = FutureCompletionHandler<T>.finally(task: handler, queue: queue)
             switch self.state {

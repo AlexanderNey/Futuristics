@@ -9,23 +9,23 @@
 import Foundation
 
 @discardableResult
-public func onMainQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+public func onMainQueue<T, U>(_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     let mainQueue = DispatchQueue.main
     return onQueue(mainQueue)(closure)
 }
 
 
 @discardableResult
-public func onBackgroundQueue<T, U>(_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+public func onBackgroundQueue<T, U>(_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     let aBackgroundQueue = DispatchQueue.global(qos: .default)
     return onQueue(aBackgroundQueue)(closure)
 }
 
 @discardableResult
-public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: (T) throws -> U) -> ((T) -> Future<U>) {
+public func onQueue<T, U>(_ queue: DispatchQueue) -> (_ closure: @escaping (T) throws -> U) -> ((T) -> Future<U>) {
     return { [queue] (closure: @escaping (T) throws -> U) in
         return onQueue(queue, closure: closure)
-    } as! ((T) throws -> U) -> ((T) -> Future<U>)
+    }
 }
 
 @discardableResult
